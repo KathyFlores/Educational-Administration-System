@@ -1,0 +1,139 @@
+{% extends 'courseSelect/base.html' %}
+{% load course_select_tags %}
+
+{% block content %}
+{% include 'courseSelect/_left.html' %}
+
+<div class="content">
+    <div class="monthly-grid">
+        <div class="panel panel-widget">
+            <div id="course_list">
+                <div class="panel-title">
+                    个人课程表                    
+                    <el-button onclick="javascript:window.print()" class="no-print print-btn" rel="external nofollow"  target="_self">打印</el-button>
+                    <div class="clearfix"> </div>
+                    <br/>
+                    <template>
+                        <el-table :data="tableData" style="width: 100%" :row-class-name="rowClassName">
+                            <el-table-column prop="course_id" label="课程代码" >
+                            </el-table-column>
+                            <el-table-column prop="course_name" label="课程名称" >
+                            </el-table-column>
+                            <el-table-column prop="course_teacher" label="授课教师" >
+                            </el-table-column>
+                            <el-table-column prop="course_location" label="上课地点">
+                            </el-table-column>
+                            <el-table-column prop="course_time" width="350" label="课程时间" >
+                            </el-table-column>
+                            <el-table-column  label="操作" fixed="right">
+                                <template slot-scope="scope">
+                                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">退课</el-button>
+                                </template>
+                            </el-table-column>
+                            
+                        </el-table>
+                    </template>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    distinct = (arr_str) => {
+        arr = arr_str.split(',');
+        var temp = {}, r = [], len = arr.length, val, type;
+        for (var i = 0; i < len; i++) {
+            val = arr[i];
+            type = typeof val;
+            if (!temp[val]) {
+                temp[val] = [type];
+                r.push(val);
+            } else if (temp[val].indexOf(type) < 0) {
+                temp[val].push(type);
+                r.push(val);
+            }
+        }
+        return r.join('\n');
+    }
+    //getting CSRF token
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }            
+    var csrftoken = getCookie('csrftoken');
+
+    new Vue({
+        el: "#course_list",
+        methods: {
+            handleDelete(index, row) {
+                console.log(row);
+                that = this;
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'select' %}",
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        section_id: row['section_id'],
+                        student_id: {{student.student_id}},
+                        oper: 'quit'
+                    },
+                    success: function(res){
+                        that.$message({
+                            type: (()=>{return res['code']===0?'success':'error'})(),
+                            message: res['msg'],
+                            duration: 2000,
+                            onClose: ()=>{
+                                location.reload();
+                            }
+                        });
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                });
+            },
+            rowClassName({row, rowIndex}) {
+                if(row['select_state'] === 'True'){
+                    return "select-state-true";
+                }
+                else{
+                    return "select-state-false";
+                }
+            }
+        },
+
+        data() {
+            return {
+                tableData: [{% for sec in sections %}
+                {
+                    course_id: {% getCourseBySection sec.teach_id as course %} "{{course.course_id}}",
+                    course_name: "{{course.name}}",
+                    course_teacher: {% getTeacherBySection sec.teach_id as teachers %}
+                        "{% for teacher in teachers %}{{teacher.name}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}",
+                    course_location: {% getRoomBySection sec.teach_id as rooms %}
+                        "{% for room in rooms %}{{room.location}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}",
+                    course_time: {% getTimeBySection sec.teach_id as time_ %}
+                        distinct("{% for time in time_ %}{{time.start|date:'l H:i'}} - {{time.end|date:'l H:i'}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"),
+                    select_state: "{{student|isSelectStateTrue:sec}}",
+                    section_id: "{{sec.teach_id}}"
+                },
+                {% endfor %}]
+            }
+        }
+    })
+</script>
+
+
+{% endblock content %}

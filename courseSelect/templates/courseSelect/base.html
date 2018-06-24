@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'courseSelect/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
+    <!-- Custom CSS -->
+    <link href="{% static 'courseSelect/css/style.css' %}" rel='stylesheet' type='text/css' />
+    <!-- Graph CSS -->
+    <link href="{% static 'courseSelect/css/font-awesome.css' %}" rel="stylesheet">
+    <!-- jQuery -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <!-- lined-icons -->
+    <link rel="stylesheet" href="{% static 'courseSelect/css/icon-font.min.css' %}" type='text/css' />
+    <!-- //lined-icons -->
+    <script src="{% static 'courseSelect/js/jquery-1.10.2.min.js' %}"></script>
+    <script src="{% static 'courseSelect/js/jquery.cookie.min.js' %}"></script>
+    <style media=print type="text/css"> 
+        .no-print{visibility:hidden} 
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="left-content">
+            <div class="inner-content">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+    <!--js -->
+    <script src="{% static 'courseSelect/js/jquery.nicescroll.js' %}"></script>
+    <script src="{% static 'courseSelect/js/scripts.js' %}"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'courseSelect/js/bootstrap.min.js' %}"></script>
+    <!-- /Bootstrap Core JavaScript -->
+    <!-- real-time -->
+    <!-- /real-time -->
+    <script src="{% static 'courseSelect/js/jquery.fn.gantt.js' %}"></script>
+    <script src="{% static 'courseSelect/js/menu_jquery.js' %}"></script>
+</body>
+
+</html>

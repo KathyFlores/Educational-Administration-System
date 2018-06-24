@@ -1,0 +1,124 @@
+{% extends 'courseSelect/base.html' %}
+{% load course_select_tags %}
+{% block content %}
+{% include 'courseSelect/_left.html' %}
+<div class="header_bg">
+        <div class="header">
+            <div class="head-t">
+                <div style="display: inline-block;font-size: 0.875rem">
+                    欢迎，{{teacher.name}}！<br/>
+                   
+                </div>
+                    <!-- start header_right -->
+    
+            </div>
+        </div>
+    </div>
+<div class="content">
+        <div class="monthly-grid">
+            <div class="panel panel-widget">
+                <div class="panel-title">
+                    教师课程表
+                    <div class="clearfix"> </div>
+                    <div id="course_list">
+                        <template>
+                            <el-table :data="tableData" style="width: 100%">
+                                <el-table-column prop="course_id" label="课程代码" >
+                                </el-table-column>
+                                <el-table-column prop="course_name" label="课程名称" >
+                                </el-table-column>
+                                <el-table-column prop="course_teacher" label="课程教师" >
+                                </el-table-column>
+                                <el-table-column prop="course_location" label="课程地点" >
+                                </el-table-column>
+                                <el-table-column prop="course_time" label="课程时间" width="350">
+                                </el-table-column>
+                                <el-table-column fixed="right" label="操作" width="200">
+                                    <template slot-scope="scope">
+                                        <el-button size="mini" @click="handleCheck(scope.$index, scope.row), scope.row.dialogTableVisible = true">查看名单</el-button>
+                                        <el-dialog 
+                                        title="学生信息" 
+                                        :visible.sync="scope.row.dialogTableVisible" 
+                                        :modal-append-to-body="false"
+                                        :append-to-body="true">
+                                            <el-table :data="scope.row.studentData">
+                                                <el-table-column property="student_id" label="学号" ></el-table-column>
+                                                <el-table-column property="student_name" label="姓名"></el-table-column>
+                                                <el-table-column property="student_major" label="专业" ></el-table-column>
+                                            </el-table>
+                                        </el-dialog>
+                                        <el-button size="mini" @click="handlePrint(scope.$index, scope.row)">打印名单</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+      
+    <script>
+        distinct = (arr_str) => {
+            arr = arr_str.split(',');
+            var temp = {}, r = [], len = arr.length, val, type;
+            for (var i = 0; i < len; i++) {
+                val = arr[i];
+                type = typeof val;
+                if (!temp[val]) {
+                    temp[val] = [type];
+                    r.push(val);
+                } else if (temp[val].indexOf(type) < 0) {
+                    temp[val].push(type);
+                    r.push(val);
+                }
+            }
+            return r.join('\n');
+        }
+        new Vue({
+            el: "#course_list",
+            data() {
+                return {
+                    tableData: [
+                    {% for section in sections %}
+                    {
+                        course_id: {% getCourseBySection section.teach_id as course %} "{{course.course_id}}",
+                        course_name: "{{course.name}}",
+                        course_teacher: {% getTeacherBySection section.teach_id as teachers %}
+                            "{% for teacher in teachers %}{{teacher.name}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}",
+                        course_location: {% getRoomBySection section.teach_id as rooms %}
+                            "{% for room in rooms %}{{room.location}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}",
+                        course_time: {% getTimeBySection section.teach_id as time_ %}
+                            distinct("{% for time in time_ %}{{time.start|date:'l H:i'}} - {{time.end|date:'l H:i'}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"),
+                        studentData: [
+                        {% getStudentBySection section.teach_id as students %}
+                        {% for student in students %}
+                        {
+                            student_id: "{{student.student_id}}",
+                            student_name: "{{student.name}}",
+                            student_major: "{% getMajorByStudent student.student_id%}"
+                        },
+                        {% endfor %}  
+                        ],
+                        dialogTableVisible: false,
+                        section_id: "{{ section.teach_id}}"
+                    },
+                    {% endfor %}
+                    ],
+                    
+                }
+            },
+            methods: {
+                handleCheck(index, row) {
+                    console.log(index, row);
+                },
+                handlePrint(index, row) {
+                    query_str = '?section_id='+row['section_id']+'&teacher_id={{teacher.teacher_id}}'+'&course_id='+row['course_id'];
+                    window.location.href = "{% url 'export' %}"+query_str;
+                }
+            }
+        })
+    </script>
+    
+{% endblock content %}

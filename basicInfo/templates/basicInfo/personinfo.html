@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<html>
+<head>
+	<title>浙江大学教务中心</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- Bootstrap Core CSS -->
+<link href="{% static 'basicInfo/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
+<!-- Custom CSS -->
+<link href="{% static 'basicInfo/css/style.css' %}" rel='stylesheet' type='text/css' />
+<!-- Graph CSS -->
+<link href="{% static 'basicInfo/css/font-awesome.css' %}" rel="stylesheet">
+<!-- jQuery -->
+<link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<!-- lined-icons -->
+<link rel="stylesheet" href="{% static 'basicInfo/css/icon-font.min.css' %}" type='text/css' />
+<script src="{% static 'basicInfo/js/amcharts.js' %}"></script>
+<script src="{% static 'basicInfo/js/serial.js' %}"></script>
+<script src="{% static 'basicInfo/js/light.js' %}"></script>
+<!-- //lined-icons -->
+<script src="{% static 'basicInfo/js/jquery-1.10.2.min.js' %}"></script>
+   <!--pie-chart--->
+<script src="{% static 'basicInfo/js/pie-chart.js' %}" type="text/javascript"></script>
+
+</head>
+<body>
+<div class="page-container">
+	<!--/content-inner-->
+	<div class="left-content">
+		<div class="inner-content">
+			<!-- header-starts -->
+			<div class="header-section">
+				<!-- top_bg -->
+				<div class="top_bg">
+
+					<div class="header_top">
+						<div class="top_right">
+							<ul>
+								<li><a href="#">浙江大学教务中心</a></li>-
+								<li><a href="index.html">个人信息</a></li>
+							</ul>
+						</div>
+						<div class="top_left">
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down">{{ account_id }}</i>
+								</a>
+								<ul class="dropdown-menu dropdown-user">
+									<li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> 登出</a></li>
+									<li><a href="#"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+								</ul>
+								<!-- /.dropdown-user -->
+							</li>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+
+				</div>
+				<div class="clearfix"></div>
+				<!-- /top_bg -->
+			</div>
+
+
+			<!--content-->
+			<div class="content">
+
+
+				<div id="page-wrapper">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">个人信息</h1>
+						</div>
+						<!-- /.col-lg-12 -->
+					</div>
+					<!-- /.row -->
+					<div class="col-lg-6">
+{#						<form role="form" method="POST">#}
+							{% csrf_token %}
+							<div class="form-group">
+								<label for="disabledSelect">学号</label>
+								<input name="sid" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">姓名</label>
+								<input name="sname" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">昵称</label>
+								<input name="snick" type="text" class="form-control" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">专业</label>
+								<input name="smajor" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">金币</label>
+								<input name="coin" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+                            <div class="form-group">
+								<label for="disabledSelect">经验</label>
+								<input name="exp" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">邮箱</label>
+								<input name="semail" type="text" class="form-control" aria-describedby="basic-addon2">
+							</div>
+							<button id="pushinfo">确认修改</button>
+{#						</form>#}
+					</div>
+                    <script type="text/javascript">
+                            $('#upload').change(function(){
+                              // 获取FileList的第一个元素
+                              var f = document.getElementById('upload').files[0];
+                              src = window.URL.createObjectURL(f);
+                              document.getElementById('headPic').src = src
+                            });
+                    </script>
+
+
+                    <div >
+                        <label >照片信息 -- 点击图片更换</label><br>
+                        <img id="headPic" src=""  width="150px" height="150px" style="padding: 5px">
+                        <form id="form_face" enctype="multipart/form-data" style="width:auto;">
+                            <input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected();" style="display:none;">
+                        </form>
+                         <script type="text/javascript">
+                            function fileSelect() {
+                                document.getElementById("fileToUpload").click();
+                            }
+
+                            function fileSelected() {
+                              // 文件选择后触发次函数
+                                var f = document.getElementById('fileToUpload').files[0];
+                                src = window.URL.createObjectURL(f);
+                                document.getElementById('headPic').src = src
+                                pushimage();
+                            }
+
+                            $("#headPic").click(
+                                function () {
+                                    console.log("123");
+                                    fileSelect() ;
+                                }
+                            );
+                          </script>
+
+
+                    </div>
+
+					<!-- /.row -->
+				</div>
+				<!-- /#wrapper -->
+
+
+
+			</div>
+			<!--content-->
+		</div>
+	</div>
+	<!--//content-inner-->
+	<!--/sidebar-menu-->
+	<div class="sidebar-menu">
+		<header class="logo1">
+			<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a>
+		</header>
+		<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+		   <div class="menu">
+                <ul id="menu" >
+                     <li><a href="/basic/student"><i class="fa fa-tachometer"></i> <span>主页</span></a></li>
+                     <li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 课程信息</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                        <ul id="menu-academico-sub" >
+                                <li id="menu-academico-avaliacoes" ><a href="/basic/mycourse">我的课表</a></li>
+                                <li id="menu-academico-avaliacoes" ><a href="/basic/courseregist">自主选课</a></li>
+                                <li id="menu-academico-boletim" ><a href="/basic/courseplan">培养方案</a></li>
+                                <li id="menu-academico-boletim" ><a href="/basic/coursesearch">课程搜索</a></li>
+                       </ul>
+                    </li>
+                    <!--<li id="menu-academico" ><a href="sunglasses.html"><i class="fa fa-file-text-o"></i> <span>作业情况</span></a></li>-->
+                    <li><a href="/basic/exam"><i class="lnr lnr-pencil"></i> <span>考试安排</span></a></li>
+                    <li id="menu-academico" ><a href="/basic/grade"><i class="fa fa-file-text-o"></i> <span>查看成绩</span></a></li>
+                    <li id="menu-academico" ><a href="/basic/calender"><i class="lnr lnr-book"></i> <span>我的日程</span></a></li>
+                    <li><a href="#"><i class="lnr lnr-chart-bars"></i> <span>浙大论坛</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                        <!--<ul>-->
+                            <!--<li><a href="input.html"> Input</a></li>-->
+                            <!--<li><a href="validation.html">Validation</a></li>-->
+                        <!--</ul>-->
+                    </li>
+                    <li><a href="/basic/personalinfo"><i class="lnr lnr-pencil"></i> <span>个人信息</span></a></li>
+
+                </ul>
+           </div>
+
+	</div>
+
+	<div class="clearfix"></div>
+</div>
+<script>
+    var toggle = true;
+
+    $(".sidebar-icon").click(function() {
+        if (toggle)
+        {
+            $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+            $("#menu span").css({"position":"absolute"});
+        }
+        else
+        {
+            $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+            setTimeout(function() {
+                $("#menu span").css({"position":"relative"});
+            }, 400);
+        }
+
+        toggle = !toggle;
+    });
+</script>
+
+<script>
+        $(document).ready(function () {
+                $("#pushinfo").click(function () {
+                        push();
+                    }
+                );
+            }
+        );
+
+      const basicUrl="http://127.0.0.1:8000/";
+        function push() {
+            var sid=document.getElementsByName("sid")[0].value.toString();
+            var nickname=document.getElementsByName("snick")[0].value.toString();
+            var email=document.getElementsByName("semail")[0].value.toString();
+
+            new Promise(function (resolve){
+               $.ajax(
+                   {
+                       method: "POST",
+                       url: basicUrl+"api/student/update",
+                       data: {
+                           account_id: sid,
+                           account_email: email,
+                           account_nickname:nickname,
+                           csrfmiddlewaretoken: '{{ csrf_token }}'
+                       },
+                       async : false,
+                       success: function (data) {
+                            resolve(data);
+                           console.log(data);
+                       }
+
+                   }
+               )
+            }).then(
+                function (data) {
+                    console.log(data);
+
+                }
+
+            );
+
+
+        }
+
+        function pushimage() {
+            var formData = new FormData();
+            formData.append("file",$("#fileToUpload")[0].files[0]);
+            console.log($("#fileToUpload")[0].files[0]);
+            new Promise(function (resolve){
+               $.ajax(
+                   {
+                       method: "POST",
+                       url: basicUrl+"api/student/updateimage",
+                       type : 'POST',
+                        data : formData,
+                        // 告诉jQuery不要去处理发送的数据
+                        processData : false,
+                        // 告诉jQuery不要去设置Content-Type请求头
+                        contentType : false,
+                        dataType: "json",
+                       success: function (data) {
+                            resolve(data);
+                           console.log(data);
+                       }
+
+                   }
+               )
+            }).then(
+                function (data) {
+                    console.log(data);
+
+                }
+
+            );
+
+
+        }
+    </script>
+
+
+<!--js -->
+<script src="{% static 'basicInfo/js/jquery.nicescroll.js' %}"></script>
+<script src="{% static 'basicInfo/js/scripts.js' %}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'basicInfo/js/bootstrap.min.js' %}"></script>
+<!-- /Bootstrap Core JavaScript -->
+<!-- real-time -->
+<script language="javascript" type="text/javascript" src="{% static 'basicInfo/js/jquery.flot.js' %}"></script>
+<script type="text/javascript">
+
+    $(function() {
+
+        // We use an inline data source in the example, usually data would
+        // be fetched from a server
+
+        var data = [],
+            totalPoints = 300;
+
+        function getRandomData() {
+
+            if (data.length > 0)
+                data = data.slice(1);
+
+            // Do a random walk
+
+            while (data.length < totalPoints) {
+
+                var prev = data.length > 0 ? data[data.length - 1] : 50,
+                    y = prev + Math.random() * 10 - 5;
+
+                if (y < 0) {
+                    y = 0;
+                } else if (y > 100) {
+                    y = 100;
+                }
+
+                data.push(y);
+            }
+
+            // Zip the generated y values with the x values
+
+            var res = [];
+            for (var i = 0; i < data.length; ++i) {
+                res.push([i, data[i]])
+            }
+
+            return res;
+        }
+
+        // Set up the control widget
+
+        var updateInterval = 30;
+        $("#updateInterval").val(updateInterval).change(function () {
+            var v = $(this).val();
+            if (v && !isNaN(+v)) {
+                updateInterval = +v;
+                if (updateInterval < 1) {
+                    updateInterval = 1;
+                } else if (updateInterval > 2000) {
+                    updateInterval = 2000;
+                }
+                $(this).val("" + updateInterval);
+            }
+        });
+
+        var plot = $.plot("#placeholder", [ getRandomData() ], {
+            series: {
+                shadowSize: 0	// Drawing is faster without shadows
+            },
+            yaxis: {
+                min: 0,
+                max: 100
+            },
+            xaxis: {
+                show: false
+            }
+        });
+
+        function update() {
+
+            plot.setData([getRandomData()]);
+
+            // Since the axes don't change, we don't need to call plot.setupGrid()
+
+            plot.draw();
+            setTimeout(update, updateInterval);
+        }
+
+        update();
+
+        // Add the Flot version string to the footer
+
+        $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+    });
+
+</script>
+<!-- /real-time -->
+<script src="{% static 'basicInfo/js/jquery.fn.gantt.js' %}"></script>
+
+
+
+<script src="{% static 'basicInfo/js/menu_jquery.js' %}"></script>
+</body>
+</html>

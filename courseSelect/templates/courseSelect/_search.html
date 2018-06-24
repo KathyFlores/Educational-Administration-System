@@ -1,0 +1,38 @@
+<div class="header_right">
+    <div class="rgt-bottom">
+        <div class="clearfix"> </div>
+    </div>
+    <form method="post" id="search_form">
+        <fieldset>
+            <select id="search_field" name="search_field" class="search-field">
+                <option value="course_id" selected>课程代码</option>
+                <option value="course_name">课程名称</option>
+                <option value="teacher_name">授课教师</option>
+            </select>
+            <select id="search_type" name="search_type" class="search-field">
+                <option value="equal" selected>等于</option>
+                <option value="contain">包含</option>
+                <option value="exclude">排除</option>
+            </select>
+            <div class="search">
+                <input type="text" id="search_content" name="search_content"  value="" placeholder="搜索...">
+                <input type="submit" value="">
+            </div>
+        </fieldset>
+    </form>
+    <div class="clearfix"> </div>
+</div>
+<div class="clearfix"> </div>
+
+<script>
+    var search_type = $('#search_type');
+    var search_field = $('#search_field');
+    var search_type_var = $.cookie('search_type');
+    var search_field_var = $.cookie('search_field');
+    search_field.val(search_field_var?search_field_var:'course_id');
+    search_type.val(search_type_var?search_type_var:'equal');
+    $('#search_form').submit(()=>{
+        $.cookie('search_field',search_field.val());
+        $.cookie('search_type',search_type.val());
+    })
+</script>

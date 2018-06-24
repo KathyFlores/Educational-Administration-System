@@ -1,0 +1,208 @@
+{% extends 'courseSelect/base.html' %}
+{% load course_select_tags %}
+{% load pagination_tags %}
+{% block content %}
+
+{% include 'courseSelect/_left.html' %}
+<div class="header_bg">
+    <div class="header">
+        <div class="head-t">
+            <div style="display: inline-block; font-size: 0.875rem">
+                欢迎！<br/>
+                本界面仅提供课程搜索，选课请进入选课界面！
+            </div>
+            <!-- start header_right -->
+            {% include 'courseSelect/_search.html' %}
+
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="monthly-grid">
+        <div class="panel panel-widget">
+            <div class="panel-title">
+                课程列表
+                <div class="clearfix"> </div>
+                <div id="app_table">
+                    <template>
+                        <el-table stripe :data="tableData" :row-key="getRowKeys" :expand-row-keys="expands"  @expand-change="toggleRowExpansion" style="width: 100%">
+                            <el-table-column prop="course_id" label="课程代码" width="120">
+                            </el-table-column>
+                            <el-table-column label="课程名称" width="120">
+                                <template slot-scope="scope">
+                                    <el-button type="text" @click="scope.row.dialogVisible = true"> [[ scope.row.course_name]] </el-button>
+                                    <el-dialog
+                                        title="课程详细内容"
+                                        :visible.sync="scope.row.dialogVisible"
+                                        :modal-append-to-body="false"
+                                        :append-to-body="true"
+                                        width="40%">
+                                        <dl class="dl-horizontal">
+                                            <dt>课程名称</dt> <dd>[[ scope.row.course_name ]]</dd>
+                                            <dt>课程代码</dt> <dd>[[ scope.row.course_id ]]</dd>
+                                            <dt>课程类别</dt> <dd>[[ scope.row.course_type ]]</dd>
+                                            <dt>学分</dt> <dd>[[ scope.row.course_credit ]]</dd>
+                                            <dt>周学时</dt> <dd>[[ scope.row.course_hours ]]</dd>
+                                            <dt>简介</dt> <dd>[[ scope.row.intro ]]</dd>
+                                        </dl>
+                                        <span slot="footer" class="dialog-footer">
+                                        <el-button @click="scope.row.dialogVisible = false">关 闭</el-button>
+                                        </span>
+                                    </el-dialog>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="course_type" label="课程类别">
+                            </el-table-column>
+                            <el-table-column prop="course_credit" label="学分">
+                            </el-table-column>
+                            <el-table-column prop="course_hours" label="学时">
+                            </el-table-column>
+                            <el-table-column fixed="right" label="操作" type="expand">
+                                <template slot-scope="scope">
+                                    <el-table :data="sectionData(scope.row)" style="width: 100%" >
+                                        <el-table-column prop="id" label="序号"></el-table-column>
+                                        <el-table-column prop="teacher" label="授课教师"></el-table-column>
+                                        <el-table-column prop="room" label="上课地点"></el-table-column>
+                                        <el-table-column prop="capacity" label="容量"></el-table-column>
+                                        <el-table-column prop="time" label="上课时间" width="350"></el-table-column>
+                                        <el-table-column fixed="right" label="操作">
+                                            <template slot-scope="tem" >
+                                                <el-button size="mini" disabled>选课</el-button>
+                                                
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                </template>
+                            </el-table-column>
+                            
+                        </el-table>
+                    </template>
+                    <br>
+                    
+                    {% autopaginate courses 10 %}
+                    {% paginate using "courseSelect/_paginate.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"> </div>
+</div>
+<div class="clearfix"></div>
+<script>
+    distinct = (arr_str) => {
+        arr = arr_str.split(',');
+        var temp = {}, r = [], len = arr.length, val, type;
+        for (var i = 0; i < len; i++) {
+            val = arr[i];
+            type = typeof val;
+            if (!temp[val]) {
+                temp[val] = [type];
+                r.push(val);
+            } else if (temp[val].indexOf(type) < 0) {
+                temp[val].push(type);
+                r.push(val);
+            }
+        }
+        return r.join('\n');
+    }
+    //getting CSRF token
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }            
+    var csrftoken = getCookie('csrftoken');
+
+    new Vue({
+        delimiters:['[[', ']]'],
+        el: "#app_table",
+        methods: {
+            toggleRowExpansion(row,expandedRows){
+                this.expands = [];
+                expandedRows.forEach((element)=>{
+                    this.expands.push(element['course_id']);
+                })
+                console.log(this.expands);
+                $.cookie('expands', this.expands.join(','));
+            },
+            sectionData(row) {
+                return row['section'];
+
+            },
+            
+            
+        },
+
+        data() {
+            return {
+                tableData: [
+                
+                {% for course in courses %}
+                    { 
+                        course_id: "{{ course.course_id }}",
+                        course_name: "{{ course.name }}",
+                        course_type: "{{ course.get_type_display }}",
+                        course_credit: "{{ course.credit }}",
+                        course_hours: "{{ course.hour }}",//???
+                        intro: "{{ course.intro  }}",
+                        dialogVisible: false,
+                        section: [
+                            {% getSectionByCourse course.course_id as sections%}
+                            {% for sec in sections %}
+                            {
+                                section_id: "{{sec.teach_id}}",
+                                id: "{{forloop.counter}}",
+                                teacher: 
+                                    {% getTeacherBySection sec.teach_id as teachers %}
+                                    "{% for teacher in teachers %}{{teacher.name}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"
+                                ,
+                                room: 
+                                    {% getRoomBySection sec.teach_id as rooms %}
+                                    "{% for room in rooms %}{{room.location}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"
+                                ,
+                                time: 
+                                    {% getTimeBySection sec.teach_id as time_ %}
+                                    distinct("{% for time in time_ %}{{time.start|date:'l H:i'}} - {{time.end|date:'l H:i'}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}")
+                                ,
+                                capacity:
+                                    "{% getCapacityBySection sec.teach_id %}",
+                            },
+                            {% endfor %}
+                        ]
+                    },
+                {% endfor %}
+                ],
+                getRowKeys(row) {
+                    return row['course_id'];
+                },
+                expands: []
+            }
+        },
+        mounted() {
+            // 在这里你想初始化的时候展开哪一行都可以了
+            
+            //
+            this.expands=$.cookie('expands').split(',');
+            
+        }
+    })
+</script>
+<style>
+    .course-detail{
+        text-indent:5em;
+    }
+
+</style>
+
+{% endblock content %}

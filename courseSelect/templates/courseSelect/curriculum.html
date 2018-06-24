@@ -1,0 +1,200 @@
+{% extends 'courseSelect/base.html' %}
+{% load course_select_tags %}
+{% load pagination_tags %}
+
+{% block content %}
+{% include 'courseSelect/_left.html' %}
+
+
+<div class="header_bg">
+    <div class="header">
+        <div class="head-t">
+            <div style="display: inline-block;font-size: 0.875rem">
+                欢迎，{{student.name}}！<br/>
+                专业：{{major.name}}<br/>
+                需修学分：<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;选修课：{{credit_need.elective}}，公共课：{{credit_need.public}}<br/>
+                已选培养方案：<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;选修课：{{selected_elective_credit}}，公共课：{{selected_public_credit}}<br/>
+
+            </div>
+                <!-- start header_right -->
+            {% include 'courseSelect/_search.html' %}
+
+        </div>
+    </div>
+</div>
+    
+<div class="content">
+    <div class="monthly-grid">
+        <div class="panel panel-widget">
+            <div class="panel-title">
+                课程列表
+                <div class="clearfix"> </div>
+                <div id="app_table">
+                    <template>
+                        <el-table stripe :data="tableData" style="width: 100%">
+                            <el-table-column prop="course_id" label="课程代码" width="120">
+                            </el-table-column>
+                            <el-table-column label="课程名称" width="120">
+                                <template slot-scope="scope">
+                                    <el-button type="text" @click="scope.row.dialogVisible = true"> [[ scope.row.course_name]] </el-button>
+                                    <el-dialog
+                                        title="课程详细内容"
+                                        :visible.sync="scope.row.dialogVisible"
+                                        :modal-append-to-body="false"
+                                        :append-to-body="true"
+                                        width="40%">
+                                        <dl class="dl-horizontal">
+                                            <dt>课程名称</dt> <dd>[[ scope.row.course_name ]]</dd>
+                                            <dt>课程代码</dt> <dd>[[ scope.row.course_id ]]</dd>
+                                            <dt>课程类别</dt> <dd>[[ scope.row.course_type ]]</dd>
+                                            <dt>学分</dt> <dd>[[ scope.row.course_credit ]]</dd>
+                                            <dt>周学时</dt> <dd>[[ scope.row.course_hours ]]</dd>
+                                            <dt>简介</dt> <dd>[[ scope.row.intro ]]</dd>
+                                        </dl>
+                                        <span slot="footer" class="dialog-footer">
+                                        <el-button @click="scope.row.dialogVisible = false">关 闭</el-button>
+                                        </span>
+                                    </el-dialog>
+                                </template>
+                            </el-table-column>
+                            <el-table-column prop="course_type" label="课程类别">
+                            </el-table-column>
+                            <el-table-column prop="course_credit" label="学分">
+                            </el-table-column>
+                            <el-table-column prop="course_hours" label="学时">
+                            </el-table-column>
+                            <el-table-column fixed="right" label="操作">
+                                <template slot-scope="scope" >
+                                    <template v-if="scope.row.isInCurriculum === '0'">
+                                        <el-button size="mini" @click="handleAdd(scope.$index, scope.row)">加入培养方案</el-button>
+                                    </template>
+                                    <template v-else>
+                                        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">移出培养方案</el-button>
+                                    </template>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <br>
+                    
+                </div>
+                {% autopaginate courses 10 %}
+                {% paginate using "courseSelect/_paginate.html" %}
+
+                <script>
+                    
+                    //getting CSRF token
+                    function getCookie(name) {
+                        var cookieValue = null;
+                        if (document.cookie && document.cookie != '') {
+                            var cookies = document.cookie.split(';');
+                            for (var i = 0; i < cookies.length; i++) {
+                                var cookie = jQuery.trim(cookies[i]);
+                                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                    break;
+                                }
+                            }
+                        }
+                        return cookieValue;
+                    }            
+                    var csrftoken = getCookie('csrftoken');
+
+                    new Vue({
+                        delimiters:['[[', ']]'],
+                        el: "#app_table",
+                        methods: {
+                            handleAdd(index, row) {
+                                that = this;
+                                console.log(row);
+                                $.ajax({
+                                    type: "POST",
+                                    url: window.location.href,
+                                    data: {
+                                        csrfmiddlewaretoken: csrftoken,
+                                        course_id: row['course_id'],
+                                        oper: 'add'
+                                    },
+                                    success: function(res){
+                                        that.$message({
+                                            type: (()=>{return res['code']===0?'success':'error'})(),
+                                            message: res['msg'],
+                                            duration: 2000,
+                                            onClose: ()=>{
+                                                location.reload();
+                                            }
+                                        });
+                                    },
+                                    error: function(e){
+                                        console.log(e);
+                                    }
+                                });
+                            },
+                            handleDelete(index, row) {
+                                that = this;
+                                $.ajax({
+                                    type: "POST",
+                                    url: window.location.href,
+                                    data: {
+                                        csrfmiddlewaretoken: csrftoken,
+                                        course_id: row['course_id'],
+                                        oper: 'drop'
+                                    },
+                                    success: function(res){
+                                        that.$message({
+                                            type: (()=>{return res['code']===0?'success':'error'})(),
+                                            message: res['msg'],
+                                            duration: 2000,
+                                            onClose: ()=>{
+                                                location.reload();
+                                            }
+                                        });
+                                    },
+                                    error: function(e){
+                                        console.log(e);
+                                    }
+                                });
+                            }
+                        },
+
+                        data() {
+                            return {
+                                tableData: [
+                                {% for course in courses %}
+                                    { 
+                                        course_id: "{{ course.course_id }}",
+                                        course_name: "{{ course.name }}",
+                                        course_type: "{{ course.get_type_display }}",
+                                        course_credit: "{{ course.credit }}",
+                                        course_hours: "{{ course.hour }}",
+                                        intro: "{{ course.intro  }}",
+                                        dialogVisible: false,
+                                        isInCurriculum: "{{ student|isInCurriculum:course }}",
+                                    },
+                                {% endfor %}
+                                ]
+                            }
+                        }
+                    })
+                </script>
+            </div>
+            <div class="panel-body">
+                <!-- status -->
+                <div class="contain">
+                    <div class="gantt"></div>
+                </div>
+                <!-- status -->
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"> </div>
+</div>
+<div class="clearfix"></div>
+        
+
+
+
+{% endblock content %}

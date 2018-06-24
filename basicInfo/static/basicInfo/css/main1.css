@@ -1,0 +1,1079 @@
+body{
+    font-family: "PingFang SC","Microsoft Yahei";
+}
+
+.clearf{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+@font-face{
+    font-family:'FontAwesome';src:url('../fonts/fontawesome-webfont.eot?v=4.7.0');
+    src:url('../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'),
+    url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),
+    url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'),
+    url('../fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'),
+    url('../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');font-weight:normal;
+    font-style:normal;
+}
+
+abbr[title]{
+    border-bottom: none;
+    cursor: pointer;
+}
+
+/*################### 首页 ########################*/
+/*navbar*/
+.navbar .navbar-brand{
+    background-image: url(../images/img/logo.png);
+    width: 120px;
+    height: 40px;
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.nav .navbar-nav{
+    font-size: 16px;
+}
+
+.navbar-form{
+    float:left;
+}
+
+.navbar-form input{
+    border-radius: 20px;
+    border:0.5px solid #4657D9;
+}
+
+.navbar-form .input-group-addon{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background: #4657D9;
+    border: #4657D9;
+    color: white;
+}
+
+.navbar-form input:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.navbar .nav-link a{
+    color:rgba(112,112,112,0.6);
+    
+}
+
+.navbar .nav-link a:visited{
+    color: rgba(112,112,112,1);
+    background: transparent;
+    font-weight: 1000;
+}
+
+.navbar .nav-link a:focus,
+.navbar .nav-link a:hover,
+.navbar .nav-link a:active
+{
+    color: rgba(112,112,112,1);
+    background: transparent;
+}
+
+
+/* navbar小屏幕适配 */
+#toggle-checkbox:checked ~ div{
+    display: block!important;
+}
+
+.navbar .menulable{
+    font-size: 14px;
+    font-family: "PingFang SC";
+    color:rgba(112,112,112,0.6);
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+    top:13px;
+}
+
+.navbar .space{
+    height: 50px;
+    width:10px;
+    display: inline-block;
+}
+
+
+
+/*banner*/
+.banner{
+    width:100%;
+    height:100%;
+    background-image: url(../images/zjubuilding.png);
+    background-size: cover;
+}
+
+.bannertext{
+    margin-top: 60px;
+}
+
+.bannertext h1,
+.bannertext p{
+    line-height: 170%;
+    width: 80%;
+    margin: auto;
+}
+
+
+.bannerbutton *{
+    margin:60px 20px 0px 20px;
+    font-size: 16px;
+    color: white;
+    line-height: 200%;
+    width: 150px;    
+    height:50px;
+    border-radius: 25px;
+    background:#4657D9;
+    box-shadow: 0px 3px 8px #4657D9;
+}
+
+.bannerbutton a:hover{
+    background:transparent;
+    border: 2px solid #4657D9;
+    color:#4657D9;
+    font-weight: 500;
+    box-shadow: none;
+    transform: 400ms;
+}
+
+
+/*function list*/
+.function{
+    width:100%;
+    height: 100%;
+    background-image: url(../images/img/background.png);
+    background-size: cover;
+    display:block;
+}
+
+.function .title{
+    margin-top:80px;
+}
+
+.function .title .line{
+    width: 40px;
+    border-top: 5px solid #707070;
+    height:40px;
+}
+
+.function .pic{
+    width: 200px;
+    height: 200px;
+    margin:auto auto;
+    display: block;
+    position: relative;
+    border-bottom: 20px;
+}
+
+.function img{
+    padding:24px 0;
+}
+
+.function h5,
+.function h4{
+    line-height: 170%;
+}
+
+.function h4{
+    margin-top: 20px;
+}
+
+.function .item{
+    display: block;
+}
+
+.function .item a{
+    color: #707070;
+}
+
+.function .item a:hover{
+    text-decoration: none;
+    color:#4657D9;
+    font-weight: 500;
+}
+
+.function .btn{
+    margin-top: 60px;
+    margin-bottom: 80px;
+    line-height: 200%;
+    font-size: 16px;
+    color: white;
+    width: 150px;    
+    height:50px;
+    border-radius: 25px;
+    background:#4657D9;
+    box-shadow: 0px 3px 8px #4657D9;
+}
+.function .btn:hover{
+    background:transparent;
+    border: 2px solid #4657D9;
+    color:#4657D9;
+    font-weight: 500;
+    box-shadow: none;
+    transform: 400ms;
+}
+
+
+/*footert*/
+.footer .contact a{
+    text-decoration:none;
+    color:#707070;
+}
+
+.footer .contact a:hover{
+    color:#4657D9;
+}
+
+.footer {
+    margin: 20px;
+    height: 100px;
+    display: block;
+}
+
+.function .sociologo{
+    width: 40px;
+    height:40px;
+    margin:auto auto;
+    border-bottom: 20px;
+}
+
+.clearfix{
+    zoom: 1;
+}
+
+.clearfix:after{
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+
+/*################### 注册页 ########################*/
+.blurbanner{
+    width:100%;
+    height:900px;
+    background-image: url(../images/zjubuilding.png);
+    background-size:cover;
+    background-attachment:fixed;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.blurherit{
+    width:100%;
+    height:900px;
+    background: inherit;
+    -webkit-filter: blur(15px);
+    -moz-filter: blur(15px);
+    -ms-filter: blur(15px);
+    -o-filter: blur(15px);
+    filter: blur(15px);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=15, MakeShadow=false);
+}
+
+.signup-box{
+    background-color: white;
+    margin-top: -700px;
+    margin-left: 35%;
+    margin-right: 35%;
+    height: 535px;
+   /*  width: 80%; */
+    position: relative;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0px 3px 8px #CCCCCC;
+    text-align: center;
+}
+
+.signup-box .logo img{
+    width: 70%;
+    margin-top:60px;
+    margin-bottom:50px;
+}
+
+.login-form #formitem{
+    border-bottom: 0.5px solid #CCCCCC;
+    width:74%;
+    margin-top:0px;
+    margin-bottom:30px;
+    margin-right: auto;
+    margin-left: auto;
+
+}
+
+.login-icon{
+    margin:auto 2px;
+}
+
+
+#login-username,
+#login-mailbox,
+#login-password{
+    width:80%;
+    height:30px;
+    margin: 0 auto;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}
+
+.signupbutton{
+    margin:20px auto 80px auto;
+    font-size: 16px;
+    color: white;
+    line-height: 150%;
+    border: #4657D9;
+    width: 290px;    
+    height:40px;
+    border-radius: 25px;
+    background:#4657D9;
+    box-shadow: 0px 3px 8px #4657D9;
+}
+
+.signupbutton:hover{
+    background:transparent;
+    border: 2px solid #4657D9;
+    color:#4657D9;
+    font-weight: bolder;
+    box-shadow: none;
+    transform: 400ms;
+}
+
+.signup-box .login-link{
+    text-decoration: none;
+    color:#707070;
+    font-size: 12px;
+}
+
+
+.signup-box .login-link:hover{
+    color:#4657D9;
+    font-weight: 500;
+}
+
+
+/*################### 登录页 ########################*/
+.loginbutton{
+    margin:20px auto 10px auto;
+    font-size: 16px;
+    color: white;
+    line-height: 150%;
+    width: 290px;    
+    height:40px;
+    border-radius: 25px;
+    border: #9d1b1a;
+    background:#9d1b1a;
+    box-shadow: 0px 3px 8px #9d1b1a;
+}
+
+.loginbutton:hover{
+    background:transparent;
+    border: 2px solid #9d1b1a;
+    color:#9d1b1a;
+    font-weight: bolder;
+    box-shadow: none;
+    transform: 400ms;
+}
+
+.signup-box .repassword-link,
+.signup-box .signup-link{
+    text-decoration: none;
+    color:#707070;
+    font-size: 12px;
+}
+
+
+.signup-box .signup-link:hover,
+.signup-box .repassword-link:hover{
+    color:#4657D9;
+    font-weight: 500;
+}
+
+.login-space{
+    height:50px;
+    display: block;
+}
+
+.login-icon{
+    margin-top: 20px;
+    margin-left:5px;
+    margin-right: 5px;
+}
+
+.signup-box .socio-login .login-icon a{
+    text-decoration: none;
+    color:rgba(68, 86, 216,0.5);
+}
+
+.signup-box .socio-login .login-icon .fa-weixin:hover{
+    color: #29CE42;
+}
+
+.signup-box .socio-login .login-icon .fa-qq:hover{
+    color: #35BBFB;
+}
+
+.signup-box .socio-login .login-icon .fa-weibo:hover{
+    color:#FE6158;
+}
+
+/*################### 单词学习页 状态1########################*/
+
+
+/*sidebar button*/
+.studybox{
+    width:100%;
+    height:700px;
+    background-image: url(../img/card-background.png);
+    background-size: cover;
+}
+
+.studybox .pannel{
+    margin-top: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 3px 20px rgba(0,0,0,0.16);
+    height:600px;
+    background:white;
+}
+
+.studybox .user-sidebar{
+    height:600px;
+    background:white;
+
+}
+
+.studybox .excard{
+    height:600px;
+    background: white;
+}
+
+.studybox .mainbutton{
+    margin:12% 10%;
+}
+
+.mainbutton .img-circle{
+    height:25px ;
+    width:25px;
+    margin:10px 10px;
+    text-align: center;
+    vertical-align: middle;
+    background: #4657D9;
+    border: none;
+    box-shadow: 0px 3px 3px rgba(70, 87, 217, 0.2);
+    padding: none;
+}
+
+.mainbutton .fa{
+    color:white;
+    line-height: 180%;
+    font-weight: 400;
+    left:5px;
+}
+
+.mainbutton .fayin{
+    font-family:  "PingFang SC","Microsoft Yahei";
+}
+
+
+.mainbutton .img-circle:hover{
+    background-color: white;
+    box-shadow: none;
+    border:2px solid #4657D9;
+    cursor: pointer;
+    transform:400ms;
+}
+
+.mainbutton .fa:hover{
+    color:#4657D9;
+    line-height: 150%;
+    font-weight: 400;
+    left:5px;
+    cursor: pointer;
+    transform:400ms;
+}
+
+
+/*sidebar userinfo*/
+.studybox .avatar{
+    height: 120px;
+    width: 120px;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-top:30px;
+    margin-left:20%;
+    margin-bottom: 30px;
+    box-shadow: 0px 6px 6px rgba(70, 87, 217, 0.2);
+}
+
+.side-info{
+    margin: 20px 15%;
+}
+
+.studybox .side-info .item .fa{
+    color: rgba(142, 142, 142, 1);
+}
+
+.studybox .side-info .item .title{
+    font-family:  "PingFang SC","Microsoft Yahei";
+    color:rgba(142, 142, 142, 1);
+}
+
+.studybox .side-info .item .content{
+    font-family:  "PingFang SC","Microsoft Yahei";
+    color:rgba(0, 0, 0, 0.6);
+    line-height: 250%;
+}
+
+/*ex-plancard*/
+.studybox a{
+    text-decoration: none;
+    color:black;
+}
+
+.studybox .ex-plancard .prompt{
+    display: none;
+}
+
+@media screen and (max-width:420px){
+    .studybox .ex-plancard .prompt{
+        display: block;
+        margin-top:20px;
+    }
+    .studybox .ex-plancard .prompt i{
+        margin-right:5px;
+    }
+}
+
+.studybox .ex-plancard .planprogress .title{
+    font-size: 18px;
+    line-height: 100%;
+}
+
+.studybox .ex-plancard .planprogress .content{
+    font-size: 40px;
+    line-height: 120%;
+    color:#4657D9;
+}
+
+.studybox .ex-plancard .planprogress .item{
+    margin-top: 100px;
+    margin-left: 6%;
+    margin-right: 6%;
+}
+
+.studybox .ex-plancard .linespace{
+    height: 150px;
+    width: 2px;
+    float:left;
+    margin-top:80px;
+    border-left:0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.studybox .ex-plancard .slogan .encrage{
+    margin-top: 50px;
+    line-height: 150%;
+}
+
+.studybox .slogan .push{
+    font-size: 18px;
+}
+
+.studybox .slogan .push:hover{
+    color: #4657D9;
+    font-weight: bold;
+    transform: 400ms;
+}
+
+.studybox .btngroup{
+    margin-top:80px;
+}
+
+.studybox .btngroup a{
+    margin:15px auto;
+    font-size: 18px;
+    color:white;
+    background: #4657D9;
+    border-radius: 25px;
+    box-shadow: 0px 3px 6px #4657D9;
+    width: 65%;
+}
+
+.studybox .btngroup a:hover{
+    background: white;
+    color: #4657D9;
+    border:2px solid #4657D9;
+    font-weight: bolder;
+    transform: 400ms;
+    box-shadow: none;
+}
+
+
+
+/*################### 单词学习页 状态2########################*/
+.wordbox,
+.testbox{
+    width:100%;
+    height:700px;
+    background-image: url(../images/img/mem-background.png);
+    background-size: cover;
+}
+
+.wordbox .pannel,
+.testbox .pannel{
+    padding: 0px;
+    margin-top: 20px;
+    height:600px;
+    background-color: transparent;
+}
+
+.testbox .pannel{
+    margin-top: 0px;
+}
+
+.wordbox .pannel .mem-pannel,
+.testbox .pannel .mem-pannel{
+    width:95%;
+    margin: 0px auto;
+    background:white;
+    height:600px;
+    border-radius: 15px; 
+    box-shadow: 0px 3px 20px rgba(0,0,0,0.16);
+}
+
+/*翻动上下页悬浮图标*/
+.wordbox .lft-btn .img-circle,
+.wordbox .right-btn .img-circle,
+.testbox .lft-btn .img-circle,
+.testbox .right-btn .img-circle{
+    margin-top:25%;
+    height:60px ;
+    width:60px;
+    text-align: center;
+    vertical-align: middle;
+    padding: none;
+    background-color: white;
+    box-shadow: 0px 3px 6px rgba(70,87,217,0.6)
+}
+
+
+.wordbox .lft-btn .img-circle,
+.testbox .lft-btn .img-circle{
+    float: left;
+}
+
+.wordbox .right-btn .img-circle,
+.testbox .right-btn .img-circle{
+    float: right;
+}
+
+.wordbox .lft-btn .img-circle:hover,
+.wordbox .right-btn .img-circle:hover,
+.testbox .lft-btn .img-circle:hover,
+.testbox .right-btn .img-circle:hover{
+    cursor: pointer;
+    box-shadow: none;
+    border: 2px solid #4657D9;
+}
+
+
+.wordbox .lft-btn .fa,
+.testbox .lft-btn .fa{
+    margin-right:5px;
+}
+
+.wordbox .right-btn .fa,
+.testbox .right-btn .fa{
+    margin-left:5px;
+}
+
+.wordbox .lft-btn .fa,
+.wordbox .right-btn .fa,
+.testbox .lft-btn .fa,
+.testbox .right-btn .fa{
+    color:#4657D9;
+    line-height: 220%;
+    left:5px;
+}
+
+
+/*顶部选择按钮*/
+.wordbox .mem-menu .checkbox-custom input[type="checkbox"]{
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+    z-index: 2;
+    margin:-6px 0 0 0 ;
+    top: 50%;
+    left:-16px;
+}
+
+.wordbox .mem-menu .checkbox-custom .checkcircle{
+    content: '';
+    position: absolute;
+    top: 50%;
+    left:-18px;
+    margin-top: -8px;
+    width:16px;
+    height: 16px;
+    display: inline-block;
+    border-radius: 50%;
+    border: 2px solid rgba(70, 87, 217,0.85);
+}
+
+.wordbox .mem-menu .checkbox-custom input[type="checkbox"]:checked ~ div{
+    background: #4657D9;
+}
+
+.wordbox .mem-menu .checkbox-custom input[type="checkbox"]:checked ~ label:after{
+    position: absolute;
+    display: inline-block;
+    font-family: 'FontAwesome';
+    content:'\F00C';
+    top:50%;
+    left:-16px;
+    margin-top: -6px;
+    font-size: 10px;
+    line-height: 100%;
+    width:16px;
+    height: 16px;
+    color:rgb(255, 255, 255);
+}
+
+.wordbox .mainbutton {
+    padding-top:15px;
+}
+
+.wordbox .mem-item{
+    margin:0px 15px;
+    padding-top: 5px;
+    font-size: 14px;
+    font-weight: lighter;
+    color: rgba(0,0,0,0.6);
+}
+
+.wordbox .mem-item label:hover{
+    cursor: pointer;
+}
+
+.wordbox .mainbutton #first1{
+    margin-left:30px;
+    margin-right:15px;
+    padding-top: 5px;
+}
+
+.wordbox .mem-pannel .mem-menu span{
+    float:right;
+    margin:12px 0px;
+}
+
+.wordbox .mem-pannel .linespace{
+    width:92%;
+    height:20px;
+    border-top:1px solid rgba(0, 0, 0, 0.05);
+    margin:0px auto;
+}
+
+/* word & volume&spell */
+.wordbox .mem-pannel .word-title .word{
+    font-size: 30px;
+    padding-right:30px;
+}
+
+.soundmark{
+    font-size: 18px;
+    padding-right:50px;
+    margin-right: 20px;
+}
+
+.wordvolume{
+    padding-right:30px;
+}
+
+
+
+.exampledemo{
+    font-size: 22px;
+}
+
+.translatedemo{
+    font-size: 15px;
+}
+
+.wordbox .mem-pannel .word-title .fa,
+.testbox .mem-pannel .word-title .fa{
+    text-decoration: none;
+    color:#727171;
+    margin-left:5px;
+    margin-right:10px;
+}
+
+.wordbox .mem-pannel .word-title .star{
+    margin-left:2%;
+}
+
+.testbox .mem-pannel .word-title .shoucang{
+    margin-right:2px;
+    margin-left:2px;
+}
+
+.wordbox .mem-pannel .word-title .fa:hover,
+.testbox .mem-pannel .word-title .fa:hover{
+    color:#4657D9;
+    cursor: pointer;
+    transform: 400ms;
+}
+
+.wordbox .word-spell{
+    margin-top:20px;
+    display: inline-block;
+    text-align: left;
+}
+
+.wordbox .word-spell input{
+    height:40px;
+    width: 400px;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+    background: #EEF3FC;
+    border: none;
+    border-radius: 15px;
+}
+
+.wordbox .word-spell input:focus{
+    background: white;
+    border: #4657D9;
+}
+
+
+/* 词性例句 */
+
+.wordbox .word-content{
+    margin-top: 4%;
+    margin-right:6%;
+    margin-left:6%;
+}
+
+.wordbox .word-content .item{
+    margin-bottom: 20px;
+    line-height: 170%;
+}
+
+
+.wordbox .word-content .char,
+.wordbox .word-content .eg{
+    font-weight: bolder;
+    padding-right:5px;
+}
+
+/*################### 单词学习页 状态3########################*/
+/*af-plancard*/
+.studybox a{
+    text-decoration: none;
+    color:black;
+}
+
+
+.studybox .af-plancard .planprogress .title{
+    font-size: 18px;
+    line-height: 100%;
+}
+
+.studybox .af-plancard .planprogress .content{
+    font-size: 40px;
+    line-height: 120%;
+    color:#4657D9;
+}
+
+.studybox .af-plancard .planprogress .item{
+    margin-top: 100px;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.studybox .af-plancard .linespace{
+    height: 150px;
+    width: 2px;
+    float:left;
+    margin-top:80px;
+    border-left:0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.studybox .af-plancard .slogan .encrage{
+    line-height: 180%;
+    margin-top: 50px;
+}
+
+.studybox .af-plancard .slogan .push{
+    font-size: 18px;
+    color:#707070;
+}
+
+.studybox .af-plancard .slogan .push i{
+    padding-right: 5px;
+    font-size: 16px;
+}
+.studybox .af-plancard .slogan .push:hover{
+    color: #4657D9;
+    transform: 400ms;
+}
+
+.studybox .btngroup{
+    margin-top:80px;
+}
+
+.studybox .btngroup a{
+    margin:15px auto;
+    font-size: 18px;
+    color:white;
+    background: #4657D9;
+    border-radius: 25px;
+    box-shadow: 0px 3px 6px #4657D9;
+    border:2px solid #4657D9;
+    width: 65%;
+}
+
+.studybox .btngroup a:hover{
+    background: white;
+    color: #4657D9;
+    border:2px solid #4657D9;
+    font-weight: bolder;
+    transform: 400ms;
+    box-shadow: none;
+}
+
+/*################### 单词检测页 ########################*/
+
+.test-nav{
+    margin-bottom:0px;
+}
+
+.testbox .lft-btn .img-circle,
+.testbox .right-btn .img-circle{
+    margin-top:30%;
+}
+
+/* 检测类型按钮选择 */
+.testbox .pannel .test-topbun .btn{
+    margin-bottom: 2%;
+    border-radius: 25px;
+    background: #4657D9;
+    color: white;
+    margin-right: 2%;
+    box-shadow:0px 3px 6px #4657D9;
+    border:2px solid #4657D9;
+}
+
+.testbox .pannel .test-topbun .btn:hover,
+.testbox .pannel .test-topbun .btn:active{
+    border:2px solid #4657D9;
+    color: #4657D9;
+    box-shadow:none;
+    background: transparent;
+    cursor: pointer;
+}
+
+
+/* 面板按钮 */
+.testbox .mem-pannel .mainbutton {
+    padding:2%;
+}
+
+.testbox .mem-pannel .mainbutton .test-item .fa-circle{
+    height:16px;
+    width:16px;
+    margin-right:2px;
+}
+
+.testbox .mem-pannel .mem-menu .test-progress{
+    display: inline-block;
+    float:right;
+    margin:12px 0px;
+    height: 20px;
+    width:20%;
+}
+
+.testbox .mem-pannel .mem-menu .test-progress .known{
+    width:20%;/* 可变的 */
+    height: 100%;
+    display: inline-block;
+    background: rgba(70, 87, 217,0.6);
+    border-radius: 15px 0 0 15px;
+}
+
+.testbox .mem-pannel .mem-menu .test-progress .unknown{
+    width:30%;/* 可变的 */
+    height: 100%;
+    display: inline-block;
+    background: rgba(15, 41, 242,0.3);
+    margin:0px -5px;
+}
+
+.testbox .mem-pannel .mem-menu .test-progress .pretest{
+    width:50%;/* 可变的 */
+    height: 100%;
+    display: inline-block;
+    border-radius: 0 15px 15px 0;
+    background: rgba(238, 243, 252,0.9);
+}
+
+.testbox .mem-pannel .mem-menu .test-item{
+    margin:5px;
+}
+
+.testbox .mem-pannel .mem-menu .test-mark1{
+    margin-left:15px;
+}
+
+.testbox .linespace{
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    width: 92%;
+    height: 12%;
+    margin: 0px auto;
+}
+
+
+.testbox .word-title .word{
+    font-size: 30px;
+    margin-right: 10px;
+}
+
+
+/* test选项*/
+.testbox .word-content{
+    margin-top:4%;
+}
+
+.testbox .word-content .item{
+    display: inline-block;
+    margin-bottom: 3%;
+    line-height: 170%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.testbox .word-content .item:hover{
+    font-size: 16px;
+    cursor: pointer;
+    color: #4657D9;
+    transform:400ms;
+}
+
+.testbox .word-content .char,
+.testbox .word-content .eg{
+    font-weight: bolder;
+    padding-right:5px;
+}
+
+.testbox .word-content .mean{
+    margin-right:10px;
+}
+

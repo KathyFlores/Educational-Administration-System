@@ -1,0 +1,151 @@
+<div class="header-section no-print">
+    <!-- top_bg -->
+    <div class="top_bg">
+
+        <div class="header_top">
+            <div class="top_right">
+                教务信息管理系统 / 选课系统
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="sidebar-menu">
+        <header class="logo1">
+            <a href="#" class="sidebar-icon">
+                <span class="fa fa-bars"></span>
+            </a>
+        </header>
+        <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+        <div class="menu">
+            <ul id="menu">
+                <li>
+                    <a href="index.html">
+                        <i class="fa fa-tachometer"></i>
+                        <span>主页</span>
+                    </a>
+                </li>
+                <li id="menu-academico">
+                    <a href="#">
+                        <i class="fa fa-table"></i>
+                        <span> 选课</span>
+                        <span class="fa fa-angle-right" style="float: right"></span>
+                    </a>
+                    <ul id="menu-academico-sub">
+                        <li id="menu-academico-avaliacoes">
+                            <a href="{% url 'courses' %}">课程搜索</a>
+                        </li>
+                        <li id="menu-academico-avaliacoes">
+                            <a href="{% url 'table' %}">我的课表</a>
+                        </li>
+                        <li id="menu-academico-avaliacoes">
+                            <a href="{% url 'course_select' %}">选课</a>
+                        </li>
+                        <li id="menu-academico-avaliacoes">
+                            <a href="{% url 'curriculum' %}">培养方案</a>
+                        </li>
+                        <li id="menu-academico-boletim">
+                            <a href="{% url 'teacher' %}">教师导出</a>
+                        </li>
+                        <li id="menu-academico-boletim">
+                            <a href="{% url 'control' %}">管理平台</a>
+                        </li>
+                        <li id="menu-academico-boletim">
+                            <a href="{% url 'import' %}">手动导入</a>
+                        </li>
+                    </ul>
+                </li>
+                <li id="menu-academico">
+                    <a href="sunglasses.html">
+                        <i class="fa fa-file-text-o"></i>
+                        <span>论坛</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'table' %}">
+                        <i class="lnr lnr-pencil"></i>
+                        <span>我的课表</span>
+                    </a>
+                </li>
+                {% comment %} <li id="menu-academico">
+                    <a href="catalog.html">
+                        <i class="fa fa-file-text-o"></i>
+                        <span>Catalog</span>
+                    </a>
+                </li>
+                <li id="menu-academico">
+                    <a href="{% url 'course_select' %}">
+                        <i class="lnr lnr-book"></i>
+                        <span>选课</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bags.html">
+                        <i class="lnr lnr-envelope"></i>
+                        <span>Bags</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>Watches</span>
+                    </a>
+                </li>
+                <li id="menu-academico">
+                    <a href="#">
+                        <i class="lnr lnr-layers"></i>
+                        <span>Tabs & Calender</span>
+                        <span class="fa fa-angle-right" style="float: right"></span>
+                    </a>
+                    <ul id="menu-academico-sub">
+                        <li id="menu-academico-avaliacoes">
+                            <a href="tabs.html">Tabs</a>
+                        </li>
+                        <li id="menu-academico-boletim">
+                            <a href="calender.html">Calender</a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>Forms</span>
+                        <span class="fa fa-angle-right" style="float: right"></span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="input.html"> Input</a>
+                        </li>
+                        <li>
+                            <a href="validation.html">Validation</a>
+                        </li>
+                    </ul>
+                </li> {% endcomment %}
+            </ul>
+        </div>
+    </div>
+    <!-- /top_bg -->
+</div>
+<script>
+    var toggle = true;
+
+    $(".sidebar-icon").click(function() {
+        if (toggle) {
+            $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+            $("#menu span").css({
+                "position": "absolute"
+            });
+        } else {
+            $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+            setTimeout(function() {
+                $("#menu span").css({
+                    "position": "relative"
+                });
+            }, 400);
+        }
+
+        toggle = !toggle;
+    });
+</script>

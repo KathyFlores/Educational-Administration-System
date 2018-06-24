@@ -1,0 +1,54 @@
+{% load i18n %}
+<div class="el-pagination is-background custom-pagination">
+  {% block previouslink %}
+  {% if page_obj.has_previous %}
+  {% if disable_link_for_first_page and page_obj.previous_page_number == 1 %}
+  <button type="button" class="btn-prev">
+        <a href="{{ request.path }}{% if getvars %}?{{ getvars|slice:"1:" }}{% endif %}" ><i class="el-icon el-icon-arrow-left"></i></a>
+  </button>
+  {% else %}
+  <button type="button" class="btn-prev">
+        <a href="?page{{ page_suffix }}={{ page_obj.previous_page_number }}{{ getvars }}" ><i class="el-icon el-icon-arrow-left"></i></a>
+  </button>
+  {% endif %}
+  {% else %}
+  <button type="button" disabled="disabled" class="btn-prev"><i class="el-icon el-icon-arrow-left"></i></button>
+  {% endif %}
+  {% endblock previouslink %}
+  {% block pagelinks %}
+  {% if display_page_links %}
+  <ul class="el-pager">
+        {% for page in pages %}
+        {% if page %}
+        {% ifequal page page_obj.number %}
+        <li class="number active">{{ page }}</li>
+        {% else %}
+        {% if disable_link_for_first_page and page == 1 %}
+        <li class="number">
+            <a href="{{ request.path }}{% if getvars %}?{{ getvars|slice:"1:" }}{% endif %}">{{ page }}</a>
+        </li>
+        {% else %}
+        <li class="number">
+        <a href="?page{{ page_suffix }}={{ page }}{{ getvars }}">{{ page }}</a>
+        </li>
+        {% endif %}
+        {% endifequal %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+  </ul>
+ 
+  {% endif %}
+  {% endblock pagelinks %}
+  {% block nextlink %}
+  {% if page_obj.has_next %}
+  <button type="button" class="btn-next">
+        <a href="?page{{ page_suffix }}={{ page_obj.next_page_number }}{{ getvars }}"><i class="el-icon el-icon-arrow-right"></i></a>
+      
+  </button>
+  {% else %}
+  <button type="button" class="btn-next"><i class="el-icon el-icon-arrow-right" disabled></i></button>
+  {% endif %}
+  {% endblock nextlink %}
+</div>

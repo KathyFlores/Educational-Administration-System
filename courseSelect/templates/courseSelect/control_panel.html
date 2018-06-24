@@ -1,0 +1,313 @@
+{% extends 'courseSelect/base.html' %}
+{% load course_select_tags %}
+{% load pagination_tags %}
+{% block content %}
+{% include 'courseSelect/_left.html' %}
+
+        
+
+<div class="content">
+    <div class="monthly-grid">
+        <div class="panel panel-widget">
+            <div class="panel-title">
+                选课管理平台
+                <div class="clearfix"> </div>
+                <br/>
+                <div id="control-panel">
+                    <el-form ref="form" size="small" label-position="left" :model="form" label-width="150px">
+                        <el-form-item label="选课最大连接数">
+                            <el-input placeholder="输入最大连接数" min=0 type="number" v-model="form.max_connections"></el-input>
+                        </el-form-item>
+                        <el-form-item label="初选时间">
+                            <el-date-picker
+                                v-model="form.first_time"
+                                type="datetimerange"
+                                range-separator=" 至 "
+                                start-placeholder="开始时间"
+                                end-placeholder="结束时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="补选时间">
+                            <el-date-picker
+                                v-model="form.apply_time"
+                                type="datetimerange"
+                                range-separator=" 至 "
+                                start-placeholder="开始时间"
+                                end-placeholder="结束时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="退选时间">
+                            <el-date-picker
+                                v-model="form.withdraw_time"
+                                type="datetimerange"
+                                range-separator=" 至 "
+                                start-placeholder="开始时间"
+                                end-placeholder="结束时间">
+                            </el-date-picker>
+                        </el-form-item>                        
+                        <el-form-item>
+                            <el-button type="danger" icon="el-icon-edit" @click="onSubmit">保存</el-button>
+                            <el-button type="danger">筛选</el-button>  
+                            
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"> </div>
+    <div class="monthly-grid">
+        <div class="panel panel-widget">
+            <div class="panel-title">
+                培养方案管理
+                <div class="clearfix"> </div>
+                
+                <br/>
+                <div id="discipline-panel">
+                    <el-form size="small" ref="form" label-position="left" :model="form" label-width="150px">
+                        <el-form-item prop="discipline" label="选择专业">
+                            <el-cascader
+                                filterable
+                                :options="disciplineOptions"
+                                :show-all-levels="false"
+                                @change="handleChange"
+                                placeholder="选择专业"
+                                clearable
+                                required
+                            ></el-cascader>
+                        </el-form-item>
+                        <el-form-item label="添加必修课">
+                            <el-select v-model="required_courses_to_add" multiple filterable placeholder="输入课程代码或课程名称，可多选">
+                                <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="最低选修课学分">
+                            <el-input placeholder="输入最低选修课学分" v-model="form.min_elective" min=0 type="number"></el-input>
+                        </el-form-item>
+                        <el-form-item label="最低公共课学分">
+                            <el-input placeholder="输入最低公共课学分" v-model="form.min_public" min=0 type="number"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            
+                            <el-button type="danger" icon="el-icon-edit" @click="onSubmit">保存</el-button>
+                            <template>
+                                <el-button @click="openDialog()">查看必修课程</el-button> 
+                                <el-dialog 
+                                    title="必修课程" 
+                                    :visible.sync="dialogVisible" 
+                                    :modal-append-to-body="false"
+                                    :append-to-body="true">
+                                    <el-table :data="required_courses">
+                                        <el-table-column property="course_id" label="课程代码" ></el-table-column>
+                                        <el-table-column property="course_name" label="课程名称"></el-table-column>
+                                        <el-table-column fixed="right" label="操作">
+                                            <template slot-scope="scope">
+                                                <el-button size="mini" type="danger" @click="handleRemove(scope.$index, scope.row)">从必修课中移出</el-button>
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                </el-dialog>
+                            </template>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    formatDate = (timeStr) => {
+        return new Date(Number(timeStr)*1000);
+    }
+    timeStamp = (date) => {
+        return Math.round(date.getTime()/1000);
+    }
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }            
+    var csrftoken = getCookie('csrftoken');
+    new Vue({
+        delimiters:['[[', ']]'],
+        el: "#control-panel",
+        data() {
+            return {
+                form: {
+                    first_time: [formatDate('{% getTimestampByDate select_control.first_time.start %}'),formatDate('{% getTimestampByDate select_control.first_time.end %}')],
+                    apply_time: [formatDate('{% getTimestampByDate select_control.apply_time.start %}'),formatDate('{% getTimestampByDate select_control.apply_time.end %}')],
+                    withdraw_time: [formatDate('{% getTimestampByDate select_control.withdraw_time.start %}'),formatDate('{% getTimestampByDate select_control.withdraw_time.end %}')],
+                    max_connections: Number("{{select_control.max_connections}}"),
+                }
+            }
+        },
+        methods: {
+            onSubmit() {
+                that = this;
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        first_time_start: timeStamp(this.form['first_time'][0]),
+                        first_time_end: timeStamp(this.form['first_time'][1]),
+                        apply_time_start: timeStamp(this.form['apply_time'][0]),
+                        apply_time_end: timeStamp(this.form['apply_time'][1]),
+                        withdraw_time_start: timeStamp(this.form['withdraw_time'][0]),
+                        withdraw_time_end: timeStamp(this.form['withdraw_time'][1]),
+                        max_connections: this.form['max_connections'],
+                    },
+                    success: function(res){
+                        that.$message({
+                            type: (()=>{return res['code']===0?'success':'error'})(),
+                            message: res['msg'],
+                            duration: 2000
+                        });
+                        //console.log('success:',res);
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                });
+            }
+        }
+    });
+    
+    $.get("{% url 'get_discipline_options' %}").then((disciplineOptions)=>{
+        $.get("{% url 'get_all_course' %}").then((courses)=>{
+            new Vue({
+                delimiters:['[[', ']]'],
+                el: "#discipline-panel",
+                data() {
+                    
+                    return {
+                        disciplineOptions: disciplineOptions,
+                        form: {
+                            min_elective: '',
+                            min_public: '',
+                            discipline_id: 0
+                        },
+                        options: courses,
+                        required_courses_to_add: '',
+                        dialogVisible: false,
+                        required_courses: [{
+                            course_id:1,
+                            course_name:'1'
+                        }]
+                    };
+                },
+                methods:{
+                    onSubmit() {
+                        //console.log(this.required_courses.join(','));
+                        that = this;
+                        if (this.form.discipline_id) {
+                            $.ajax({
+                                url: "{% url 'post_discipline_details' %}",
+                                type: "POST",
+                                data: {
+                                    csrfmiddlewaretoken: csrftoken,
+                                    discipline_id: this.form.discipline_id,
+                                    min_elective: this.form.min_elective,
+                                    min_public: this.form.min_public,
+                                    required_courses: this.required_courses_to_add.join(',')
+                                },
+                                success: (res) => {
+                                    that.$message({
+                                        type: (()=>{return res['code']===0?'success':'error'})(),
+                                        message: res['msg'],
+                                        duration: 2000
+                                    });
+                                },
+                                error: (e) => {
+                                    console.log(e);
+                                }
+        
+                            })
+                        }
+                        else {
+                            this.$message({
+                                type: 'error',
+                                message: '请选择专业！',
+                                duration: 2000
+                            })
+                        }
+                        
+                    },
+                    handleChange(value){
+                        this.form.discipline_id = value[1];
+                        if(this.form.discipline_id){
+                            $.get("{% url 'get_discipline_details' %}", {discipline_id: this.form.discipline_id}).then((res)=>{
+                                this.form.min_elective = res['min_elective']
+                                this.form.min_public = res['min_public']
+                            })
+                        }
+                        
+                    },
+                    openDialog(){
+                        if(this.form.discipline_id){
+                            $.get("{% url 'get_required_courses' %}", {discipline_id: this.form.discipline_id}).then((res)=>{
+                                this.required_courses = res;
+                                this.dialogVisible = true
+                            })
+                        }
+                        else {
+                            this.$message({
+                                type: 'error',
+                                message: '请选择专业！',
+                                duration: 2000
+                            })
+                        }
+                    },
+                    handleRemove(index, row){
+                        that = this;
+                        console.log(row);
+                        $.ajax({
+                            url: "{% url 'remove_required_course' %}",
+                            type: "POST",
+                            data: {
+                                csrfmiddlewaretoken: csrftoken,
+                                discipline_id: this.form.discipline_id,
+                                course_id: row.course_id
+                            },
+                            success: (res) => {
+                                that.$message({
+                                    type: (()=>{return res['code']===0?'success':'error'})(),
+                                    message: res['msg'],
+                                    duration: 2000,
+                                    onClose: ()=>{
+                                        this.openDialog();
+                                    }
+                                });
+                            },
+                            error: e => {
+                                console.log(e);
+                            }
+                        })
+                    }
+                }
+            })
+    
+        })
+    })
+        
+    
+    
+   
+</script>
+
+{% endblock content %}
