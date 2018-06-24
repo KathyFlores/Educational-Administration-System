@@ -1,0 +1,670 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>课程安排</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="{% static 'courseArrange/css/all.css' %}" rel="stylesheet" type="text/css">
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- Bootstrap Core CSS -->
+	<link href="{% static 'courseArrange/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css' />
+	<!-- Custom CSS -->
+	<link href="{% static 'courseArrange/css/style.css'%}" rel='stylesheet' type='text/css' />
+	<!-- Graph CSS -->
+	<link href="{% static 'courseArrange/css/font-awesome.css'%}" rel="stylesheet">
+	<link href="{% static 'courseArrange/css/iconfont.css'%}" rel="stylesheet" type="text/css" />
+	<!-- lined-icons -->
+	<link rel="stylesheet" href="{% static 'courseArrange/css/icon-font.min.css'%}" type='text/css' />
+	<!-- //lined-icons -->
+	<script src="{% static 'courseArrange/js/jquery-1.10.2.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'courseArrange/css/arrangement.css' %}" type='text/css' />
+</head>
+
+<body>
+	<div class="page-container">
+		<div class="left-content">
+			<div class="inner-content">
+				<!-- header-starts -->
+				<div class="header-section">
+					<!-- top_bg -->
+					<div class="top_bg">
+
+						<div class="header_top">
+							<div class="top_right">
+								<ul>
+									<li>
+										<a href="contact.html">教务信息管理系统</a>
+									</li>
+									<li style="font-size: 12px;"> / </li>
+									<li>
+										<a>课程安排</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="clearfix"> </div>
+						</div>
+
+					</div>
+					<div class="clearfix"></div>
+					<!-- /top_bg -->
+				</div>
+				<div class="header_bg">
+
+					<div class="header">
+						<div class="head-t">
+
+							<!-- start header_right -->
+							<div class="header_right">
+
+								<div class="search">
+
+									<input id="searchInput" type="text" value="" placeholder="search...">
+									<input id="searchSubmit" type="submit" value="">
+
+								</div>
+								<div class="clearfix"> </div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+					</div>
+
+				</div>
+				<!-- //header-ends -->
+
+				<!--content-->
+				<div class="content">
+					<span class="switchView">表格视图</span>
+					<div class="women_main">
+
+						<!-- start content -->
+						<table>
+							<thead>
+								<tr>
+									<th>全部选择
+										<input id="check-all" type="checkbox" name="all-check" value="all" /> </th>
+									<th class="search-do" search="course_id">课程代码</th>
+									<th class="search-do" search="course_name">课程名称</th>
+									<th class="search-do" search="room_id">教室名称</th>
+									<th class="search-do" search="teacher_id">教师名称</th>
+									<th>使用时段</th>
+									<th>编辑</th>
+								</tr>
+							</thead>
+							<tbody id="class-info">
+							</tbody>
+						</table>
+						<div class="pages"></div>
+						<div class="black-fore" disabled></div>
+						<div class="clearfix"></div>
+						<!-- end content -->
+
+						<div class="footer">
+
+							<div class="clearfix"> </div>
+							<p>Copyright &copy; 2018.Company name All rights reserved.
+
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<!--content-->
+			</div>
+		</div>
+		<!--//content-inner-->
+		<!--/sidebar-menu-->
+		<div class="sidebar-menu">
+			<header class="logo1">
+				<a href="#" class="sidebar-icon">
+					<span class="fa fa-bars"></span>
+				</a>
+			</header>
+			<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+			<div class="menu">
+				<ul id="menu">
+					<li>
+						<a href="index.html">
+							<i class="fa fa-tachometer"></i>
+							<span>Home</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-table"></i>
+							<span> New Arrivals</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes">
+								<a href="shoes.html">Shoes</a>
+							</li>
+							<li id="menu-academico-avaliacoes">
+								<a href="products.html">Watches</a>
+							</li>
+							<li id="menu-academico-boletim">
+								<a href="sunglasses.html">Sunglasses</a>
+							</li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="sunglasses.html">
+							<i class="fa fa-file-text-o"></i>
+							<span>Sunglasses</span>
+						</a>
+					</li>
+					<li>
+						<a href="sweater.html">
+							<i class="lnr lnr-pencil"></i>
+							<span>Sweater</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="catalog.html">
+							<i class="fa fa-file-text-o"></i>
+							<span>Catalog</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="shoes.html">
+							<i class="lnr lnr-book"></i>
+							<span>Shoes</span>
+						</a>
+					</li>
+					<li>
+						<a href="bags.html">
+							<i class="lnr lnr-envelope"></i>
+							<span>Bags</span>
+						</a>
+					</li>
+					<li>
+						<a href="products.html">
+							<i class="lnr lnr-chart-bars"></i>
+							<span>Watches</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="lnr lnr-layers"></i>
+							<span>Tabs & Calender</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes">
+								<a href="tabs.html">Tabs</a>
+							</li>
+							<li id="menu-academico-boletim">
+								<a href="calender.html">Calender</a>
+							</li>
+
+						</ul>
+					</li>
+					<li>
+						<a href="#">
+							<i class="lnr lnr-chart-bars"></i>
+							<span>Forms</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul>
+							<li>
+								<a href="input.html"> Input</a>
+							</li>
+							<li>
+								<a href="validation.html">Validation</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="config-dialog hidden">
+			<h1>自动排课</h1>
+			<p>使用语言</p>
+			<input type="radio" name="lang" value="1" checked="true">python</input>
+			<input type="radio" name="lang" value="2">C++</input>
+			<p>效率与结果</p>
+			<input type="radio" name="time" value="1" checked="true">效率优先</input>
+			<input type="radio" name="time" value="2">均衡</input>
+			<input type="radio" name="time" value="3">效果优先</input>
+			<p>选择算法</p>
+			<input type="radio" name="algo" value="1" checked="true">johnson</input>
+			<input type="radio" name="algo" value="2">zkw</input>
+			<input type="radio" name="algo" value="3">单纯形</input>
+			<br>
+			<br>
+			<span class="add">确定</span>
+			<span class="delete-Cancel">取消</span>
+		</div>
+	</div>
+	<div class="message-list">
+
+	</div>
+	</div>
+	<script>
+		var toggle = true;
+
+		$(".sidebar-icon").click(function () {
+			if (toggle) {
+				$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+				$("#menu span").css({ "position": "absolute" });
+			}
+			else {
+				$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+				setTimeout(function () {
+					$("#menu span").css({ "position": "relative" });
+				}, 400);
+			}
+
+			toggle = !toggle;
+		});
+	</script>
+	<!--js -->
+	<script src="{% static 'courseArrange/js/message.js' %}"></script>
+	<script src="{% static 'courseArrange/js/DataModel.js' %}"></script>
+	<script src="{% static 'courseArrange/js/arrDataModelFactory.js' %}"></script>
+	<script src="{% static 'courseArrange/js/inputCheck.js' %}"></script>
+	<!-- /real-time -->
+	<script>
+		const period_const = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
+		const prefix = "http://acm.zju.edu.cn:3499";
+		$(".config-dialog").find(".add").click(() => {
+			let data = {};
+			data.language = $("[name='lang']:checked").val();
+			data.speed = $("[name='time']:checked").val();
+			data.algorithm = $("[name='algo']:checked").val();
+			console.log(data);
+			new Promise(function (resolve) {
+				$.ajax(
+					{
+						method: "GET",
+						url: prefix + "/api/scheduling/arrange/",
+						data: data,
+						success: (data) => { resolve(data) },
+						error: (data) => {
+							message.error("连接失败！请稍后再试。");
+						}
+					}
+				)
+			}).then((data) => {
+				console.log("common",data);
+				/*if (data.success) {
+					message.success("删除成功！");
+					selection.map((key) => {
+						console.log(key);
+						$(`[key="${JSON.stringify(key)}"]`).remove();
+					})
+				}*/
+			});
+		});
+		function deleteDone(selection) {
+			
+			console.log({delete:JSON.stringify(selection)});
+			new Promise(function (resolve) {
+				$.ajax(
+					{
+						method: "POST",
+						url: prefix + "/api/scheduling/course/delete/",
+						data: {
+							delete: JSON.stringify(selection)
+						},
+						success: (data) => { resolve(data) },
+						error: (data) => {
+							message.error("连接失败！请稍后再试。");
+						}
+					}
+				)
+			}).then((data) => {
+				if (data.success) {
+					message.success("删除成功！");
+					selection.map((key) => {
+						console.log(key);
+						$(`[key="${JSON.stringify(key)}"]`).remove();
+					})
+				}
+			});
+		}
+		var editingTR;
+		function editDone() {
+			let data = { time_id: {} };
+			let bool = inputCheck($(".float-dialog-edit"));
+			if (bool) return;
+			$(".black-fore").attr("disabled", "");
+			editDialog.classList.add("hidden");
+			$(".float-dialog-edit").find("input").each((i, e) => {
+				if (e.id.includes("-")) {
+					let mname = e.id.split("-")[0];
+					if (e.checked) {
+						data.time_id[mname] || (data.time_id[mname] = []);
+						data.time_id[mname].push(parseInt(e.id.split("-")[1]));
+					}
+				} else {
+					data[e.id] = e.value;
+				}
+			});
+			let oldTR = editingTR;
+
+			let aysncHandler = new Promise(function (resolve) {
+				console.log(data);
+				data.time_id = 1;
+				for (const key in data) {
+					data[key] = parseInt(data[key]);
+				}
+
+				$.ajax(
+					{
+						method: "POST",
+						url: prefix + "/api/scheduling/course/",
+						data: data,
+						success: function (data) {
+							resolve(data);
+						},
+						error: function (data) {
+							message.error("连接失败！请稍后再试！");
+						}
+					}
+				)
+			}).then((data) => {
+				if (data.success) {
+					message.success(oldTR ? "更改成功！" : "添加成功");
+					editingTR = null;
+					oldTR && oldTR.parentElement.replaceChild(
+						factory.createView(data),
+						oldTR
+					);
+
+					oldTR || getPageCount();
+					oldTR = null;
+				} else {
+					message.error("操作失败。" + data.reason);
+				}
+				console.log(data);
+
+			}
+			);
+			return data;
+		}
+		let factory = new arrDataModelFactory();
+		function getSelection() {
+			let selection = [];
+			$(".checked").each((i, e) => {
+				selection.push(JSON.parse(e.getAttribute("key")));
+			})
+			return selection;
+		}
+
+		let editBar = document.createElement("td");
+		var modifyId = "";
+		var selection = 0;
+		var editing = false;
+		let deleteConfirmDialog = document.createElement("div");
+		deleteConfirmDialog.innerText = ("确定要删除吗？");
+		deleteConfirmDialog.classList.add("float-dialog");
+		deleteConfirmDialog.classList.add("hidden");
+		let deleteOk = $("<span class='delete-OK'>确定</span>");
+		let deleteCancel = $("<span class='delete-Cancel'>取消</span>");
+		deleteCancel.click(function () {
+			deleteConfirmDialog.classList.add("hidden");
+		});
+		deleteOk.click(function () {
+			let selection = getSelection();
+			deleteConfirmDialog.classList.add("hidden");
+			console.log(selection);
+			if (0) {
+				selection.map((key) => {
+					document.querySelector(`tr[key="${key}"]`).remove();
+
+				})
+
+			}
+			deleteDone(selection);
+		})
+		deleteConfirmDialog.appendChild(deleteOk[0]);
+		deleteConfirmDialog.appendChild(deleteCancel[0]);
+		document.querySelector("body").appendChild(deleteConfirmDialog);
+
+		let editDialog = document.createElement("div");
+		$(".search-do").click(function () {
+			$("#searchInput").val($("#searchInput").val() == '' ? `${this.getAttribute('search')}=` : $("#searchInput").val() + `&${this.getAttribute('search')}=`);
+			$("#searchInput").focus();
+		});
+		let checkboxes = '';
+		for (let i = 0; i < 12; i++) {
+			let ntr = '';
+			for (let j = 1; j <= 7; j++) {
+				ntr += `<td><input id="${j}-${i + 1}" for="${i + 1}" type="checkbox"></td>`;
+			}
+			checkboxes += `<tr>${ntr}</tr>`;
+		}
+
+		editDialog.innerHTML = (`
+		<h1>课程安排编辑</h1>
+		<p class="must">课程ID</p><input id="course_id" type="text"></input>
+		<p class="must">教室标识号</p><input id="room_id" type="text"></input>
+		<p class="must">教师ID</p><input id="teacher_id" type="text"></input>
+		<p class="must">开课次数</p><input id="duplicate" type="text"></input>
+		<p>借用时段</p>
+		<table id="period-table"><thead><tr><th>周一</th>
+			<th>周二</th>
+			<th>周三</th>
+			<th>周四</th>
+			<th>周五</th>
+			<th>周六</th>
+			<th>周日</th>
+			</tr>
+			${checkboxes}
+			</thead>
+			<tbody>
+			</tbody>
+			</table>
+		`);
+
+		editDialog.classList.add("float-dialog-edit");
+		editDialog.classList.add("hidden");
+		let deleteOkA = $("<span class='add'>确定</span>");
+		let deleteCancelA = $("<span class='delete-Cancel'>取消</span>");
+		deleteOkA.click(function () {
+			let data = editDone();
+
+		})
+		deleteCancelA.click(function () {
+			$(".black-fore").attr("disabled", "");
+			editDialog.classList.add("hidden");
+		});
+		editDialog.appendChild(deleteOkA[0]);
+		editDialog.appendChild(deleteCancelA[0]);
+		document.querySelector("body").appendChild(editDialog);
+
+
+		function initializeEdit(obj) {
+			$(".black-fore").removeAttr("disabled");
+			$("input").val("");
+			$(".float-dialog-edit").find("[type=checkbox]").each((i, e) => { e.checked = false });
+			if (obj) {
+				let nobj = {};
+				for (let key in obj) {
+					nobj[key] = {};
+					if (Array.isArray(obj[key])) {
+						obj[key].map((i) => {
+							editDialog.querySelector(`#${key}-${i}`).checked = true;
+						})
+						continue;
+					}
+					(editDialog.querySelector(`#${key}`) || (nobj[key])).value = obj[key];
+				}
+				editing = true;
+			} else {
+
+
+				editing = false;
+			}
+			editDialog.classList.remove("hidden");
+		}
+
+		(function __() {
+			var edit = document.createElement("i");
+			edit.classList.add("icon-edit");
+			edit.classList.add("iconfont");
+			var del = document.createElement("i");
+			del.classList.add("icon-delete");
+			del.classList.add("iconfont");
+			console.log(del.onclick);
+			$(del).click(function () {
+				deleteConfirmDialog.classList.remove("hidden");
+				deleteConfirmDialog.classList.remove("float-left");
+				deleteConfirmDialog.style.top = this.getBoundingClientRect().y + $(window).scrollTop() - 12 + "px";
+				deleteConfirmDialog.style.right = $(window).width() - this.getBoundingClientRect().right + "px";
+				deleteConfirmDialog.style.left = null;
+				this.parentElement.parentElement.classList.add('checked');
+			});
+			console.log(del.onclick);
+			editBar.appendChild(edit);
+			editBar.appendChild(del);
+		})(editBar);
+
+		function getData() {
+			return [
+				{
+					cId: "e0123", aName: "基础设施建设", cName: "教7-505", campus: "玉泉", aId: "C00001", tId: "3150100000", tName: "吴敏是",
+					period: { 1: [1, 2, 3] }
+				},
+				{
+					cId: "f0123", aName: "基础设施建设Ⅱ", cName: "教2-505", campus: "玉泉", aId: "J00001", tId: "3150100000", tName: "吴敏是",
+					period: { 2: [1, 2, 3] }
+				}
+			];
+		}
+		function setPage(pages, curr = 0) {
+			$(".pages").children("").remove();
+			for (let i = 0; i < pages; i++) {
+				$(".pages").append(`<span pagenum=${i}>${i + 1}</span>`)
+			}
+			$(`[pagenum="${curr}"]`).addClass("current");
+		}
+		function checkChange() {
+			var tr = this.parentElement.parentElement;
+			if (this.checked) {
+				tr.classList.add("checked");
+				selection++;
+			} else {
+				tr.classList.remove("checked");
+				selection--;
+			}
+			if (selection) {
+				$(".modify-list").children(".delete-OK").removeAttr("disabled");
+			}
+			else {
+				$(".modify-list").children(".delete-OK").attr("disabled", "true");
+			}
+		}
+		function search(...args) {
+			let res = {};
+			args.map((val) => {
+				let tmp = val.split("=");
+
+				res[tmp[0]] = tmp[1];
+			})
+
+			if (res.teacher_id) {
+				window.history.pushState({}, "课程安排", "?teacher_id=" + res.teacher_id);
+			}
+			getPageCount(res);
+		}
+		function displayData(param) {
+			var asyncHandler = new Promise(function (resolve, reject) {
+				//var data = getData();
+				$.ajax(
+					{
+						method: "GET",
+						url: prefix + "/api/scheduling/course/",
+						data: param,
+						success: (data) => { resolve(data) },
+						error: (data) => {
+							message.error("连接失败！请稍后再试。");
+						}
+					}
+				)
+				//resolve(data);
+			}).then(function (data) {
+				$("tbody").children().remove();
+				var par = document.createDocumentFragment();
+				data.map(function (t) {
+					par.appendChild(factory.createView(t));
+				})
+				document.querySelector("tbody").appendChild(par);
+			});
+		}
+		function urlMap(filter) {
+			if (window.location.href.split("?").length < 2) return {};
+			const res = {};
+			window.location.href.split("?")[1].split("&").filter(filter).map(e => res[e.split("=")[0]] = e.split("=")[1]);
+			return res;
+		}
+		function getPageCount(config) {
+			new Promise((resolve, reject) => {
+				$.ajax(
+					{
+						url: `${prefix}/api/scheduling/course/getpagecount/`,
+						method: 'GET',
+						dataType: 'json',
+						data: config,
+						success: data => resolve(data)
+					}
+				)
+			}).then((data) => {
+				setPage(data.pagecount ? data.pagecount : 1, 0);
+				displayData({ ...config, page: 0 });
+			});
+		}
+		getPageCount(urlMap(str => str.split("=")[0] == 'teacher_id'));
+		$(".women_main").prepend("<div class=modify-list></div>")
+		$(".modify-list").append("<span class=add>新增</span>");
+		$(".modify-list").children(".add").click(function () {
+			editingTR = null;
+			initializeEdit();
+		});
+		$(".modify-list").append("<span class=delete-OK disabled>删除</span>");
+		$(".modify-list").append(`<div class="auto-config">自动排课</div>`);
+		$(".auto-config").click(() => {
+			$(".black-fore").removeAttr('disabled');
+			$(".config-dialog").removeClass('hidden');
+		});
+		$(".config-dialog").children('.add').click(() => {
+			$(".black-fore").attr("disabled", "disabled");
+			$(".config-dialog").addClass('hidden');
+		});
+		$(".config-dialog").children(".delete-Cancel").click(() => {
+			$(".black-fore").attr("disabled", "disabled");
+			$(".config-dialog").addClass('hidden');
+		});
+		$(".modify-list").children(".delete-OK").click(function () {
+			if (this.getAttribute("disabled") !== null) {
+				return;
+			}
+			deleteConfirmDialog.classList.remove("hidden");
+			deleteConfirmDialog.classList.add("float-left");
+			deleteConfirmDialog.style.top = this.getBoundingClientRect().y + $(window).scrollTop() - 12 + "px";
+			deleteConfirmDialog.style.left = this.getBoundingClientRect().left + "px";
+			deleteConfirmDialog.style.right = "";
+			//deleteDone(getSelection());
+		});
+		$("#check-all").change(function () {
+			$("tbody").find("input[type=checkbox]").each((i, e) => {
+				e.checked = this.checked;
+				checkChange.bind(e)();
+			})
+
+		});
+		$("#searchSubmit").click(() => {
+			search(...$("#searchInput").val().split("&"));
+		});
+		$(".switchView").click(() => {
+			window.location.href = "calender.html?" + window.location.href.split("?")[1];
+		});
+	</script>
+	<script src="{% static 'courseArrange/js/menu_jquery.js' %}"></script>
+</body>
+
+</html>

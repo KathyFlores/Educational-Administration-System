@@ -1,0 +1,343 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>课程安排</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- Bootstrap Core CSS -->
+	<link href="{% static 'courseArrange/css/bootstrap.min.css'%}" rel='stylesheet' type='text/css' />
+	<!-- Custom CSS -->
+	<link href="{% static 'courseArrange/css/style.css'%}" rel='stylesheet' type='text/css' />
+	<!-- Graph CSS -->
+	<link href="{% static 'courseArrange/css/font-awesome.css'%}" rel="stylesheet">
+	<link href="{% static 'courseArrange/css/iconfont.css'%}" rel="stylesheet" type="text/css" />
+	<!-- lined-icons -->
+	<link rel="stylesheet" href="{% static 'courseArrange/css/icon-font.min.css'%}" type='text/css' />
+	<!-- //lined-icons -->
+	<script src="{% static 'courseArrange/js/jquery-1.10.2.min.js'%}"></script>
+	<link rel="stylesheet" href="{% static 'courseArrange/css/calender.css'%}" type='text/css' />
+</head>
+
+<body>
+	<div class="page-container">
+		<div class="left-content">
+			<div class="inner-content">
+				<!-- header-starts -->
+				<div class="header-section">
+					<!-- top_bg -->
+					<div class="top_bg">
+
+						<div class="header_top">
+							<div class="top_right">
+								<ul>
+									<li>
+										<a href="contact.html">教务信息管理系统</a>
+									</li>
+									<li style="font-size: 12px;"> / </li>
+									<li>
+										<a>课程安排</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="clearfix"> </div>
+						</div>
+
+					</div>
+					<div class="clearfix"></div>
+					<!-- /top_bg -->
+				</div>
+				<div class="header_bg">
+
+					<div class="header">
+						<div class="head-t">
+
+							<!-- start header_right -->
+							<div class="header_right">
+								<div class="clearfix"> </div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+					</div>
+
+				</div>
+				<!-- //header-ends -->
+
+				<!--content-->
+				<div class="content">
+					<span class="switchView">列表视图</span>
+					<div class="women_main">
+
+						<!-- start content -->
+						<table>
+							<thead>
+								<tr>
+									<th>周一</th>
+									<th>周二</th>
+									<th>周三</th>
+									<th>周四</th>
+									<th>周五</th>
+									<th>周六</th>
+									<th>周日</th>
+								</tr>
+							</thead>
+							<tbody id="">
+
+							</tbody>
+						</table>
+						<div class="pages"></div>
+						<div class="black-fore" disabled></div>
+						<div class="clearfix"></div>
+						<!-- end content -->
+
+						<div class="footer">
+
+							<div class="clearfix"> </div>
+							<p>Copyright &copy; 2016.Company name All rights reserved.
+
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<!--content-->
+			</div>
+		</div>
+		<!--//content-inner-->
+		<!--/sidebar-menu-->
+		<div class="sidebar-menu">
+			<header class="logo1">
+				<a href="#" class="sidebar-icon">
+					<span class="fa fa-bars"></span>
+				</a>
+			</header>
+			<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+			<div class="menu">
+				<ul id="menu">
+					<li>
+						<a href="index.html">
+							<i class="fa fa-tachometer"></i>
+							<span>Home</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-table"></i>
+							<span> New Arrivals</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes">
+								<a href="shoes.html">Shoes</a>
+							</li>
+							<li id="menu-academico-avaliacoes">
+								<a href="products.html">Watches</a>
+							</li>
+							<li id="menu-academico-boletim">
+								<a href="sunglasses.html">Sunglasses</a>
+							</li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="sunglasses.html">
+							<i class="fa fa-file-text-o"></i>
+							<span>Sunglasses</span>
+						</a>
+					</li>
+					<li>
+						<a href="sweater.html">
+							<i class="lnr lnr-pencil"></i>
+							<span>Sweater</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="catalog.html">
+							<i class="fa fa-file-text-o"></i>
+							<span>Catalog</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="shoes.html">
+							<i class="lnr lnr-book"></i>
+							<span>Shoes</span>
+						</a>
+					</li>
+					<li>
+						<a href="bags.html">
+							<i class="lnr lnr-envelope"></i>
+							<span>Bags</span>
+						</a>
+					</li>
+					<li>
+						<a href="products.html">
+							<i class="lnr lnr-chart-bars"></i>
+							<span>Watches</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="lnr lnr-layers"></i>
+							<span>Tabs & Calender</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes">
+								<a href="tabs.html">Tabs</a>
+							</li>
+							<li id="menu-academico-boletim">
+								<a href="calender.html">Calender</a>
+							</li>
+
+						</ul>
+					</li>
+					<li>
+						<a href="#">
+							<i class="lnr lnr-chart-bars"></i>
+							<span>Forms</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul>
+							<li>
+								<a href="input.html"> Input</a>
+							</li>
+							<li>
+								<a href="validation.html">Validation</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	</div>
+	<script src="{% static 'courseArrange/js/message.js'%}"></script>
+	<script>
+		var toggle = true;
+
+		$(".sidebar-icon").click(function () {
+			if (toggle) {
+				$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+				$("#menu span").css({ "position": "absolute" });
+			}
+			else {
+				$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+				setTimeout(function () {
+					$("#menu span").css({ "position": "relative" });
+				}, 400);
+			}
+
+			toggle = !toggle;
+		});
+	</script>
+	<!--js -->
+
+	<!-- /real-time -->
+	<script>
+		const period_const = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
+		const period_realTime = [
+			["8:00", "8:45"],
+			["8:50", "9:35"],
+			["9:50", "10:35"],
+			["10:40", "11:25"],
+			["13:15", "14:00"],
+			["14:05", "14:50"],
+			["14:55", "15:40"],
+			["15:55", "16:40"],
+			["16:45", "17:30"],
+			["18:30", "19:15"],
+			["19:20", "20:05"],
+			["20:10", "20:55"]
+		];
+		/*function getData() {
+			return {
+				"C00001": { period: { 2: [0, 1, 2], 3: [7, 8, 9] }, aName: "基础设施", cName: "玉泉教2-512" },
+				"F00001": { period: { 3: [0, 1, 2], 6: [2, 3] }, aName: "基础设施建设Ⅱ", cName: "玉泉教7-512" },
+			};
+		}*/
+		function buildTable(data) {
+			let rowSpan = [0, 0, 0, 0, 0, 0, 0];
+			let _data = [[], [], [], [], [], [], []];
+			for (let _class in data) {
+				const t = data[_class].time_id - 1;
+				_data[t / 5][t % 5] = { ...data[_class], span: 1 };
+				/*for (let day in data[_class].time_id) {
+				let last = -10;
+				let workon = -1;
+				
+				data[_class].period[day].map((c) => {
+					if (c - last == 1) {
+						_data[day - 1][workon].span++;
+					} else {
+						workon = c;
+						_data[day - 1][workon] = { ...data[_class], span: 1 };
+					}
+					last = c;
+				})
+			}*/
+			}
+			console.log(_data);
+			for (let i = 0; i < 12; i++) {
+				let trd = `<tr>`;
+				for (let j = 0; j < 7; j++) {
+					if (_data[j][i]) {
+						rowSpan[j] = _data[j][i].span;
+						trd += `<td rowspan="${_data[j][i].span}"><h4>${_data[j][i].course_name}</h4>
+						${_data[j][i].room_name}<br>
+						(${period_realTime[i][0]}-${period_realTime[i + rowSpan[j] - 1][1]})
+						</td>`;
+					}
+					else {
+						if (rowSpan[j] <= 0) trd += `<td></td>`;
+					}
+					rowSpan[j]--;
+				}
+				trd += `</tr>`;
+				$("tbody").append(trd);
+			}
+		}
+		const prefix = "http://acm.zju.edu.cn:3499";
+		function urlMap(filter) {
+			if (window.location.href.split("?").length < 2) return {};
+			const res = {};
+			window.location.href.split("?")[1].split("&").filter(filter ? filter : () => true).map(e => res[e.split("=")[0]] = e.split("=")[1]);
+			return res;
+		}
+		function getUser() {
+			const id = urlMap()['teacher_id'];
+			if (id) {
+				getData({ teacher_id: id });
+				return;
+			}
+			new Promise((resolve, reject) => {
+				resolve({ teacher_id: '1' });
+			}).then(data => getData(data));
+		}
+		getUser();
+		function getData(param) {
+			new Promise(function (resolve, reject) {
+				$.ajax(
+					{
+						method: "GET",
+						url: prefix + "/api/scheduling/course/",
+						data: param,
+						success: (data) => { resolve(data) },
+						error: (data) => {
+							message.error("连接失败！请稍后再试。");
+						}
+					}
+				);
+			}).then((data) => buildTable(data));
+		}
+		$(".switchView").click(() => {
+			window.location.href = "arrangement.html?" + window.location.href.split("?")[1];
+		});
+	</script>
+	<script src="{% static 'courseArrange/js/menu_jquery.js'%}"></script>
+</body>
+
+</html>

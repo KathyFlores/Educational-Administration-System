@@ -1,0 +1,835 @@
+{% load staticfiles %}
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>教室信息</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="{% static 'courseArrange/css/all.css'%}" rel="stylesheet" type="text/css">
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- Bootstrap Core CSS -->
+	<link href="{% static 'courseArrange/css/bootstrap.min.css'%}" rel='stylesheet' type='text/css' />
+	<!-- Custom CSS -->
+	<link href="{% static 'courseArrange/css/style.css'%}" rel='stylesheet' type='text/css' />
+	<!-- Graph CSS -->
+	<link href="{% static 'courseArrange/css/font-awesome.css'%}" rel="stylesheet">
+	<link href="{% static 'courseArrange/css/iconfont.css'%}" rel="stylesheet" type="text/css" />
+	<!-- lined-icons -->
+	<link rel="stylesheet" href="{% static 'courseArrange/css/icon-font.min.css'%}" type='text/css' />
+	<!-- //lined-icons -->
+	<script src="{% static 'courseArrange/js/jquery-1.10.2.min.js'%}"></script>
+	<style>
+		table {
+			width: 100%;
+			font-size: 14px;
+			border-left: 1px solid #cccccc;
+			border-top: 1px solid #cccccc;
+		}
+
+		th,
+		td {
+			text-align: center;
+			padding: 10px 4px;
+			border-right: 1px solid #cccccc;
+			border-bottom: 1px solid #cccccc;
+		}
+
+		thead {
+			background: #f0f0f0;
+		}
+
+		tr:hover {
+			background: #fafafa;
+		}
+
+		i.icon-edit::before {
+			margin-right: 10px;
+			color: #2196f3;
+			cursor: pointer;
+		}
+
+		i.icon-edit:hover::before {
+
+			color: #03a9f4;
+		}
+
+		i.icon-delete::before {
+			cursor: pointer;
+			color: #e91e63;
+		}
+
+		i.icon-delete:hover::before {
+			color: #ff5722;
+		}
+
+		tr.checked {
+			background: #e6fbfd;
+		}
+
+		.float-dialog {
+			display: inline-block;
+			padding: 10px 40px;
+			background: white;
+			color: black;
+			box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.3);
+			position: absolute;
+			transform: translateY(-100%);
+			font-size: 14px;
+			border-radius: 5px;
+			opacity: 1;
+			display: inline-block !important;
+			transition: opacity 200ms ease-out;
+		}
+
+		.float-dialog::after {
+			content: " ";
+			border-left: 7px solid transparent;
+			border-right: 7px solid transparent;
+			border-top: 10px solid white;
+			position: absolute;
+			top: 100%;
+			right: 10px;
+			width: 0;
+			height: 0;
+			float: right;
+			display: inline-block;
+
+		}
+
+		.float-dialog.float-left::after {
+			left: 10px;
+
+		}
+
+		.float-dialog-edit {
+			display: block !important;
+			padding: 10px 40px;
+			padding-bottom: 40px;
+			background: white;
+			color: black;
+			box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.3);
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			font-size: 14px;
+			border-radius: 5px;
+			opacity: 1;
+			display: inline-block !important;
+			transition: opacity 200ms ease-out;
+		}
+
+		.float-dialog-edit h1 {
+			margin-bottom: 64px;
+		}
+
+		.float-dialog-edit p {
+			margin-bottom: 2px;
+			font-size: 0.9em;
+			font-weight: 900;
+			margin-top: 10px;
+		}
+
+		.float-dialog-edit input[type=text] {
+			font-family: inherit;
+			width: 400px;
+			border: 0;
+			border-bottom: 1px solid grey;
+			font-size: inherit;
+			line-height: inherit;
+			padding: 1px 2px;
+			color: grey;
+		}
+
+		.float-dialog-edit input[type=text]:focus {
+			border-bottom: 1px solid black;
+			color: black;
+		}
+
+		.hidden {
+
+			opacity: 0;
+		}
+
+		.delete-OK {
+			display: inline-block;
+			padding: 4px 12px;
+			margin-left: 12px;
+			margin-right: 12px;
+			background: #ff5722;
+			color: white;
+			cursor: pointer;
+		}
+
+		.delete-OK:hover {
+			background: red;
+			font-weight: 900;
+		}
+
+		.delete-OK[disabled] {
+			background: #f0f0f0;
+			color: #cccccc;
+			cursor: default;
+		}
+
+		.women_main {
+			box-shadow: none;
+		}
+
+		.add {
+			display: inline-block;
+			padding: 4px 12px;
+			background: green;
+			color: white;
+			cursor: pointer;
+		}
+
+		.add:hover {
+			background: #4caf50;
+			font-weight: 900;
+		}
+
+		.delete-Cancel {
+			display: inline-block;
+			padding: 4px 12px;
+			cursor: pointer;
+		}
+
+		.delete-Cancel:hover {
+			font-weight: 900;
+			background: #f0f0f0;
+		}
+
+		.modify-list {
+			margin-bottom: 10px;
+			font-size: 14px;
+		}
+
+		input[type="checkbox"] {
+			-webkit-appearance: none;
+			width: 14px;
+			height: 14px;
+			background: #eeeeee;
+			cursor: pointer;
+			margin-left: 10px;
+			margin-right: 10px;
+			border-radius: 2px;
+			border: 1px solid #cccccc;
+			outline: none !important;
+			transition: all 300ms;
+		}
+
+		input[type="checkbox"]:checked {
+			background: #03a9f4;
+			border-color: #03a9f4;
+		}
+
+		input[type="checkbox"]:checked::after {
+			font-family: iconfont;
+			color: white;
+			content: "\e6ad";
+			font-size: 14px;
+			position: relative;
+			top: -2px;
+			left: -1px;
+			font-weight: 900;
+		}
+
+		.black-fore {
+			background: black;
+			opacity: 0.3;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			top: 0;
+			left: 0;
+			transition: opacity 300ms;
+
+		}
+
+		.black-fore[disabled] {
+			opacity: 0;
+			display: none;
+		}
+
+		.pages span {
+			padding: 4px 10px;
+			background: #eeeeee;
+			font-size: 12px;
+			margin: 4px;
+			cursor: pointer;
+
+		}
+
+		.pages span:hover {
+			background: #ffffff;
+		}
+
+		.pages span.current {
+			background: #2196f3;
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="page-container">
+		<div class="left-content">
+			<div class="inner-content">
+				<!-- header-starts -->
+				<div class="header-section">
+					<!-- top_bg -->
+					<div class="top_bg">
+
+						<div class="header_top">
+							<div class="top_right">
+								<ul>
+									<li>
+										<a href="contact.html">教务信息管理系统</a>
+									</li>
+									<li style="font-size: 12px;"> / </li>
+									<li>
+										<a href="contact.html">教室信息管理</a>
+									</li>
+								</ul>
+							</div>
+
+							<div class="clearfix"> </div>
+						</div>
+
+					</div>
+					<div class="clearfix"></div>
+					<!-- /top_bg -->
+				</div>
+				<div class="header_bg">
+
+					<div class="header">
+						<div class="head-t">
+
+							<!-- start header_right -->
+							<div class="header_right">
+
+								<div class="search">
+
+									<input type="text" value="" placeholder="search...">
+									<input type="submit" value="">
+
+								</div>
+								<div class="clearfix"> </div>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+					</div>
+
+				</div>
+				<!-- //header-ends -->
+
+				<!--content-->
+				<div class="content">
+					<div class="women_main">
+						<!-- start content -->
+						<table>
+							<thead>
+								<tr>
+									<th>全部选择
+										<input id="check-all" type="checkbox" name="all-check" value="all" /> </th>
+									<th>教室标识号</th>
+									<th>教室名称</th>
+									<th>教室容量</th>
+									<th>配备资源</th>
+									<th>编辑</th>
+								</tr>
+							</thead>
+							<tbody id="class-info">
+							</tbody>
+						</table>
+						<div class="pages"></div>
+						<div class="black-fore" disabled></div>
+						<div class="clearfix"></div>
+						<!-- end content -->
+
+						<div class="footer">
+							<!--div class="col-md-3 cust">
+							<h4>CUSTOMER CARE</h4>
+							<li>
+								<a href="contact.html">Help Center</a>
+							</li>
+							<li>
+								<a href="faq.html">FAQ</a>
+							</li>
+							<li>
+								<a href="details.html">How To Buy</a>
+							</li>
+							<li>
+								<a href="checkout.html">Delivery</a>
+							</li>
+						</div-->
+
+							<div class="clearfix"> </div>
+							<p>Copyright &copy; 2016.Company name All rights reserved.
+
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<!--content-->
+			</div>
+		</div>
+		<!--//content-inner-->
+		<!--/sidebar-menu-->
+		<div class="sidebar-menu">
+			<header class="logo1">
+				<a href="#" class="sidebar-icon">
+					<span class="fa fa-bars"></span>
+				</a>
+			</header>
+			<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+			<div class="menu">
+				<ul id="menu">
+					<li>
+						<a href="index.html">
+							<i class="fa fa-tachometer"></i>
+							<span>Home</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="fa fa-table"></i>
+							<span> New Arrivals</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes">
+								<a href="shoes.html">Shoes</a>
+							</li>
+							<li id="menu-academico-avaliacoes">
+								<a href="products.html">Watches</a>
+							</li>
+							<li id="menu-academico-boletim">
+								<a href="sunglasses.html">Sunglasses</a>
+							</li>
+						</ul>
+					</li>
+					<li id="menu-academico">
+						<a href="sunglasses.html">
+							<i class="fa fa-file-text-o"></i>
+							<span>Sunglasses</span>
+						</a>
+					</li>
+					<li>
+						<a href="sweater.html">
+							<i class="lnr lnr-pencil"></i>
+							<span>Sweater</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="catalog.html">
+							<i class="fa fa-file-text-o"></i>
+							<span>Catalog</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="shoes.html">
+							<i class="lnr lnr-book"></i>
+							<span>Shoes</span>
+						</a>
+					</li>
+					<li>
+						<a href="bags.html">
+							<i class="lnr lnr-envelope"></i>
+							<span>Bags</span>
+						</a>
+					</li>
+					<li>
+						<a href="products.html">
+							<i class="lnr lnr-chart-bars"></i>
+							<span>Watches</span>
+						</a>
+					</li>
+					<li id="menu-academico">
+						<a href="#">
+							<i class="lnr lnr-layers"></i>
+							<span>Tabs & Calender</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-avaliacoes">
+								<a href="tabs.html">Tabs</a>
+							</li>
+							<li id="menu-academico-boletim">
+								<a href="calender.html">Calender</a>
+							</li>
+
+						</ul>
+					</li>
+					<li>
+						<a href="#">
+							<i class="lnr lnr-chart-bars"></i>
+							<span>Forms</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul>
+							<li>
+								<a href="input.html"> Input</a>
+							</li>
+							<li>
+								<a href="validation.html">Validation</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<div class="message-list">
+
+	</div>
+	</div>
+	<script src="{% static 'courseArrange/js/message.js'%}"></script>
+	<script src="{% static 'courseArrange/js/DataModel.js'%}"></script>
+	<script src="{% static 'courseArrange/js/ClassRoomDataModel.js'%}"></script>
+	<script src="{% static 'courseArrange/js/inputCheck.js'%}"></script>
+	<script>
+		var toggle = true;
+
+		$(".sidebar-icon").click(function () {
+			if (toggle) {
+				$(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+				$("#menu span").css({ "position": "absolute" });
+			}
+			else {
+				$(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+				setTimeout(function () {
+					$("#menu span").css({ "position": "relative" });
+				}, 400);
+			}
+
+			toggle = !toggle;
+		});
+	</script>
+	<!--js -->
+
+	<!-- /real-time -->
+	<script>
+
+
+		const attachName = [
+			"多媒体",
+			"学生电脑",
+			"音响"
+		];
+		const attachIndex = {
+			"M": 0,
+			"S": 2,
+			"C": 1
+		};
+		const prefix = "http://acm.zju.edu.cn:3499";
+		function deleteDone(selection) {
+			selection = selection.map((s) => parseInt(s));
+			console.log(selection);
+			new Promise(function (resolve) {
+				$.ajax(
+					{
+						method: "POST",
+						url: prefix + "/api/scheduling/room/delete/",
+						data: {
+							room_id: selection
+						},
+						success: (data) => { resolve(data) }
+					}
+				)
+			}).then((data) => {
+				if (data.success) {
+					message.success("删除成功！");
+					selection.map((key) => {
+						document.querySelector(`[key="${key}"]`).remove();
+					})
+				}
+			});
+		}
+		let editingTR = false;
+		function editDone() {
+			let data = {};
+			let bool = inputCheck($(".float-dialog-edit"));
+			if (bool) return;
+			$(".black-fore").attr("disabled", "");
+			editDialog.classList.add("hidden");
+			$(".float-dialog-edit").find("input").each((i, e) => {
+				if (e.id.includes("-")) {
+					let mname = e.id.split("-")[0];
+					data[mname] || (data[mname] = "");
+					if (e.checked) {
+						data[mname] += e.id.split("-")[1];
+					}
+				} else {
+					data[e.id] = e.value;
+				}
+			});
+			let oData = data;
+			let oldTR = editingTR;
+			editingTR = null;
+			let aysncHandler = new Promise(function (resolve) {
+				if (!oldTR) delete data.room_id;
+				console.log(data);
+				$.ajax(
+					{
+						method: "POST",
+						url: prefix + "/api/scheduling/room/",
+						data: data,
+						success: function (data) {
+							resolve(data);
+						},
+						error: function (data) {
+							message.error("连接失败！请稍后再试！");
+						}
+					}
+				)
+			}).then((data) => {
+				if (data.success) {
+					message.success(oldTR ? "更改成功！" : "添加成功");
+
+					oldTR && oldTR.parentElement.replaceChild(
+						factory.createView(oData),
+						oldTR
+					);
+
+					oldTR || asyncGetData(currentPage);
+				} else {
+
+				}
+				console.log(data);
+
+			}
+			);
+			return data;
+		}
+
+		function getSelection() {
+			let selection = [];
+			$(".checked").each((i, e) => {
+				selection.push(e.getAttribute("key"));
+			})
+			return selection;
+		}
+
+		let editBar = document.createElement("td");
+		var modifyId = "";
+		var selection = 0;
+		var editing = false;
+		var currentPage = 0;
+		let deleteConfirmDialog = document.createElement("div");
+		deleteConfirmDialog.innerText = ("确定要删除吗？");
+		deleteConfirmDialog.classList.add("float-dialog");
+		deleteConfirmDialog.classList.add("hidden");
+		let deleteOk = $("<span class='delete-OK'>确定</span>");
+		let deleteCancel = $("<span class='delete-Cancel'>取消</span>");
+		deleteCancel.click(function () {
+			deleteConfirmDialog.classList.add("hidden");
+		});
+		deleteOk.click(function () {
+			let selection = getSelection();
+			deleteConfirmDialog.classList.add("hidden");
+			if (0) {
+				selection.map((key) => {
+					document.querySelector(`tr[key="${key}"]`).remove();
+					console.log(key);
+				})
+
+			}
+			deleteDone(selection);
+		})
+		deleteConfirmDialog.appendChild(deleteOk[0]);
+		deleteConfirmDialog.appendChild(deleteCancel[0]);
+		document.querySelector("body").appendChild(deleteConfirmDialog);
+
+		let editDialog = document.createElement("div");
+		editDialog.innerHTML = (`
+		<h1>教室信息编辑</h1>
+		<p class="">教室标识号</p><input disabled id="room_id" type="text"></input>
+		<p class="must">教室名称</p><input id="location" type="text"></input>
+		<p class="must digit">教室容量</p><input id="capacity" type="text"></input><br><br>
+		多媒体<input id="type-M" type="checkbox"></input> 
+		学生电脑<input id="type-C" type="checkbox"></input> 
+		音响<input id="type-S" type="checkbox"></input><br><br>
+		`);
+		editDialog.classList.add("float-dialog-edit");
+		editDialog.classList.add("hidden");
+		let deleteOkA = $("<span class='add'>确定</span>");
+		let deleteCancelA = $("<span class='delete-Cancel'>取消</span>");
+		deleteOkA.click(function () {
+			let data = editDone.apply(this);
+
+		})
+		deleteCancelA.click(function () {
+			$(".black-fore").attr("disabled", "");
+			editDialog.classList.add("hidden");
+			editingTR = null;
+		});
+		editDialog.appendChild(deleteOkA[0]);
+		editDialog.appendChild(deleteCancelA[0]);
+		document.querySelector("body").appendChild(editDialog);
+
+		function initializeEdit(obj) {
+			$(".black-fore").removeAttr("disabled");
+			$("input").val("");
+			$(".float-dialog-edit").find("[type=checkbox]").each((i, e) => { e.checked = false });
+			if (obj) {
+				let nobj = {};
+				for (let key in obj) {
+					nobj[key] = {};
+					if (key === "type") {
+						for (let i = 0; i < obj[key].length; i++) editDialog.querySelector(`#${key}-${obj[key][i]}`).checked = true;
+						continue;
+					}
+					(editDialog.querySelector(`#${key}`) || (nobj[key])).value = obj[key];
+				}
+				editing = true;
+				editingTR = document.querySelector(`[key="${obj.room_id}"]`);
+			} else {
+
+				editing = false;
+			}
+
+			//console.log(editingTR);
+			editDialog.classList.remove("hidden");
+		}
+
+		(function __() {
+			var edit = document.createElement("i");
+			edit.classList.add("icon-edit");
+			edit.classList.add("iconfont");
+			var del = document.createElement("i");
+			del.classList.add("icon-delete");
+			del.classList.add("iconfont");
+			console.log(del.onclick);
+			$(del).click(function () {
+				deleteConfirmDialog.classList.remove("hidden");
+				deleteConfirmDialog.classList.remove("float-left");
+				deleteConfirmDialog.style.top = this.getBoundingClientRect().y + $(window).scrollTop() - 12 + "px";
+				deleteConfirmDialog.style.right = $(window).width() - this.getBoundingClientRect().right + "px";
+				deleteConfirmDialog.style.left = null;
+				modifyId = this.parentElement.parentElement.getAttribute("key");
+			});
+			console.log(del.onclick);
+			editBar.appendChild(edit);
+			editBar.appendChild(del);
+
+		})(editBar);
+
+		var factory = new ClassRoomDataModelFactory();
+
+		function asyncGetData(page = 0) {
+			var asyncHandler = new Promise(function (resolve, reject) {
+				//var data = getData();
+
+				$.ajax(
+					{
+						method: "GET",
+						url: `${prefix}/api/scheduling/room/?room_id=${20 * page}&count=20`,
+						dataType: "json",
+						success: function (data) {
+							resolve(data);
+						}
+					}
+				)
+				/*resolve(
+					new Array(20).fill({
+						room_id: 1,
+						location: "玉泉曹光彪501",
+						capacity: 250,
+						type: "MC"
+					})
+				);*/
+			}).then(function (data) {
+				$("tbody").children().remove();
+				var par = document.createDocumentFragment();
+				data.map(function (t) {
+					par.appendChild(factory.createView(t));
+				})
+				document.querySelector("tbody").appendChild(par);
+
+			});
+		}
+		$(".women_main").prepend("<div class=modify-list></div>")
+		$(".modify-list").append("<span class=add>新增</span>");
+		$(".modify-list").children(".add").click(function () { initializeEdit() });
+		$(".modify-list").append("<span class=delete-OK disabled>删除</span>");
+		$(".modify-list").children(".delete-OK").click(function () {
+			if (this.getAttribute("disabled") !== null) {
+				return;
+			}
+			deleteConfirmDialog.classList.remove("hidden");
+			deleteConfirmDialog.classList.add("float-left");
+			deleteConfirmDialog.style.top = this.getBoundingClientRect().y + $(window).scrollTop() - 12 + "px";
+			deleteConfirmDialog.style.left = this.getBoundingClientRect().left + "px";
+			deleteConfirmDialog.style.right = "";
+
+		});
+		function setPage(pages, curr = 0) {
+			for (let i = 0; i < pages; i++) {
+				$(".pages").append(`<span pagenum=${i}>${i + 1}</span>`);
+			}
+			$("span[pagenum]").click(function () {
+				pageChange(this.getAttribute("pagenum"));
+			});
+			$(`[pagenum="${curr}"]`).addClass("current");
+		}
+		function pageChange(newPage) {
+			asyncGetData(newPage);
+			$(".current").removeClass("current");
+			$(`[pagenum="${newPage}"]`).addClass("current");
+		}
+		function getPageCount(config) {
+			new Promise((resolve, reject) => {
+				$.ajax(
+					{
+						url: `${prefix}/api/scheduling/room/getpagecount/`,
+						method: 'GET',
+						dataType: 'json',
+						data: {},
+						success: data => resolve(data)
+					}
+				)
+			}).then((data) => {
+				setPage(data.pagecount, 0);
+				pageChange(0);
+			});
+		}
+		getPageCount();
+		function checkChange() {
+			var tr = this.parentElement.parentElement;
+			if (this.checked) {
+				tr.classList.add("checked");
+				selection++;
+			} else {
+				tr.classList.remove("checked");
+				selection--;
+			}
+			if (selection) {
+				$(".modify-list").children(".delete-OK").removeAttr("disabled");
+			}
+			else {
+				$(".modify-list").children(".delete-OK").attr("disabled", "true");
+			}
+		}
+
+
+		$("#check-all").change(function () {
+			$("tbody").find("input[type=checkbox]").each((i, e) => {
+				e.checked = this.checked;
+				checkChange.bind(e)();
+			})
+
+		});
+
+		$(".search").find("[type='submit']").click(function () {
+			console.log("click00");
+		});
+	</script>
+	<script src="{% static 'courseArrange/js/menu_jquery.js'%}"></script>
+</body>
+
+</html>
