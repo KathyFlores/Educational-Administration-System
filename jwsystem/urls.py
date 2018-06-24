@@ -9,5 +9,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^course_select/', include('courseSelect.urls')),
     url(r"^basic/",include('basicInfo.urls')),
-    url(r"^api/",include('basicInfo.apiUrls'))
+    url(r"^api/",include('basicInfo.apiUrls')),
+    url(r'^forum/', include('forum.urls')),
+
 ]

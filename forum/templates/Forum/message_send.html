@@ -1,0 +1,8 @@
+{% for msg in msgs %}
+<div class="message">
+	<h2>receiver: {{msg.receiver}}</h2>
+	<h2>text: {{ msg.text }}</h2>
+	<h2>time: {{msg.published_date}}</h2>
+</div>
+<hr />
+{% endfor %}

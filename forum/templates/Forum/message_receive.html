@@ -1,0 +1,10 @@
+{% for msg in msgs %}
+<div class="message">
+	<a href="{% url 'message_new' %}">
+	<h2>sender：{{msg.sender }}</h2>
+	<h2>text: {{ msg.text }}</h2>
+	<h2>time: {{ msg.published_date }}</h2>
+	</a>
+</div>
+<hr />
+{% endfor %}

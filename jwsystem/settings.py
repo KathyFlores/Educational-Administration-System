@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'basicInfo',
     'courseSelect',
     'dj_pagination',
+    'forum'
 )
 
 MIDDLEWARE_CLASSES = (
