@@ -1,4 +1,4 @@
-# Educational Administration System - Course Select
+# Educational Administration System
 
 ### 开发流程
 
