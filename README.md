@@ -8,10 +8,14 @@
 git checkout -b *** # 自己的分支名
 ```
 
-2. 开启虚拟环境
+2. 创建并开启虚拟环境
 
 ```shell
-source venv/bin/activate
+python3 -m venv venv
+# on linux or OS X:
+source venv/bin/activate 
+# on Windows:
+# venv/Scripts/activate
 ```
 
 3. 安装依赖

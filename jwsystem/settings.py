@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'basicInfo',
     'courseSelect',
     'dj_pagination',
-    'forum'
+    'forum',
+    'onlineTest.apps.OnlineTestConfig'
 )
 
 MIDDLEWARE_CLASSES = (

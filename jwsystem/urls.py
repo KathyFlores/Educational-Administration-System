@@ -11,5 +11,5 @@ urlpatterns = [
     url(r"^basic/",include('basicInfo.urls')),
     url(r"^api/",include('basicInfo.apiUrls')),
     url(r'^forum/', include('forum.urls')),
-
+    url(r'^online_test/', include('onlineTest.urls')),
 ]
