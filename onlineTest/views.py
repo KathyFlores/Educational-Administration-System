@@ -5,8 +5,8 @@ import json
 from .models import Test, ChoiceQuestionAnswerRecord, ChoiceQuestion, TrueOrFalseQuestionAnswerRecord, \
     TrueOrFalseQuestion, Student, Teacher, Chapter, KnowledgePoint
 
-login_student = Student.objects.all()[0]
-login_teacher = Teacher.objects.all()[0]
+# login_student = Student.objects.all()[0]
+# login_teacher = Teacher.objects.all()[0]
 
 
 class IndexView(generic.ListView):
