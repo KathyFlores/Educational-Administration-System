@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='creditNeed',
+            name='CreditNeed',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('elective', models.FloatField()),
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='curriculum',
+            name='Curriculum',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('courses', models.ManyToManyField(null=True, related_name='course_curriculum', to='basicInfo.course')),
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='requiredCourse',
+            name='RequiredCourse',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('discipline', models.ForeignKey(to='basicInfo.discipline')),
@@ -37,14 +37,14 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='selectControl',
+            name='SelectControl',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('max_connections', models.IntegerField(default=500)),
             ],
         ),
         migrations.CreateModel(
-            name='selection',
+            name='Selection',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('select_time', models.DateTimeField(null=True)),
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='timeSlot',
+            name='TimeSlot',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
                 ('start', models.DateTimeField()),
@@ -65,16 +65,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='selectcontrol',
             name='apply_time',
-            field=models.ForeignKey(related_name='apply_time', to='courseSelect.timeSlot'),
+            field=models.ForeignKey(related_name='apply_time', to='courseSelect.TimeSlot'),
         ),
         migrations.AddField(
             model_name='selectcontrol',
             name='first_time',
-            field=models.ForeignKey(related_name='first_time', to='courseSelect.timeSlot'),
+            field=models.ForeignKey(related_name='first_time', to='courseSelect.TimeSlot'),
         ),
         migrations.AddField(
             model_name='selectcontrol',
             name='withdraw_time',
-            field=models.ForeignKey(to='courseSelect.timeSlot'),
+            field=models.ForeignKey(to='courseSelect.TimeSlot'),
         ),
     ]

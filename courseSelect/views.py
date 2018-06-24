@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from basicInfo.models import course, student, major, discipline, takeup, teacher, college, belong
-from .models import selection, teach, creditNeed, curriculum, selectControl, requiredCourse
+from basicInfo.models import course as Course, student as Student, major as Major, discipline as Discipline, takeup as Takeup, teacher as Teacher, college as College, belong as Belong
+from .models import Selection, Teach, CreditNeed, Curriculum, SelectControl, RequiredCourse
 from .utils import search, getDisciplineByStudent, timestampToDatetime
 from django.http import JsonResponse, HttpResponse
 import django.utils.timezone as timezone
@@ -9,19 +9,19 @@ import io
 # Create your views here.
 
 def courses(request):
-    courses = course.objects.all()
+    courses = Course.objects.all()
     if request.POST:
         courses = search(request.POST, courses)
     return render(request, 'courseSelect/courses.html', {'courses':courses})
 
 def course_select(request):
-    student = student.objects.get(student_id = 1)
-    major = major.objects.get(student_id = student.student_id)
-    discipline = discipline.objects.get(discipline_id = major.discipline_id)
-    credit_need = creditNeed.objects.get(discipline = discipline)
+    student = Student.objects.get(student_id = 1)
+    major = Major.objects.get(student_id = student.student_id)
+    discipline = Discipline.objects.get(discipline_id = major.discipline_id)
+    credit_need = CreditNeed.objects.get(discipline = discipline)
     curriculum = None
     try:
-        curriculum = curriculum.objects.get(student = student)
+        curriculum = Curriculum.objects.get(student = student)
     except:
         return redirect('curriculum')
     courses = curriculum.courses.all()
@@ -41,27 +41,27 @@ def course_select(request):
 def select(request):
     if request.POST:
         msg = ''
-        student = student.objects.get(student_id = int(request.POST['student_id']))
+        student = Student.objects.get(student_id = int(request.POST['student_id']))
         try:
             section_id = int(request.POST['section_id'])
         except: 
             section_id = 0
-        section = teach.objects.get(teach_id = section_id)
+        section = Teach.objects.get(teach_id = section_id)
         
         # course_name = request.POST['course_name']
         #print(request.POST)
         if (request.POST['oper'] == 'select'):
             try:
-                selection.objects.get(student = student, teach = section)
+                Selection.objects.get(student = student, teach = section)
                 msg = '该课程已经在您的已选列表当中！' 
                 code = 500
             except:
-                selection.objects.create(student = student, select_time = timezone.now(), state = False, priority = 1,teach = section)
+                Selection.objects.create(student = student, select_time = timezone.now(), state = False, priority = 1,teach = section)
                 msg = '选课成功！'
                 code = 0
         if (request.POST['oper'] == 'quit'):
             try:
-                selection.objects.get(student = student, teach = section).delete()
+                Selection.objects.get(student = student, teach = section).delete()
                 msg = '退课成功！'
                 code = 0
             except:
@@ -71,27 +71,27 @@ def select(request):
         return JsonResponse({'msg':msg, 'code':code})
 
 def table(request):
-    student = student.objects.get(student_id = 1)
-    sections = teach.objects.filter(selection__student = student)
+    student = Student.objects.get(student_id = 1)
+    sections = Teach.objects.filter(selection__student = student)
     return render(request, 'courseSelect/table.html',{'student':student,'sections':sections})
 
 def teacher(request):
-    teacher = teacher.objects.get(teacher_id = 2)
-    sections = teach.objects.filter(takeup__teacher_id = teacher)
+    teacher = Teacher.objects.get(teacher_id = 2)
+    sections = Teach.objects.filter(takeup__teacher_id = teacher)
     return render(request, 'courseSelect/teacher.html',{'teacher':teacher,'sections':sections})
 
 def curriculum(request):
-    student = student.objects.get(student_id = 1)
-    major = major.objects.get(student_id = student.student_id)
-    discipline = discipline.objects.get(discipline_id = major.discipline_id)
+    student = Student.objects.get(student_id = 1)
+    major = Major.objects.get(student_id = student.student_id)
+    discipline = Discipline.objects.get(discipline_id = major.discipline_id)
     try:
-        credit_need = creditNeed.objects.get(discipline = discipline)
+        credit_need = CreditNeed.objects.get(discipline = discipline)
     except:
-        credit_need = creditNeed.objects.create(discipline = discipline,elective = 37.5,public = 12)
+        credit_need = CreditNeed.objects.create(discipline = discipline,elective = 37.5,public = 12)
     try:
-        curriculum = curriculum.objects.get(student = student)
+        curriculum = Curriculum.objects.get(student = student)
     except:
-        curriculum = curriculum.objects.create(student = student)
+        curriculum = Curriculum.objects.create(student = student)
     selected_elective_credit = 0
     selected_public_credit = 0
     for course in curriculum.courses.all():
@@ -99,7 +99,7 @@ def curriculum(request):
             selected_elective_credit +=  course.credit
         elif course.type == '3':
             selected_public_credit +=  course.credit
-    courses = course.objects.all()
+    courses = Course.objects.all()
     # todo: 一张专业与课程对应表
     if request.POST:
         if 'oper' in request.POST:
@@ -108,7 +108,7 @@ def curriculum(request):
                 course_id = int(request.POST['course_id'])
             except: 
                 course_id = 0
-            course = course.objects.get(course_id = course_id)
+            course = Course.objects.get(course_id = course_id)
             if (request.POST['oper'] == 'add'):
                 if course in curriculum.courses.all():
                     msg = course.name + '已在您的培养方案中！'
@@ -147,8 +147,8 @@ def export_excel(request):
     teacher_id = int(request.GET.get('teacher_id'))
     course_id = int(request.GET.get('course_id'))
     section = Teacj.objects.get(teach_id = section_id)
-    teacher = teacher.objects.get(teacher_id = teacher_id)
-    course = course.objects.get(course_id = course_id)
+    teacher = Teacher.objects.get(teacher_id = teacher_id)
+    course = Course.objects.get(course_id = course_id)
     output = io.BytesIO()
     workbook = xlsxwriter.Workbook(output)
     worksheet = workbook.add_worksheet('学生名单')
@@ -168,7 +168,7 @@ def export_excel(request):
     worksheet.write('D3', '专业', head)
     worksheet.write('E3', '备注', head)
 
-    students = student.objects.filter(selection__teach = section, selection__state = True)
+    students = Student.objects.filter(selection__teach = section, selection__state = True)
     row = 3
     col = 0
     for student in students:
@@ -186,35 +186,49 @@ def export_excel(request):
     return response
 
 def control(request):
-    select_control = selectControl.objects.all().order_by('-pk')[:1][0]    
+    select_control = SelectControl.objects.all().order_by('-pk')[:1][0]    
     if request.POST:
-        max_connections = int(request.POST['max_connections'])
-        first_time_start = int(request.POST['first_time_start'])
-        first_time_end = int(request.POST['first_time_end'])
-        apply_time_start = int(request.POST['apply_time_start'])
-        apply_time_end = int(request.POST['apply_time_end'])
-        withdraw_time_start = int(request.POST['withdraw_time_start'])
-        withdraw_time_end = int(request.POST['withdraw_time_end'])
-        select_control.first_time.start = timestampToDatetime(first_time_start)
-        select_control.first_time.end = timestampToDatetime(first_time_end)
-        select_control.first_time.save()
-        select_control.apply_time.start = timestampToDatetime(apply_time_start)
-        select_control.apply_time.end = timestampToDatetime(apply_time_end)
-        select_control.apply_time.save()
-        select_control.withdraw_time.start = timestampToDatetime(withdraw_time_start)
-        select_control.withdraw_time.end = timestampToDatetime(withdraw_time_end)
-        select_control.withdraw_time.save()
-        select_control.max_connections = max_connections
-        select_control.save()
-        return JsonResponse({'code':0,'msg':'修改成功'})
+        print(request.POST)
+        if (request.POST['oper'] == 'save'):
+            max_connections = int(request.POST['max_connections'])
+            first_time_start = int(request.POST['first_time_start'])
+            first_time_end = int(request.POST['first_time_end'])
+            apply_time_start = int(request.POST['apply_time_start'])
+            apply_time_end = int(request.POST['apply_time_end'])
+            withdraw_time_start = int(request.POST['withdraw_time_start'])
+            withdraw_time_end = int(request.POST['withdraw_time_end'])
+            select_control.first_time.start = timestampToDatetime(first_time_start)
+            select_control.first_time.end = timestampToDatetime(first_time_end)
+            select_control.first_time.save()
+            select_control.apply_time.start = timestampToDatetime(apply_time_start)
+            select_control.apply_time.end = timestampToDatetime(apply_time_end)
+            select_control.apply_time.save()
+            select_control.withdraw_time.start = timestampToDatetime(withdraw_time_start)
+            select_control.withdraw_time.end = timestampToDatetime(withdraw_time_end)
+            select_control.withdraw_time.save()
+            select_control.max_connections = max_connections
+            select_control.save()
+            return JsonResponse({'code':0,'msg':'修改成功'})
+        if (request.POST['oper'] == 'filter'):
+            teaches = Teach.objects.all()
+            for teach in teaches:
+                teach_id = teach.teach_id
+                capacity = teach.capacity
+                selections = Selection.objects.filter(teach_id = teach_id)
+                # print(teach_id)
+                print(len(selections))
+                for selection in selections:
+                    selection.state = True
+                    selection.save()
+            return JsonResponse({'code': 0, 'msg': '筛选成功'})
     return render(request, 'courseSelect/control_panel.html', {'select_control':select_control})
 
 def get_discipline_options(request):
-    colleges = college.objects.all()
+    colleges = College.objects.all()
     discipline_options = []
     for college in colleges:
         child = {'value':college.college_id,'label':college.name, 'children':[]}
-        disciplines = discipline.objects.filter(belong__college_id = college).distinct()
+        disciplines = Discipline.objects.filter(belong__college_id = college).distinct()
         for discipline in disciplines:
             child['children'].append({'value':discipline.discipline_id, 'label':discipline.name})
         discipline_options.append(child)
@@ -222,32 +236,32 @@ def get_discipline_options(request):
 
 def get_discipline_details(request):
     discipline_id = int(request.GET.get('discipline_id'))
-    discipline = discipline.objects.get(discipline_id=discipline_id)
-    credit_need = creditNeed.objects.get(discipline=discipline)
+    discipline = Discipline.objects.get(discipline_id=discipline_id)
+    credit_need = CreditNeed.objects.get(discipline=discipline)
 
     return JsonResponse({'min_elective':credit_need.elective,'min_public':credit_need.public})
 
 def post_discipline_details(request):
     data = {'code': 500, 'msg': ''}
     if request.POST:
-        discipline = discipline.objects.get(discipline_id = request.POST['discipline_id'])
+        discipline = Discipline.objects.get(discipline_id = request.POST['discipline_id'])
         try:
-            credit_need = creditNeed.objects.get(discipline=discipline)
+            credit_need = CreditNeed.objects.get(discipline=discipline)
         except:
-            credit_need = creditNeed.objects.create(discipline=discipline,public=0,elective=0)
+            credit_need = CreditNeed.objects.create(discipline=discipline,public=0,elective=0)
         credit_need.public = request.POST['min_public']
         credit_need.elective = request.POST['min_elective']
         credit_need.save()
         try:
-            required_course = requiredCourse.objects.get(discipline=discipline)
+            required_course = RequiredCourse.objects.get(discipline=discipline)
         except:
 
-            required_course = requiredCourse.objects.create(discipline=discipline)
+            required_course = RequiredCourse.objects.create(discipline=discipline)
 
         courses_id = request.POST['required_courses'].split(',')
         for course_id in courses_id:
             if not (int(course_id) in required_course.required_courses.all()):
-                course = course.objects.get(course_id=int(course_id))
+                course = Course.objects.get(course_id=int(course_id))
                 required_course.required_courses.add(course)
         required_course.save()
         data['code']=0
@@ -255,7 +269,7 @@ def post_discipline_details(request):
     return JsonResponse(data)
 
 def get_all_courses(request):
-    courses = course.objects.all().order_by('course_id')
+    courses = Course.objects.all().order_by('course_id')
     courses_options = []
     for course in courses:
         courses_options.append({
@@ -266,9 +280,9 @@ def get_all_courses(request):
 
 def get_required_courses(request):
     discipline_id = int(request.GET.get('discipline_id'))
-    discipline = discipline.objects.get(discipline_id=discipline_id)
+    discipline = Discipline.objects.get(discipline_id=discipline_id)
     data = []
-    required_course = requiredCourse.objects.get(discipline=discipline)
+    required_course = RequiredCourse.objects.get(discipline=discipline)
     for course in required_course.required_courses.all():
         data.append({'course_id':course.course_id,'course_name':course.name})
     return JsonResponse(data, safe=False)
@@ -276,9 +290,9 @@ def get_required_courses(request):
 def remove_required_course(request):
     data = {'code': 500, 'msg': ''}
     if request.POST:
-        discipline = discipline.objects.get(discipline_id=request.POST['discipline_id'])
-        course = course.objects.get(course_id=request.POST['course_id'])
-        required_course = requiredCourse.objects.get(discipline=discipline)
+        discipline = Discipline.objects.get(discipline_id=request.POST['discipline_id'])
+        course = Course.objects.get(course_id=request.POST['course_id'])
+        required_course = RequiredCourse.objects.get(discipline=discipline)
         if course in required_course.required_courses.all():
             required_course.required_courses.remove(course)
             data['code'] = 0
@@ -289,19 +303,19 @@ def remove_required_course(request):
         return JsonResponse(data)
 
 def import_student(request):
-    courses = course.objects.all()
+    courses = Course.objects.all()
     if request.POST:
         if 'oper' in request.POST:
             if request.POST['oper'] == 'import_student':
                 student_id = request.POST['student_id']
                 section_id = request.POST['section_id']
                 course_id = request.POST['course_id']
-                section = teach.objects.get(teach_id = section_id)
-                course = course.objects.get(course_id = course_id)
+                section = Teach.objects.get(teach_id = section_id)
+                course = Course.objects.get(course_id = course_id)
                 try:
-                    student = student.objects.get(student_id = student_id)
+                    student = Student.objects.get(student_id = student_id)
                     try:
-                        selections = selection.objects.filter(student = student,teach__course_id = course,state = True).exclude(teach = section)
+                        selections = Selection.objects.filter(student = student,teach__course_id = course,state = True).exclude(teach = section)
                         if len(selections) > 0:
                             code = 500
                             msg = student_id+": "+student.name+" 已存在同一课程的其他班级中！"
@@ -309,7 +323,7 @@ def import_student(request):
                             raise
                     except:
                         try:
-                            selection = selection.objects.get(student = student,teach = section)
+                            selection = Selection.objects.get(student = student,teach = section)
                             if selection.state:
                                 code = 500
                                 msg = student_id+": "+student.name+" 已存在课程名单中！"
@@ -319,7 +333,7 @@ def import_student(request):
                                 msg = "成功将 "+student_id+": "+student.name+" 导入 "+course.name+"！"
                                 code = 0
                         except:
-                            selection = selection.objects.create(student = student,teach = section,select_time = timezone.now(),priority = 5,state = True)
+                            selection = Selection.objects.create(student = student,teach = section,select_time = timezone.now(),priority = 5,state = True)
                             msg = "成功将 "+student_id+": "+student.name+" 导入 "+course.name+"！"
                             code = 0
                 except:
