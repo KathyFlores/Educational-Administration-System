@@ -123,10 +123,10 @@ class course(models.Model):
     credit=models.DecimalField(max_digits=3,decimal_places=1)
     hour=models.FloatField()
     intro=models.TextField()
-    duplicate = models.IntegerField(default=1)
+    duplicate = models.IntegerField(default=0)
     type=models.CharField(max_length=40,null=False,choices=course_type,default="0")
     semester=models.CharField(max_length=10,null=False,default="Spring")
-
+    exam_date = models.DateTimeField(null=True)
 
 class pre(models.Model):
     '''
@@ -192,11 +192,19 @@ class teach(models.Model):
     '''
 
     teach_id=models.AutoField(primary_key=True)
-    duplicate=models.IntegerField()
     teacher_id=models.ForeignKey(teacher,on_delete=models.CASCADE,related_name="teacher_id_1")
     course_id=models.ForeignKey(course,on_delete=models.CASCADE,related_name="college_id_1")
     capacity=models.IntegerField(null=False)
-    exam_date=models.DateField(null=True)
+
+
+class readyteach(models.Model):
+    '''
+    readyteach(teacher_id int, course_id int) //讲授课程 ref teacher, course
+    '''
+
+    teacher_id=models.ForeignKey(teacher,on_delete=models.CASCADE)
+    course_id=models.ForeignKey(course,on_delete=models.CASCADE)
+    capacity=models.IntegerField(null=False)
 
 
 class takeup(models.Model):
