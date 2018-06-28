@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponse
 
-from basicInfo.models import account, examination, takeup, teach, course, room, learn, teacher, student,attrib
+from basicInfo.models import account, examination, takeup, teach, course, room, learn, teacher, student,attrib,readyteach
 from datetime import time
 
 @csrf_exempt
@@ -30,9 +30,14 @@ def api_teacher_info(request):
             return JsonResponse(ret)
 
         except:
-            return HttpResponseBadRequest()
+            ret = {}
+            ret["name"] = "获取失败"
+            ret["teacher_title"] = "获取失败"
+            ret["teacher_office"] = "获取失败"
+            ret["teacher_management"] = "获取失败"
+            ret["email"] = "获取失败"
+            return JsonResponse(ret)
     else:
-        print("fuck")
         ret={}
         try:
             account_id=request.POST["account_id"]
@@ -42,7 +47,6 @@ def api_teacher_info(request):
             teacher_info = teacher.objects.get(teacher_id=account_id)
             teacher_attrib_info = attrib.objects.get(account_id=account_id)
 
-            print(teacher_info,teacher_attrib_info)
             teacher_info.office=teacher_office
             teacher_attrib_info.email=account_email
             teacher_info.save()
@@ -107,7 +111,8 @@ def api_teacher_course(request):
 
         except Exception as e:
             print(e)
-            return HttpResponseBadRequest()
+            return JsonResponse([], safe=False)
+    return HttpResponseBadRequest()
 
 @csrf_exempt
 def api_teacher_addcourse(request):
@@ -132,12 +137,51 @@ def api_teacher_addcourse(request):
             new_course.credit = credit
             new_course.intro = intro
             new_course.hour=hour
-            new_course.type=0
+            new_course.duplicate=0
+            new_course.type="0"
             new_course.save()
             return JsonResponse({"success": 1, "reason": None})
 
         except:
-            return HttpResponseBadRequest()
+            return JsonResponse({"success": 0, "reason": "添加失败"})
+    return HttpResponseBadRequest()
+
+@csrf_exempt
+def api_teacher_opencourse(request):
+    if request.method=="POST":
+
+        account_id=request.POST["account_id"]
+        course_id=request.POST["id"]
+        capacity=request.POST["capacity"]
+        courseList=[ i["course_id"] for i in course.objects.values("course_id")]
+        if course_id not in courseList:
+            return JsonResponse({"success":0,"reason":"没有这门课程"})
+        else:
+            try:
+                teacherObj=teacher.objects.get(teacher_id=account_id)
+            except:
+                return JsonResponse({"success": 0, "reason": "没有这个老师"})
+            # try:
+            #     readyteach.objects.get(teacher_id=account_id,course_id=course_id)
+            #     return JsonResponse({"success":0,"reason":"您已经申请过这门课"})
+            # except:
+            #     pass
+
+            courseInfo=course.objects.get(course_id=course_id)
+            if courseInfo.type=="0":
+                return JsonResponse({"success":0,"reason":"该课程在审核中"})
+
+
+
+            waitCourse=readyteach()
+            waitCourse.course_id=courseInfo
+            waitCourse.teacher_id=teacherObj
+            waitCourse.capacity=capacity
+            waitCourse.save()
+            return JsonResponse({"success":1,"reason":None})
+    return HttpResponseBadRequest()
+
+
 
 @csrf_exempt
 def api_teacher_chgcourse(request):
@@ -165,4 +209,5 @@ def api_teacher_chgcourse(request):
             except:
                 return JsonResponse({"success": 0, "reason": "没有相应的课程"})
         except:
-            return HttpResponseBadRequest()
+            return JsonResponse({"success": 0, "reason": "修改失败"})
+    return HttpResponseBadRequest()
