@@ -1,0 +1,190 @@
+{% extends 'basicInfo/admin_base.html' %}
+{% load staticfiles %}
+{% block body %}
+    
+<div class="content">
+    <div id="wrapper">
+        <div id="page-wrapper" style="min-height: 58px;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">开课调整</h1>
+                </div>
+            </div>
+			</div>
+            <div class="col-lg-6">
+                <form role="form" method="POST">
+                    {% csrf_token %}
+				<div class="form-group">
+				<form role="form">
+                        <form action="/teacher/student_comment" method="get">
+                            <div class="form-group">
+                                <select class="form-control" name="metric" id="course_list" onChange="c_change()">
+                                </select>
+                            </div>
+                        </form>
+                </form>
+				</div>
+				<div class="form-group">
+				<form role="form">
+                        <form action="/teacher/student_comment" method="get">
+                            <div class="form-group">
+                                <select class="form-control" name="metric" id="teach_list" onChange="t_change()">
+								
+                                </select>
+                            </div>
+                        </form>
+                </form>
+				</div>
+                    <div class="form-group">
+                        <label for="disabledSelect">教师工号</label>
+                        <input name="teacher" id="teacher" type="text" class="form-control" aria-describedby="basic-addon2" placeholder={{teacher_title}}>
+                    </div>
+                    <div class="form-group">
+                        <label for="disabledSelect">课程容量</label>
+                        <input name="capacity" id="capacity" type="text" class="form-control" aria-describedby="basic-addon2" placeholder={{teacher_college}}>
+                    </div>
+                    <button type="button" onclick="submitApply()">确认修改</button>
+                </form>
+            </div>
+        <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+</div>
+<!--content-ends-->
+<script>
+    $(document).ready(function () {
+        course_id_list();
+    });
+
+    const basicUrl="http://127.0.0.1:8000/";
+    function course_id_list() {
+        var url = basicUrl + "api/admin/listCourseAcceptedId";
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: url,
+                   data: {
+                   },
+                   async : false,
+                   success: function (data) {
+                        resolve(data);
+                   }
+
+               }
+           )
+            }).then(
+                function (data) {
+                    console.log(data);
+					var text = "<option value=\"-1\" selected=\"true\" disabled=\"true\">课程代号</option>\n";
+                    for(var i=0;i<data.length;i++){
+                        text = text + "<option value=\""+data[i].course_id+"\">"+data[i].course_id+"</option>\n"
+                    }
+					var cour_list=document.getElementById("course_list");
+					cour_list.innerHTML = text;
+                }
+            );
+    }
+</script>
+<script>
+	function c_change(){
+		var course_select=document.getElementById("course_list");
+		var c_id=course_select.value;
+		var url = basicUrl + "api/admin/acceptedCourse?course_id=" + c_id;
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: url,
+                   data: {
+                   },
+                   async : false,
+                   success: function (data) {
+                        resolve(data);
+                   }
+
+               }
+           )
+            }).then(
+                function (data) {
+                    console.log(data);
+					var text = "<option value=\"-1\" selected=\"true\" disabled=\"true\">开课代号</option>\n";
+                    for(var i=0;i<data.teachList.length;i++){
+                        text = text + "<option value=\""+data.teachList[i].teach_id+"\">"+data.teachList[i].teach_id+"</option>\n"
+                    }
+					var tea_list=document.getElementById("teach_list");
+					tea_list.innerHTML = text;
+                }
+            );
+	}
+</script>
+<script>
+	function t_change(){
+		var teach_select=document.getElementById("teach_list");
+		var th_id=teach_select.value;
+		var url = basicUrl + "api/admin/acceptedTeach?teach_id=" + th_id;
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: url,
+                   data: {
+                   },
+                   async : false,
+                   success: function (data) {
+                        resolve(data);
+                   }
+
+               }
+           )
+            }).then(
+                function (data) {
+                    console.log(data);
+					teacher.value = data.tid;
+					capacity.value = data.capacity;
+                }
+            );
+	}
+</script>
+<script>
+    function submitApply() {
+		var teach_select=document.getElementById("teach_list");
+		var th_id=teach_select.value;
+		var t_id = teacher.value;
+		var t_cap = capacity.value;
+        console.log(th_id,t_id,t_cap);
+        var basicUrl="http://127.0.0.1:8000/";
+        new Promise(function (resolve){
+       $.ajax(
+           {
+               method: "POST",
+               url: basicUrl+"api/admin/acceptedTeach",
+               data: {
+					teach_id: th_id,
+					tid: t_id,
+					capacity: t_cap,
+               },
+               async : false,
+               success: function (data) {
+                    resolve(data);
+               }
+
+           }
+       )
+        }).then(
+            function (data) {
+				if(data.success){
+                    alert("成功")
+                }
+                else{
+                    alert(data.reason)
+                }
+            }
+        );
+    }
+</script>
+{% endblock %}
+
+    

@@ -3036,9 +3036,9 @@ span.brand {
     color: #B52E31;
 }
 .btn-primary {
-    color: #fff;
-    background-color: #252525 !important;
-    border-color: #252525 !important;
+    color: #ff2;
+    background-color:#1d7db1 !important;
+    border-color: #1a90ff !important;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
     color: #fff;
@@ -3602,7 +3602,7 @@ button.btn.btn-default.tip {
     margin-left: 0px!important;
 }
 .form-control {
-    color: #C5C5CF !important;
+    /*color: #C5C5CF !important;*/
 }
 input[type="date"] {
     width: 95%;

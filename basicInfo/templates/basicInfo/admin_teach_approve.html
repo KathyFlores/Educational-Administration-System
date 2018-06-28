@@ -1,0 +1,158 @@
+{% extends 'basicInfo/admin_base.html' %}
+{% load staticfiles %}
+{% block body %}
+    
+
+<div class="content">
+    <div id="wrapper">
+        <div id="page-wrapper" style="min-height: 58px;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">开课审批</h1>
+                </div>
+            </div>
+            <table class="table table-hover table-condensed" id="kexuan-tab">
+                <thead>
+                    <tr>
+                        <th>课程代号</th>
+                        <th>课程名称</th>
+                        <th>课程容量</th>
+                        <th>教师工号</th>
+                        <th>教师姓名</th>
+                        <th>批复</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+
+                </tbody>
+            </table>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+</div>
+<!--content-ends-->
+
+
+<script>
+    $(document).ready(function () {
+        courselit();
+    });
+
+    const basicUrl="http://127.0.0.1:8000/";
+    function courselit() {
+        var url = basicUrl + "api/admin/teach";
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: url,
+                   data: {
+                   },
+                   async : false,
+                   success: function (data) {
+                        resolve(data);
+                   }
+
+               }
+           )
+            }).then(
+                function (data) {
+                    console.log(data);
+                    for(var i=0;i<data.length;i++){
+                        var text = "<tr>\n" +
+                         "<td>"+data[i].course+"</td>\n" +
+                         "<td>"+data[i].course_name+"</td>\n" +
+                         "<td>"+data[i].capacity+"</td>\n" +
+                         "<td>"+data[i].tid+"</td>\n" +
+                         "<td>"+data[i].name+"</td>\n" +
+                         "<td><button onclick=\"disagree(\'"+data[i].course+"\',\'"+data[i].course_name+"\',\'"+data[i].tid+"\',\'"+data[i].capacity+"\',\'"+data[i].tid+"\',\'"+data[i].name+"\')\" id=\"b"+i+"\" type=\"button\" style=\"background-color: #1A9F00\" class=\"btn btn-primary\">拒绝</button>" +
+                         "<button onclick=\"agree(\'"+data[i].course+"\',\'"+data[i].course_name+"\',\'"+data[i].tid+"\',\'"+data[i].capacity+"\',\'"+data[i].tid+"\',\'"+data[i].name+"\')\" id=\"b"+i+"\" type=\"button\" style=\"background-color: #1A9F00\" class=\"btn btn-primary\">同意</button></td>\n" +
+                         "</tr>";
+                        {#console.log(text);#}
+                        $("#tbody").append(text);
+                    }
+
+                }
+            );
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $("button").click(function () {
+            console.log("ASS");
+        });
+    });
+    function agree(id,name,tid, cap) {
+        console.log(id,name,tid);
+        var basicUrl="http://127.0.0.1:8000/";
+        new Promise(function (resolve){
+       $.ajax(
+           {
+               method: "POST",
+               url: basicUrl+"api/admin/teach",
+               data: {
+                   course: id,
+                   tid: tid,
+				   capacity: cap,
+				   permit: 1,
+                   csrfmiddlewaretoken: '{{ csrf_token }}'
+               },
+               async : false,
+               success: function (data) {
+                    resolve(data);
+               }
+
+           }
+       )
+        }).then(
+            function (data) {
+				if(data.success){
+                    alert("成功！批准课程："+id+", 教师工号:"+tid)
+                }
+                else{
+                    alert(data.reason)
+                }
+                window.location.reload();
+            }
+        );
+    }
+    function disagree(id,name,tid, cap) {
+        console.log(id,name,tid);
+        var basicUrl="http://127.0.0.1:8000/";
+        new Promise(function (resolve){
+       $.ajax(
+           {
+               method: "POST",
+               url: basicUrl+"api/admin/teach",
+               data: {
+                   course: id,
+                   tid: tid,
+				   capacity: cap,
+				   permit: 0,
+                   csrfmiddlewaretoken: '{{ csrf_token }}'
+               },
+               async : false,
+               success: function (data) {
+                    resolve(data);
+               }
+
+           }
+       )
+        }).then(
+            function (data) {
+				if(data.success){
+                    alert("成功！拒绝课程："+id+", 教师工号:"+tid)
+                }
+                else{
+                    alert(data.reason)
+                }
+                window.location.reload();
+            }
+        );
+    }
+</script>
+            
+    
+{% endblock %}

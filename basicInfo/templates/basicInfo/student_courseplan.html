@@ -1,0 +1,210 @@
+{% extends 'basicInfo/student_base.html' %}
+{% load staticfiles %}
+{% block body %}
+    <!--/content-inner-->
+    <div class="left-content">
+        <div class="inner-content">
+            <!-- header-starts -->
+            <div class="header-section">
+                <!-- top_bg -->
+                <div class="top_bg">
+
+                    <div class="header_top">
+                        <div class="top_right">
+                            <ul>
+                                <li><a href="#">浙江大学教务中心</a></li>-
+                                <li><a href="/basic/student">主页</a></li>-
+                                <li><a href="index.html">培养方案</a></li>
+                            </ul>
+                        </div>
+                        <div class="top_left">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down">{{ account_id }}</i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="/basic"><i class="fa fa-sign-out fa-fw"></i> 登出</a></li>
+                                    <li><a href="/basic/personalinfo"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+                                </ul>
+                                <!-- /.dropdown-user -->
+                            </li>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <!-- /top_bg -->
+            </div>
+
+
+            <!-- Custom CSS -->
+            <!--content-->
+            <div class="content">
+
+
+                <div id="page-wrapper">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">培养方案</h1>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="panel panel-default c_left">
+                                            <div class="panel-heading">
+                                                <div>
+                                                    <h5>专业必修课  学分：{{compulsory_credits}}</h5>
+                                                </div>
+                                            </div>
+                                            <table class="table table-hover" id="schedule-tab">
+                                                <thead>
+                                                <tr>
+                                                    <th>课程号</th>
+                                                    <th>课程名称</th>
+                                                    <th>学分</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for course in compulsory %}
+                                                <tr>
+                                                    <td>{{course.course_number}}</td>
+                                                    <td>{{course.title}}</td>
+                                                    <td>{{course.credits}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% if check_curriculum == 0 %}
+                                        <form action="/courseSelection/student/curriculum" method="post">
+                                            <div class="panel panel-default c_left">
+                                                <div class="panel-heading">
+                                                    <h5>专业选修课 总学分要求：{{demand.elective}}</h5>
+                                                    <div class="pull-right">
+                                                    </div>
+                                                </div>
+                                                <table class="table table-hover" id="schedule-tab">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>课程号</th>
+                                                        <th>课程名称</th>
+                                                        <th>学分</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for course in elective %}
+                                                    <tr>
+                                                        <td>{{course.course_number}}</td>
+                                                        <td>{{course.title}}</td>
+                                                        <td>{{course.credits}}</td>
+                                                        <td><input type="checkbox" name = "elective" value="{{course.id}}"></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="panel panel-default c_left">
+                                                <div class="panel-heading">
+                                                    <div>
+                                                        <h5>公共课 总学分要求：{{demand.public}}</h5>
+                                                    </div>
+                                                </div>
+                                                <table class="table table-hover" id="schedule-tab">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>课程号</th>
+                                                        <th>课程名称</th>
+                                                        <th>学分</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% for course in public %}
+                                                    <tr>
+                                                        <td>{{course.course_number}}</td>
+                                                        <td>{{course.title}}</td>
+                                                        <td>{{course.credits}}</td>
+                                                        <td><input type="checkbox" name = "public" value="{{course.id}}"></td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            </br>
+                                            <div class="">
+                                                <button type="submit" class="btn btn-primary" align="right" id="tuixuan-btn" >确认制定</button>
+                                            </div>
+                                        </form>
+                                        {% else %}
+                                        <div class="panel panel-default c_left">
+                                            <div class="panel-heading">
+                                                <div>
+                                                    <h5>培养方案课程  学分：{{credits}}</h5>
+                                                </div>
+                                            </div>
+                                            <table class="table table-hover" id="schedule-tab">
+                                                <thead>
+                                                <tr>
+                                                    <th>课程号</th>
+                                                    <th>课程名称</th>
+                                                    <th>学分</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for course in curriculum %}
+                                                <tr>
+                                                    <td>{{course.course_number}}</td>
+                                                    <td>{{course.title}}</td>
+                                                    <td>{{course.credits}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- /.row -->
+                </div>
+
+            </div>
+            <!--content-->
+        </div>
+    </div>
+    <!--//content-inner-->
+
+
+
+<script>
+    var toggle = true;
+
+    $(".sidebar-icon").click(function() {
+        if (toggle)
+        {
+            $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+            $("#menu span").css({"position":"absolute"});
+        }
+        else
+        {
+            $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+            setTimeout(function() {
+                $("#menu span").css({"position":"relative"});
+            }, 400);
+        }
+
+        toggle = !toggle;
+    });
+</script>
+
+
+{% endblock %}

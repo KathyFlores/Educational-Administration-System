@@ -318,7 +318,7 @@ abbr[title]{
 
 #login-username,
 #login-mailbox,
-#login-password{
+#login-password,#login-password2{
     width:80%;
     height:30px;
     margin: 0 auto;

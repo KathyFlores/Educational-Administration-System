@@ -1,0 +1,146 @@
+{% extends 'basicInfo/student_base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+   <!--/content-inner-->
+       <div class="left-content">
+           <div class="inner-content">
+               <div class="header-section">
+			<!-- top_bg -->
+						<div class="top_bg">
+                            <div class="header_top">
+                                <div class="top_right">
+                                    <ul>
+                                        <li><a href="#">浙江大学教务中心</a></li>-
+                                        <li><a href="/basic/student">首页</a></li>
+                                    </ul>
+                                </div>
+									<div class="top_left">
+										<li class="dropdown">
+											<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+												<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down">{{ account_id }}</i>
+											</a>
+											<ul class="dropdown-menu dropdown-user">
+												<li><a href="/basic"><i class="fa fa-sign-out fa-fw"></i> 登出</a></li>
+                                    <li><a href="/basic/personalinfo"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+											</ul>
+											<!-- /.dropdown-user -->
+										</li>
+									</div>
+                                <div class="clearfix"> </div>
+                            </div>
+                        </div>
+
+                   <div class="clearfix"></div>
+
+                   <div class="content">
+
+							<div class="col-md-5 skil">
+								<div class="content-top-1">
+									<div class="col-md-6 top-content">
+										<h5>操作系统</h5>
+										<label>4</label>
+									</div>
+									<div class="col-md-6 top-content1">	   
+										<div id="demo-pie-1" class="pie-title-center" data-percent="25"> <span class="pie-value">25%</span> </div>
+									</div>
+										<div class="clearfix"> </div>
+								</div>
+								<div class="content-top-1">
+									<div class="col-md-6 top-content">
+										<h5>软件工程</h5>
+										<label>3</label>
+									</div>
+									<div class="col-md-6 top-content1">	   
+										<div id="demo-pie-2" class="pie-title-center" data-percent="50"> <span class="pie-value">50%</span> </div>
+									</div>
+									 <div class="clearfix"> </div>
+								</div>
+								<div class="content-top-1">
+									<div class="col-md-6 top-content">
+										<h5>数据结构</h5>
+										<label>6</label>
+									</div>
+									<div class="col-md-6 top-content1">
+										<div id="demo-pie-3" class="pie-title-center" data-percent="75"> <span class="pie-value">75%</span> </div>
+									</div>
+									<div class="clearfix"> </div>
+								</div>
+								<div class="content-top-1">
+									<div class="col-md-6 top-content">
+										<h5>编译原理</h5>
+										<label>6</label>
+									</div>
+									<div class="col-md-6 top-content1">
+										<div id="demo-pie-4" class="pie-title-center" data-percent="75"> <span class="pie-value">75%</span> </div>
+									</div>
+									<div class="clearfix"> </div>
+								</div>
+
+							</div>
+							<div class="col-md-7 mid-content-top">
+								<div class="middle-content">
+									<h3>公告板
+									</h3>
+									<!-- start content_slider -->
+										<div id="owl-demo" class="owl-carousel text-center">
+											<div class="item">
+												<img class="lazyOwl img-responsive" data-src="{% static 'basicInfo/images/ad1.png' %}" alt="name">
+											</div>
+											<div class="item">
+												<img class="lazyOwl img-responsive" data-src="{% static 'basicInfo/images/ad2.png' %}" alt="name">
+											</div>
+											
+										</div>
+								</div>
+								<!--//sreen-gallery-cursual---->
+								<!-- requried-jsfiles-for owl -->
+
+
+                                <script>
+                                    $(document).ready(function() {
+                                        $("#owl-demo").owlCarousel({
+                                            items : 1,
+                                            lazyLoad : true,
+                                            autoPlay : 7000,
+                                            pagination : true,
+                                            loop:true,
+                                            nav:true,
+                                        });
+                                    });
+                                </script>
+                            </div>
+						<div class="clearfix"></div>
+                   </div>
+               </div>
+           </div>
+
+       </div>
+				<!--//content-inner-->
+			<!--/sidebar-menu-->
+
+
+
+   <script type="text/javascript">
+       var toggle = true;
+       $(".sidebar-icon").click(function() {
+          if (toggle)
+          {
+            $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+            $("#menu span").css({"position":"absolute"});
+          }
+          else
+          {
+            $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+            setTimeout(function() {
+              $("#menu span").css({"position":"relative"});
+            }, 400);
+          }
+
+          toggle = !toggle;
+       });
+   </script>
+
+
+
+{% endblock %}

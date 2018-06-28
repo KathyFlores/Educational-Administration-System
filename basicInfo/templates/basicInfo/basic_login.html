@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'basicInfo/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'basicInfo/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'basicInfo/css/main1.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'basicInfo/css/reset.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'basicInfo/css/responsive.css' %}">
+    <script src="{% static 'basicInfo/js/jquery-1.10.2.min.js' %}"></script>
+    <title>浙江大学教务中心</title>
+</head>
+
+<body>
+
+
+    <div class="blurbanner">
+            <div class="blurherit">
+            </div>
+            
+            <div class="signup-box">
+                <div class="logo">
+                    <img src="{% static 'basicInfo/images/img/logo.png' %}" alt="">
+                </div>
+
+                <form class="login-form" method="POST">
+                    {% csrf_token %}
+                    <div class="form-inline" id="formitem">
+                        <span><label for="login-username"> <img src="{% static 'basicInfo/images/img/login-name.png' %}" alt="logo" class="login-icon"></label></span>
+                        <input type="text" class="form-control" id="login-username" placeholder="请输入你的用户名" name="account_id">
+                        <p>{{ errorName }}</p>
+                    </div>
+
+                    <div class="form-inline" id="formitem">
+                        <span><label for="login-password"> <img src="{% static 'basicInfo/images/img/login-password.png' %}" alt="logo" class="login-icon"></label></span>
+                        <input type="password" class="form-control" id="login-password" placeholder="请输入密码" name="password">
+                       <p>{{ errorPassword }}</p>
+                    </div>
+                    <span class="btn btn-default loginbutton" onclick="doLogin()">登  录</span>
+{#                    <button type="submit" class="btn btn-default loginbutton" onclick="doLogin()">登录</button>#}
+                </form>
+                
+                <a href="#" class="repassword-link">忘记密码 |</a>
+                <a href="signup" class="signup-link"> 用户注册</a>
+
+                <div class="login-space"></div>
+
+                <!--<div class="socio-login">-->
+                <!--<h6>-你还可以用以下方式登录-</h6>   -->
+                <!--<span class="login-icon"><a href="#"><i class="fa fa-weixin fa-2x"></a></i></span>-->
+                <!--<span class="login-icon"><a href="#"><i class="fa fa-weibo fa-2x"></a></i></span>-->
+                <!--<span class="login-icon"> <a href="#"><i class="fa fa-qq fa-2x"></a></i></span>  -->
+                <!--</div>-->
+            </div> 
+    </div>
+    <footer>
+		<div class="wrapper footer">
+			<ul>
+				<li class="links">
+					<ul>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Support</a></li>
+						<li><a href="#">Terms</a></li>
+						<li><a href="#">Policy</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</li>
+
+				<li class="links">
+					<ul>
+						<li><a href="#">Appartements</a></li>
+						<li><a href="#">Houses</a></li>
+						<li><a href="#">Villas</a></li>
+						<li><a href="#">Mansions</a></li>
+						<li><a href="#">...</a></li>
+					</ul>
+				</li>
+
+				<li class="links">
+					<ul>
+						<li><a href="#">New York</a></li>
+						<li><a href="#">Los Anglos</a></li>
+						<li><a href="#">Miami</a></li>
+						<li><a href="#">Washington</a></li>
+						<li><a href="#">...</a></li>
+					</ul>
+				</li>
+
+				<li class="about">
+					<p>La Casa is real estate minimal html5 website template, designed and coded by pixelhint, tellus varius, dictum erat vel, maximus tellus. Sed vitae auctor ipsum</p>
+					<ul>
+						<li><a href="http://facebook.com/pixelhint" class="facebook" target="_blank"></a></li>
+						<li><a href="http://twitter.com/pixelhint" class="twitter" target="_blank"></a></li>
+						<li><a href="http://plus.google.com/+Pixelhint" class="google" target="_blank"></a></li>
+						<li><a href="#" class="skype"></a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+		<div class="copyrights wrapper">
+			Copyright © 2015 <a href="http://pixelhint.com" target="_blank" class="ph_link" title="Download more free Templates">Pixelhint.com</a>. All Rights Reserved.
+		</div>
+	</footer><!--  end footer  -->
+
+    <script>
+        const basicUrl="http://127.0.0.1:8000/";
+        function doLogin(params) {
+            var username=document.getElementById("login-username").value.toString();
+            var password=document.getElementById("login-password").value.toString();
+            console.log(username,password)
+            new Promise(function (resolve){
+               $.ajax(
+                   {
+                       method: "POST",
+                       url: basicUrl+"api/account/login",
+                       data: {
+                           account_id: username,
+                           account_pw: password,
+                           csrfmiddlewaretoken: '{{ csrf_token }}'
+                       },
+                       success: function (data) {
+                            resolve(data);
+                           console.log(data);
+                       }
+
+                   }
+               )
+            }).then(
+                function (data) {
+                    console.log(data);
+                    if(data.success)
+                    {
+                        {#alert("Login success");#}
+                        if(data.type==0)
+                        {
+                            window.location.href = basicUrl+"basic/student";
+                            window.open();
+                        }
+                        else if (data.type==1)
+                        {
+                            window.location.href = basicUrl+"basic/teacher";
+                            window.open();
+                        }
+						else if (data.type==2)
+						{
+							window.location.href = basicUrl+"basic/admin";
+                            window.open();
+						}
+                    }
+                    else{
+                        alert("fail");
+                    }
+
+                }
+
+            );
+
+
+        }
+    </script>
+
+
+
+
+
+</body>
+</html>

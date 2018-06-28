@@ -1,0 +1,159 @@
+{% extends 'basicInfo/student_base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+    <!--/content-inner-->
+    <div class="left-content">
+        <div class="inner-content">
+            <!-- header-starts -->
+            <div class="header-section">
+                <!-- top_bg -->
+                <div class="top_bg">
+
+                    <div class="header_top">
+                        <div class="top_right">
+                            <ul>
+                                <li><a href="#">浙江大学教务中心</a></li>-
+                                <li><a href="/basic/student">首页</a></li>-
+                                <li><a href="/basic/exam">考试安排</a></li>
+                            </ul>
+                        </div>
+                        <div class="top_left">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down" id="id">{{ account_id }}</i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="/basic"><i class="fa fa-sign-out fa-fw"></i> 登出</a></li>
+                                    <li><a href="/basic/personalinfo"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+                                </ul>
+                                <!-- /.dropdown-user -->
+                            </li>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <!-- /top_bg -->
+            </div>
+
+
+            <div class="content">
+                <div id="wrapper">
+                    <div id="page-wrapper" style="min-height: 58px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header">考试安排</h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <select class="form-control" name="metric">
+                                            <option value="course_title">学期</option>
+                                            <option value="course_number">课程代码</option>
+                                            <option value="instructor">上课教师</option>
+                                            <option value="department">课程名称</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="sidebar-search">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="大一上"  name="value">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                        </div>
+
+                    </div>
+                    <table class="table table-hover table-condensed" id="kexuan-tab">
+                        <thead>
+                        <tr>
+                            <th>课程名称</th>
+                            <th>考试时间</th>
+                            <th>考试地点</th>
+                            <th>考试座位</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        </tbody>
+
+                </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            examArrange();
+        });
+
+        const basicUrl="http://127.0.0.1:8000/";
+        function examArrange() {
+            var sid=document.getElementById("id").innerHTML;
+            new Promise(function (resolve){
+               $.ajax(
+                   {
+                       method: "GET",
+                       url: basicUrl+"api/student/exam",
+                       data: {
+                           account_id: sid,
+                       },
+                       async : false,
+                       success: function (data) {
+                            resolve(data);
+                       }
+
+                   }
+               )
+                }).then(
+                    function (data) {
+                        console.log(data);
+                        for(var i=0;i<data.length;i++){
+                            var text = "<tr>\n" +
+                            "<td>"+data[i].name+"</td>\n" +
+                            "<td>"+data[i].time+"</td>\n" +
+                            "<td>"+data[i].room+"</td>\n" +
+                            "<td>"+data[i].seat+"</td>\n" +
+                            "</tr>";
+                            console.log(text);
+                            $("#tbody").append(text);
+                        }
+
+                    }
+                );
+        }
+    </script>
+
+
+<script>
+    var toggle = true;
+
+    $(".sidebar-icon").click(function() {
+        if (toggle)
+        {
+            $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+            $("#menu span").css({"position":"absolute"});
+        }
+        else
+        {
+            $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+            setTimeout(function() {
+                $("#menu span").css({"position":"relative"});
+            }, 400);
+        }
+
+        toggle = !toggle;
+    });
+</script>
+{% endblock %}
+

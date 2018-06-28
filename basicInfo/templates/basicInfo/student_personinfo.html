@@ -1,0 +1,301 @@
+{% extends 'basicInfo/student_base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+
+	<div class="left-content">
+		<div class="inner-content">
+			<!-- header-starts -->
+			<div class="header-section">
+				<!-- top_bg -->
+				<div class="top_bg">
+
+					<div class="header_top">
+						<div class="top_right">
+							<ul>
+								<li><a href="#">浙江大学教务中心</a></li>-
+								<li><a href="index.html">个人信息</a></li>
+							</ul>
+						</div>
+						<div class="top_left">
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down" id="account_id">{{ account_id }}</i>
+								</a>
+								<ul class="dropdown-menu dropdown-user">
+									<li><a href="/basic"><i class="fa fa-sign-out fa-fw"></i> 登出</a></li>
+                                    <li><a href="/basic/personalinfo"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+								</ul>
+								<!-- /.dropdown-user -->
+							</li>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+
+				</div>
+				<div class="clearfix"></div>
+				<!-- /top_bg -->
+			</div>
+
+
+			<!--content-->
+			<div class="content">
+
+
+				<div id="page-wrapper">
+					<div class="row">
+						<div class="col-lg-12">
+							<h1 class="page-header">个人信息</h1>
+						</div>
+						<!-- /.col-lg-12 -->
+					</div>
+					<!-- /.row -->
+					<div class="col-lg-6">
+{#						<form role="form" method="POST">#}
+							{% csrf_token %}
+							<div class="form-group">
+								<label for="disabledSelect">账号</label>
+								<input id="sid" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">昵称</label>
+								<input id="snick" type="text" class="form-control" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">专业</label>
+								<input id="smajor" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2" value="计算机科学与技术">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">金币</label>
+								<input id="scoin" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+                            <div class="form-group">
+								<label for="disabledSelect">经验</label>
+								<input id="sexp" type="text" class="form-control" readonly="readonly" aria-describedby="basic-addon2">
+							</div>
+							<div class="form-group">
+								<label for="disabledSelect">邮箱</label>
+								<input id="semail" type="text" class="form-control" aria-describedby="basic-addon2">
+							</div>
+							<button id="pushinfo">确认修改</button>
+{#						</form>#}
+					</div>
+                    <script type="text/javascript">
+                            $('#upload').change(function(){
+                              // 获取FileList的第一个元素
+                              var f = document.getElementById('upload').files[0];
+                              src = window.URL.createObjectURL(f);
+                              document.getElementById('headPic').src = src
+                            });
+                    </script>
+
+
+                    <div >
+                        <label >照片信息 -- 点击图片更换</label><br>
+                        <img id="headPic" src=""  width="150px" height="150px" style="padding: 5px">
+                        <form id="form_face" enctype="multipart/form-data" style="width:auto;">
+                            <input type="file" name="fileToUpload" id="fileToUpload" onchange="fileSelected();" style="display:none;">
+                        </form>
+                         <script type="text/javascript">
+                            function fileSelect() {
+                                document.getElementById("fileToUpload").click();
+                            }
+
+                            function fileSelected() {
+                              // 文件选择后触发次函数
+                                var f = document.getElementById('fileToUpload').files[0];
+                                src = window.URL.createObjectURL(f);
+                                document.getElementById('headPic').src = src
+                                pushimage();
+                            }
+
+                            $("#headPic").click(
+                                function () {
+                                    console.log("123");
+                                    fileSelect() ;
+                                }
+                            );
+                          </script>
+
+
+                    </div>
+
+					<!-- /.row -->
+				</div>
+				<!-- /#wrapper -->
+
+
+
+			</div>
+			<!--content-->
+		</div>
+	</div>
+
+
+
+<script>
+    var toggle = true;
+
+    $(".sidebar-icon").click(function() {
+        if (toggle)
+        {
+            $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+            $("#menu span").css({"position":"absolute"});
+        }
+        else
+        {
+            $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+            setTimeout(function() {
+                $("#menu span").css({"position":"relative"});
+            }, 400);
+        }
+
+        toggle = !toggle;
+    });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        getimage();
+        getinfo();
+        $("#pushinfo").click(function () {
+            push();
+        }
+        );
+    });
+
+
+    const basicUrl="http://127.0.0.1:8000/";
+
+    function push() {
+
+        var sid = $("#sid").attr("value");
+        var nickname = $("#snick").val();
+        var email = $("#semail").val();
+        var coin = $("#scoin").attr("value");
+        var exp = $("#sexp").attr("value");
+
+        console.log("AAA",nickname);
+
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "POST",
+                   url: basicUrl+"api/account/person",
+                   data: {
+                       account_id: sid,
+                       email: email,
+                       nick:nickname,
+                       coin:coin,
+                       exp:exp,
+                       csrfmiddlewaretoken: '{{ csrf_token }}'
+                   },
+                   async : false,
+                   success: function (data) {
+                        resolve(data);
+                   }
+
+               }
+           )
+            }).then(
+                function (data) {
+                    console.log(data);
+                }
+            );
+
+    }
+
+    function pushimage() {
+        var formData = new FormData();
+        var id=document.getElementById("account_id").innerHTML;
+        formData.append("file",$("#fileToUpload")[0].files[0]);
+        formData.append("account_id",id);
+        console.log($("#fileToUpload")[0].files[0]);
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "POST",
+                   url: basicUrl+"api/account/img",
+                   type : 'POST',
+                   data : formData,
+                       {# "account_id":id#}
+                    // 告诉jQuery不要去处理发送的数据
+                    processData : false,
+                    // 告诉jQuery不要去设置Content-Type请求头
+                    contentType : false,
+                    dataType: "json",
+                   success: function (data) {
+                        resolve(data);
+                       console.log(data);
+                   }
+               }
+           )
+        }).then(
+            function (data) {
+                console.log(data);
+            }
+        );
+    }
+
+    function getinfo() {
+        var id=document.getElementById("account_id").innerHTML;
+        $('#sid').attr("value",id);
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: basicUrl+"api/account/person",
+                   data:{
+                       "account_id":id
+                   },
+                   success: function (data) {
+                       resolve(data);
+                       console.log(data);
+                   }
+               }
+           )
+        }).then(
+            function (data) {
+                console.log(data.image);
+                $("#semail").attr("value", data.email);
+                $("#sexp").attr("value", data.exp);
+                $("#scoin").attr("value", data.coin);
+                $("#snick").attr("value", data.nick);
+            }
+        );
+    }
+
+    var originimageurl;
+    function getimage() {
+        var id=document.getElementById("account_id").innerHTML;
+        console.log(id);
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: basicUrl+"api/account/img",
+                   data:{
+                       "account_id":id
+                   },
+                   success: function (data) {
+                       resolve(data);
+                       console.log(data);
+                   }
+               }
+           )
+        }).then(
+            function (data) {
+                console.log(data.image);
+                $("#headPic").attr("src", data.image);
+                originimageurl = data.image;
+            }
+        );
+
+    }
+
+
+</script>
+
+
+{% endblock %}

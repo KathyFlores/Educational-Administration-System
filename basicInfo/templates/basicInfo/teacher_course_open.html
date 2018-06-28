@@ -1,0 +1,81 @@
+
+{% extends 'basicInfo/teacher_base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+            
+<!-- Custom CSS -->
+<!-- content -->
+<div class="content">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">开班申请</h1>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <form role="form" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="disabledSelect">课程代号</label>
+                    <input name="id" id="id" type="text" class="form-control" aria-describedby="basic-addon2" value={{id}}>
+                </div>
+                <div class="form-group">
+                    <label for="disabledSelect">课程容量</label>
+                    <input name="capacity" id="capacity" type="number" class="form-control" aria-describedby="basic-addon2" value={{capacity}}>
+                </div>
+                <div class="clearfix"></div>
+                <button type="button" class="btn btn-default loginbutton" onClick="doApply()">确认申请</button>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- wrapper -->
+</div>
+<!--content-ends-->
+      
+<script>
+	const basicUrl="http://127.0.0.1:8000/";
+    function doApply() {
+		var tid=account_id.innerText;
+		var id=document.getElementById("id").value.toString();
+		var capacity=document.getElementById("capacity").value.toString();
+		console.log(id, capacity);
+		new Promise(function (resolve){
+		   $.ajax(
+			   {
+				   method: "POST",
+				   url: basicUrl+"api/teacher/opencourse",
+				   data: {
+					   account_id: tid,
+					   id: id,
+					   capacity: capacity,
+					   csrfmiddlewaretoken: '{{ csrf_token }}'
+				   },
+				   async : false,
+				   success: function (data) {
+					   resolve(data);
+					   console.log(data);
+				   }
+
+			   }
+		   )
+		}).then(
+			function (data) {
+				console.log(data);
+				if(data.success)
+				{
+					alert("Apply success")
+				}
+				else{
+					alert(data.reason)
+				}
+
+			}
+
+		);
+	}
+</script>
+
+{% endblock %}

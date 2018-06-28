@@ -1,0 +1,170 @@
+{% extends 'basicInfo/student_base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+    <!--/content-inner-->
+    <div class="left-content">
+        <div class="inner-content">
+            <!-- header-starts -->
+            <div class="header-section">
+                <!-- top_bg -->
+                <div class="top_bg">
+
+                    <div class="header_top">
+                        <div class="top_right">
+                            <ul>
+                                <li><a href="#">浙江大学教务中心</a></li>-
+                                <li><a href="/basic/student">主页</a></li>-
+                                <li><a href="/basic/grade">成绩</a></li>
+                            </ul>
+                        </div>
+                        <div class="top_left">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down" id="id">{{ account_id }}</i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user">
+                                    <li><a href="/basic"><i class="fa fa-sign-out fa-fw"></i> 登出</a></li>
+                                    <li><a href="/basic/personalinfo"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+                                </ul>
+                                <!-- /.dropdown-user -->
+                            </li>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+                <!-- /top_bg -->
+            </div>
+
+            <div class="content">
+                <div id="wrapper">
+
+
+                    <div id="page-wrapper" style="min-height: 58px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h1 class="page-header">成绩查询</h1>
+                            </div>
+                            <!-- /.col-lg-12 -->
+                        </div>
+                        <!-- /.row -->
+                        <div class="row">
+                                <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <select class="form-control" name="metric">
+                                                <option value="course_title">学期</option>
+                                                <option value="course_number">课程代码</option>
+                                                <option value="instructor">上课教师</option>
+                                                <option value="department">课程名称</option>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="sidebar-search">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="大一上"  name="value">
+                                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                                            <!--                             <button type="button" action="selection" class="btn btn-primary" id="return-btn">回到培养方案</button> -->
+                        </span>
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                            </form>
+                        </div>
+                    </div><table class="table table-hover table-condensed" id="kexuan-tab">
+                    <thead>
+                    <tr>
+                        <th style="width: 20%">课程号</th>
+                        <th>课程名称</th>
+                        <th>学分</th>
+                        <th>成绩</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <tr>
+                            <td>{{course.name}}</td>
+                            <td>{{course.id}}</td>
+                            <td>{{course.semester}}</td>
+                            <td>{{course.teacher}}</td>
+                            <td>{{course.grade}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<script>
+        $(document).ready(function () {
+            requestGrade();
+        });
+
+        const basicUrl="http://127.0.0.1:8000/";
+        function requestGrade() {
+            var sid=document.getElementById("id").innerHTML;
+            new Promise(function (resolve){
+               $.ajax(
+                   {
+                       method: "GET",
+                       url: basicUrl+"api/student/grade",
+                       data: {
+                           account_id: sid,
+                       },
+                       async : false,
+                       success: function (data) {
+                            resolve(data);
+                       }
+
+                   }
+               )
+                }).then(
+                    function (data) {
+                        console.log(data);
+                        for(var i=0;i<data.length;i++){
+                            var text = "<tr>\n" +
+                                "                            <td>undefine</td>\n" +
+                            "                            <td>"+data[i].name+"</td>\n" +
+                            "                            <td>"+data[i].credit+"</td>\n" +
+                            "                            <td>"+data[i].grade+"</td>\n" +
+                            "                        </tr>";
+                            console.log(text);
+                            $("#tbody").append(text);
+                        }
+
+                    }
+                );
+        }
+    </script>
+
+
+<script>
+    var toggle = true;
+
+    $(".sidebar-icon").click(function() {
+        if (toggle)
+        {
+            $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
+            $("#menu span").css({"position":"absolute"});
+        }
+        else
+        {
+            $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
+            setTimeout(function() {
+                $("#menu span").css({"position":"relative"});
+            }, 400);
+        }
+
+        toggle = !toggle;
+    });
+</script>
+
+
+
+{% endblock %}
