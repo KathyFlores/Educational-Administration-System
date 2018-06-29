@@ -9,7 +9,7 @@ def api_course_post(request):
     course_id = request.POST.get('course_id')
     teacher_id = request.POST.get('teacher_id')
     room_id = request.POST.get('room_id')
-    time_id = request.POST.get('time_id')
+    time_id = request.POST.getlist('time_id[]')
     duplicate = request.POST.get('duplicate')
 
     if course_id is None:
@@ -32,9 +32,10 @@ def api_course_post(request):
     except ValueError:
         return JsonResponse({'success': False, 'reason': '`room_id` is not an integer'})
     try:
-        time_id = int(time_id)
+        for index in range(len(time_id)):
+            time_id[index] = int(time_id[index])
     except ValueError:
-        return JsonResponse({'success': False, 'reason': '`time_id` is not an integer'})
+        return JsonResponse({'success': False, 'reason': '`time_id[index]` is not an integer'})
     try:
         duplicate = int(duplicate)
     except ValueError:
