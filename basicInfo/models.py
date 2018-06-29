@@ -195,6 +195,7 @@ class teach(models.Model):
     teacher_id=models.ForeignKey(teacher,on_delete=models.CASCADE,related_name="teacher_id_1")
     course_id=models.ForeignKey(course,on_delete=models.CASCADE,related_name="college_id_1")
     capacity=models.IntegerField(null=False)
+    duplicate=models.IntegerField(default=1)
 
 
 class readyteach(models.Model):

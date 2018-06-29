@@ -132,11 +132,13 @@ def api_admin_teach(request):
 
             try:
                 waitCourses = readyteach.objects.filter(course_id=course_id, teacher_id=teacher_id)
+                teachList=teach.objects.filter(course_id=course_id,teacher_id=teacher_id)
                 for waitCourse in waitCourses:
                     teachobj = teach()
                     teachobj.course_id = waitCourse.course_id
                     teachobj.teacher_id = waitCourse.teacher_id
                     teachobj.capacity = capacity
+                    teachobj.duplicate=len(teachList)+1
                     teachobj.save()
                     waitCourse.course_id.duplicate += 1
                     waitCourse.course_id.save()
