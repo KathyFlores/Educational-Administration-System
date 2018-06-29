@@ -135,7 +135,7 @@ def api_course_get(request):
         'time_day': time.objects.get(time_id=r.time_id.time_id).day,
         'duplicate': teach.objects.get(teach_id=r.teach_id.teach_id).duplicate,
         'capacity': teach.objects.get(teach_id=r.teach_id.teach_id).capacity,
-        'exam_date': teach.objects.get(teach_id=r.teach_id.teach_id).exam_date
+        #'exam_date': teach.objects.get(teach_id=r.teach_id.teach_id).exam_date
     } for r in takeup_filter]
 
     return JsonResponse(res, safe=False)
@@ -196,7 +196,7 @@ def api_course_get_pagecount(request):
         'time_day': time.objects.get(time_id=r.time_id.time_id).day,
         'duplicate': teach.objects.get(teach_id=r.teach_id.teach_id).duplicate,
         'capacity': teach.objects.get(teach_id=r.teach_id.teach_id).capacity,
-        'exam_date': teach.objects.get(teach_id=r.teach_id.teach_id).exam_date
+        #'exam_date': teach.objects.get(teach_id=r.teach_id.teach_id).exam_date
     } for r in takeup_filter]
 
     return JsonResponse({'success': True, 'pagecount': (len(res) + 19) // 20}, safe=False)
