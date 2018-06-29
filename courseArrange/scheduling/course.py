@@ -80,17 +80,10 @@ def api_course_post(request):
         return JsonResponse({'success': False, 'reason': 'ValueError'})
 
 def get_period(time_id):
-    for t in time_list:
-        if (t.time_id == time_id):            
-            day = t.day
-            while (day > 7):
-                day = day - 7
-            start = t.start
-            end = t.end
-            for i in range(1,14):
-                if between(i,start,end):
-                    return [day,i]
-    return [0,0]
+    if (time_id < 1 or time_id > 91):
+        return [0,0]
+    return [(time_id-1)//13+1,(time_id-1)%13+1]
+
 
 def api_course_get(request):
     course_id = request.GET.get('course_id')
@@ -158,6 +151,8 @@ def api_course_get(request):
             [day,classnum] = get_period(takeup_filter[j].time_id.time_id)
             period[day].append(classnum)
             j += 1
+
+        i = j
         
         ret_dict['period'] = period
         res.append(ret_dict)
