@@ -522,11 +522,11 @@
 			"音响"
 		];
 		const attachIndex = {
-			"M": 0,
-			"S": 2,
-			"C": 1
+			"A": 0,
+			"C": 2,
+			"B": 1
 		};
-		const prefix = "http://acm.zju.edu.cn:3499";
+		const prefix = "http://127.0.0.1:8000/course_arrange";
 		function deleteDone(selection) {
 			selection = selection.map((s) => parseInt(s));
 			console.log(selection);
@@ -651,9 +651,9 @@
 		<p class="">教室标识号</p><input disabled id="room_id" type="text"></input>
 		<p class="must">教室名称</p><input id="location" type="text"></input>
 		<p class="must digit">教室容量</p><input id="capacity" type="text"></input><br><br>
-		多媒体<input id="type-M" type="checkbox"></input> 
-		学生电脑<input id="type-C" type="checkbox"></input> 
-		音响<input id="type-S" type="checkbox"></input><br><br>
+		多媒体<input id="type-A" type="checkbox"></input> 
+		学生电脑<input id="type-B" type="checkbox"></input> 
+		音响<input id="type-C" type="checkbox"></input><br><br>
 		`);
 		editDialog.classList.add("float-dialog-edit");
 		editDialog.classList.add("hidden");

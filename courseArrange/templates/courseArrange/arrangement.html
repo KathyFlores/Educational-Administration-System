@@ -269,7 +269,7 @@
 	<!-- /real-time -->
 	<script>
 		const period_const = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
-		const prefix = "http://acm.zju.edu.cn:3499";
+		const prefix = "http://127.0.0.1:8000/course_arrange";
 		$(".config-dialog").find(".add").click(() => {
 			let data = {};
 			data.language = $("[name='lang']:checked").val();
@@ -289,7 +289,7 @@
 					}
 				)
 			}).then((data) => {
-				console.log("common",data);
+				console.log("common", data);
 				/*if (data.success) {
 					message.success("删除成功！");
 					selection.map((key) => {
@@ -300,8 +300,8 @@
 			});
 		});
 		function deleteDone(selection) {
-			
-			console.log({delete:JSON.stringify(selection)});
+
+			console.log({ delete: JSON.stringify(selection) });
 			new Promise(function (resolve) {
 				$.ajax(
 					{
@@ -328,7 +328,7 @@
 		}
 		var editingTR;
 		function editDone() {
-			let data = { time_id: {} };
+			let data = { time_id: [] };
 			let bool = inputCheck($(".float-dialog-edit"));
 			if (bool) return;
 			$(".black-fore").attr("disabled", "");
@@ -337,27 +337,26 @@
 				if (e.id.includes("-")) {
 					let mname = e.id.split("-")[0];
 					if (e.checked) {
-						data.time_id[mname] || (data.time_id[mname] = []);
-						data.time_id[mname].push(parseInt(e.id.split("-")[1]));
+						data.time_id.push(parseInt(e.id.split("-")[0]) * 13 + parseInt(e.id.split("-")[1]) - 13);
 					}
 				} else {
 					data[e.id] = e.value;
 				}
 			});
 			let oldTR = editingTR;
-
 			let aysncHandler = new Promise(function (resolve) {
 				console.log(data);
-				data.time_id = 1;
-				for (const key in data) {
-					data[key] = parseInt(data[key]);
-				}
-
+				const timeArr = data.time_id;
+				const data2 = timeArr.map(t => {
+					const d = {};
+					for (let key in data) d[key] = data[key];
+					d.time_id = t;
+				})
 				$.ajax(
 					{
 						method: "POST",
 						url: prefix + "/api/scheduling/course/",
-						data: data,
+						data: data2,
 						success: function (data) {
 							resolve(data);
 						},
@@ -661,7 +660,7 @@
 			search(...$("#searchInput").val().split("&"));
 		});
 		$(".switchView").click(() => {
-			window.location.href = "calender.html?" + window.location.href.split("?")[1];
+			window.location.href = "../calender/" + (window.location.href.split("?")[1] ? "?" + window.location.href.split("?")[1] : "");
 		});
 	</script>
 	<script src="{% static 'courseArrange/js/menu_jquery.js' %}"></script>
