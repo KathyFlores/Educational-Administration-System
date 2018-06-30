@@ -30,22 +30,33 @@
 				<!-- header-starts -->
 				<div class="header-section">
 					<!-- top_bg -->
-					<div class="top_bg">			
+					<div class="top_bg">
 						<div class="header_top">
 							<div class="top_right">
 								<ul>
-									<li><a href="#">浙江大学教务中心</a></li>|
-									<li><a href="/basic/admin_index">首页</a></li>|
+									<li>
+										<a href="#">浙江大学教务中心</a>
+									</li>|
+									<li>
+										<a href="/basic/admin_index">首页</a>
+									</li>|
 								</ul>
 							</div>
 							<div class="top_left">
 								<li class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">
-										<i class="fa fa-user fa-fw"></i> <i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
+										<i class="fa fa-user fa-fw"></i>
+										<i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
 									</a>
 									<ul class="dropdown-menu dropdown-user">
-										<li><a href="/basic/login"><i class="fa fa-sign-out fa-fw"></i>登出</a></li>
-										<li><a href="/basic/teacher_index"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+										<li>
+											<a href="/basic/login">
+												<i class="fa fa-sign-out fa-fw"></i>登出</a>
+										</li>
+										<li>
+											<a href="/basic/teacher_index">
+												<i class="fa fa-cog fa-fw"></i>设置</a>
+										</li>
 									</ul>
 									<!-- /.dropdown-user -->
 								</li>
@@ -54,81 +65,77 @@
 						</div>
 						<div class="clearfix"></div>
 					</div>
-					{% if account.type == 0 %}
-					{% include 'basicInfo/student_menu.html' %}
-					{% elif account.type == 1 %}
-					{% include 'basicInfo/teacher_menu.html' %}
-					{% elif account.type == 2 %}
-					{% include 'basicInfo/admin_menu.html' %}
-					{% endif %}
-				<!-- //header-ends -->
+					{% if account.type == 0 %} {% include 'basicInfo/student_menu.html' %} {% elif account.type == 1 %} {% include 'basicInfo/teacher_menu.html'
+					%} {% elif account.type == 2 %} {% include 'basicInfo/admin_menu.html' %} {% endif %}
+					<!-- //header-ends -->
 
-				<!--content-->
-				<div class="content">
-					<span class="switchView">表格视图</span>
-					<div class="women_main">
+					<!--content-->
+					<div class="content">
+						<span class="switchView">表格视图</span>
+						<div class="women_main">
 
-						<!-- start content -->
-						<table>
-							<thead>
-								<tr>
-									<th>全部选择
-										<input id="check-all" type="checkbox" name="all-check" value="all" /> </th>
-									<th class="search-do" search="course_id">课程代码</th>
-									<th class="search-do" search="course_name">课程名称</th>
-									<th class="search-do" search="room_id">教室名称</th>
-									<th class="search-do" search="teacher_id">教师名称</th>
-									<th>使用时段</th>
-									<th>编辑</th>
-								</tr>
-							</thead>
-							<tbody id="class-info">
-							</tbody>
-						</table>
-						<div class="pages"></div>
-						<div class="black-fore" disabled></div>
-						<div class="clearfix"></div>
-						<!-- end content -->
+							<!-- start content -->
+							<table>
+								<thead>
+									<tr>
+										<th>全部选择
+											<input id="check-all" type="checkbox" name="all-check" value="all" /> </th>
+										<th class="search-do" search="course_id">课程代码</th>
+										<th class="search-do" search="course_name">课程名称</th>
+										<th class="search-do" search="room_id">教室名称</th>
+										<th class="search-do" search="teacher_id">教师名称</th>
+										<th>使用时段</th>
+										<th>编辑</th>
+									</tr>
+								</thead>
+								<tbody id="class-info">
+								</tbody>
+							</table>
+							<div class="pages"></div>
+							<div class="black-fore" disabled></div>
+							<div class="clearfix"></div>
+							<!-- end content -->
 
-						<div class="footer">
+							<div class="footer">
 
-							<div class="clearfix"> </div>
-							<p>Copyright &copy; 2018.Company name All rights reserved.
+								<div class="clearfix"> </div>
+								<p>Copyright &copy; 2018.Company name All rights reserved.
 
-							</p>
+								</p>
+							</div>
 						</div>
+
 					</div>
-
+					<!--content-->
 				</div>
-				<!--content-->
 			</div>
-		</div>
-		<!--//content-inner-->
-		<!--/sidebar-menu-->
-		
-		<div class="clearfix"></div>
-		<div class="config-dialog hidden">
-			<h1>自动排课</h1>
-			<p>使用语言</p>
-			<input type="radio" name="lang" value="1" checked="true">python</input>
-			<input type="radio" name="lang" value="2">C++</input>
-			<p>效率与结果</p>
-			<input type="radio" name="time" value="1" checked="true">效率优先</input>
-			<input type="radio" name="time" value="2">均衡</input>
-			<input type="radio" name="time" value="3">效果优先</input>
-			<p>选择算法</p>
-			<input type="radio" name="algo" value="1" checked="true">S. J. network</input>
-			<input type="radio" name="algo" value="2">S. T. network</input>
-			<input type="radio" name="algo" value="3">Integer Pro</input>
-			<br>
-			<br>
-			<span class="add">确定</span>
-			<span class="delete-Cancel">取消</span>
-		</div>
-	</div>
-	<div class="message-list">
+			<!--//content-inner-->
+			<!--/sidebar-menu-->
 
+			<div class="clearfix"></div>
+
+		</div>
+		<div class="message-list">
+
+		</div>
 	</div>
+	<div class="config-dialog hidden">
+		<h1>自动排课</h1>
+		<p>使用语言</p>
+		<input type="radio" name="lang" value="1" checked="true">python</input>
+		<input type="radio" name="lang" value="2">C++</input>
+		<p>效率与结果</p>
+		<input type="radio" name="time" value="1" checked="true">效率优先</input>
+		<input type="radio" name="time" value="2">均衡</input>
+		<input type="radio" name="time" value="3">效果优先</input>
+		<p>选择算法</p>
+		<input type="radio" name="algo" value="1" checked="true">S. J. network</input>
+		<input type="radio" name="algo" value="2">S. T. network</input>
+		<input type="radio" name="algo" value="3">Integer Pro</input>
+		<br>
+		<br>
+		<span class="add">确定</span>
+		<span class="delete-Cancel">取消</span>
 	</div>
 	<script>
 		var toggle = true;
@@ -232,7 +239,7 @@
 			});
 			let oldTR = editingTR;
 			let aysncHandler = new Promise(function (resolve) {
-				
+
 				const timeArr = data.time_id;
 				data.time_id.sort();
 				data.time_id = JSON.stringify(data.time_id);
@@ -372,7 +379,7 @@
 				for (let key in obj) {
 					nobj[key] = {};
 					if (typeof obj[key] === 'object') {
-						for(let k in obj[key]) {
+						for (let k in obj[key]) {
 							obj[key][k].map(t => {
 								$(`#${k}-${t}`).click();
 							})
@@ -429,8 +436,8 @@
 				$(".pages").append(`<span pagenum=${i}>${i + 1}</span>`)
 			}
 			$(`[pagenum="${curr}"]`).addClass("current");
-			$('.pages').find('span').click(function() {
-				displayData({ ...c_config,page: parseInt(this.getAttribute('pagenum'))+1 });
+			$('.pages').find('span').click(function () {
+				displayData({ ...c_config, page: parseInt(this.getAttribute('pagenum')) + 1 });
 			})
 		}
 		function checkChange() {
@@ -463,6 +470,7 @@
 			getPageCount(res);
 		}
 		function displayData(param) {
+			param.isteacher = false;
 			var asyncHandler = new Promise(function (resolve, reject) {
 				//var data = getData();
 				$.ajax(
@@ -487,7 +495,7 @@
 				$('.current').removeClass('current');
 				console.log(param);
 				console.log(`[pagenum="${param.page}"]`);
-				$(`[pagenum="${param.page-1}"]`).addClass("current");
+				$(`[pagenum="${param.page - 1}"]`).addClass("current");
 			});
 		}
 		function urlMap(filter) {

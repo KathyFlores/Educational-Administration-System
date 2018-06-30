@@ -212,6 +212,7 @@
 		}
 		getUser();
 		function getData(param) {
+			param.isteacher = true;
 			new Promise(function (resolve, reject) {
 				$.ajax(
 					{

@@ -91,7 +91,11 @@ def api_course_get(request):
     time_id = request.GET.get('time_id')
     count = request.GET.get('count')
     page = request.GET.get('page')
+    isteacher = request.GET.get('isteacher')
     takeup_filter = takeup.objects.all()
+
+    if isteacher is not None:
+        teacher_id = request.session["account_id"]
     if course_id is not None:
         try:
             teach_filter = teach.objects.filter(course_id=course_id)
