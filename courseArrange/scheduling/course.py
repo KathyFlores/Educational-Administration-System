@@ -9,7 +9,7 @@ def api_course_post(request):
     course_id = request.POST.get('course_id')
     teacher_id = request.POST.get('teacher_id')
     room_id = request.POST.get('room_id')
-    time_id = request.POST.get('time_id')
+    time_id = eval(request.POST.get('time_id'))
     duplicate = request.POST.get('duplicate')
 
     if course_id is None:
@@ -32,7 +32,8 @@ def api_course_post(request):
     except ValueError:
         return JsonResponse({'success': False, 'reason': '`room_id` is not an integer'})
     try:
-        time_id = int(time_id)
+        for i in range(len(time_id)):
+            time_id[i] = int(time_id[i])
     except ValueError:
         return JsonResponse({'success': False, 'reason': '`time_id` is not an integer'})
     try:
@@ -63,21 +64,23 @@ def api_course_post(request):
         teach_id = 0
         for i in teach_filter:
             teach_id = i.teach_id
-        takeup_filter = takeup.objects.filter(teach_id=teach_id, teacher_id=teacher_id, room_id=room_id,
-                                              time_id=time_id)
-        if len(takeup_filter) == 0:
-            takeup.objects.create(
-                teach_id=teach.objects.get(teach_id=teach_id),
-                teacher_id=teacher.objects.get(teacher_id=teacher_id),
-                room_id=room.objects.get(room_id=room_id),
-                time_id=time.objects.get(time_id=time_id)
-            )
-            reStr += 'OK takeup created'
-        else:
-            reStr += 'OK takeup already exist'
+        for i in range(len(time_id)):
+            takeup_filter = takeup.objects.filter(teach_id=teach_id, teacher_id=teacher_id, room_id=room_id,
+                                                  time_id=time_id[i])
+            if len(takeup_filter) == 0:
+                takeup.objects.create(
+                    teach_id=teach.objects.get(teach_id=teach_id),
+                    teacher_id=teacher.objects.get(teacher_id=teacher_id),
+                    room_id=room.objects.get(room_id=room_id),
+                    time_id=time.objects.get(time_id=time_id[i])
+                )
+                reStr += 'OK takeup created'
+            else:
+                reStr += 'OK takeup already exist'
         return JsonResponse({'success': True, 'reason': reStr})
     except ValueError:
         return JsonResponse({'success': False, 'reason': 'ValueError'})
+
 
 def get_period(time_id):
     if (time_id < 1 or time_id > 91):
@@ -273,6 +276,7 @@ def api_course_update(request):
             return HttpResponseBadRequest()
 
     return JsonResponse({'success': True}, safe=False)
+
 
 @csrf_exempt
 def api_course_delete(request):
