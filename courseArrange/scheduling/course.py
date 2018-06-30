@@ -148,6 +148,8 @@ def api_course_get(request):
             period[day] = []
         j = i
         while(j < takeup_len and takeup_filter[i].teach_id == takeup_filter[j].teach_id and takeup_filter[i].room_id == takeup_filter[j].room_id):
+            if takeup_filter[j].time_id.day == 0:
+                continue
             [day,classnum] = get_period(takeup_filter[j].time_id.time_id)
             period[day].append(classnum)
             j += 1
