@@ -24,10 +24,6 @@ def api_course_post(request):
         return JsonResponse({'success': False, 'reason': '`duplicate` is required'})
 
     try:
-        teacher_id = int(teacher_id)
-    except ValueError:
-        return JsonResponse({'success': False, 'reason': '`teacher_id` is not an integer'})
-    try:
         room_id = int(room_id)
     except ValueError:
         return JsonResponse({'success': False, 'reason': '`room_id` is not an integer'})
@@ -104,7 +100,6 @@ def api_course_get(request):
             return HttpResponseBadRequest()
     if teacher_id is not None:
         try:
-            teacher_id = int(teacher_id)
             takeup_filter = takeup_filter.filter(teacher_id=teacher_id)
         except ValueError:
             return HttpResponseBadRequest()
@@ -200,7 +195,6 @@ def api_course_get_pagecount(request):
             return HttpResponseBadRequest()
     if teacher_id is not None:
         try:
-            teacher_id = int(teacher_id)
             takeup_filter = takeup_filter.filter(teacher_id=teacher_id)
         except ValueError:
             return HttpResponseBadRequest()
@@ -256,7 +250,6 @@ def api_course_update(request):
     if course_id is None or teacher_id is None or duplicate is None:
         return HttpResponseBadRequest()
     try:
-        teacher_id = int(teacher_id)
         duplicate = int(duplicate)
     except ValueError:
         return HttpResponseBadRequest()
@@ -300,7 +293,6 @@ def api_course_delete(request):
                 return JsonResponse({'success': False, 'reason': '`course_id` is not an integer'})
         if teacher_id is not None:
             try:
-                teacher_id = int(teacher_id)
                 takeup_filter = takeup_filter.filter(teacher_id=teacher_id)
             except ValueError:
                 return JsonResponse({'success': False, 'reason': '`teacher_id` is not an integer'})
