@@ -1,7 +1,9 @@
 .DS_Store
 */.DS_Store
 __pycache__/
+basicInfo/__pycache__/
 *.pyc
 .vscode
 .idea
 venv/
+venv_0/

@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponse
 
 from basicInfo.models import account, examination, takeup, teach, course, room, learn, master, college,student,teacher,readyteach
-import datetime,time
+import datetime,time,re
 import traceback
 from django.db.models import Q
 
@@ -38,6 +38,7 @@ def api_admin_course(request):
         courseid(string):课程号
         examdate(date):考试时间
         permit(bool):是否同意 0:不同意 1:同意
+        :type(string)
 
         '''
         ret = {"success": 0,
@@ -47,6 +48,7 @@ def api_admin_course(request):
             courseId=request.POST["courseid"]
             examDate=request.POST["examdate"]
             permit=int(request.POST["permit"])
+            type=request.POST["type"]
 
             if permit:
                 try:
@@ -54,7 +56,9 @@ def api_admin_course(request):
                     if course_t.type!="0":
                         ret["reason"] = "该课程已审批"
                         return JsonResponse(ret)
-                    course_t.type="1"
+                    if re.match(r"^[M|C|S]*$",type)==None:
+                        return JsonResponse({"success":0,"reason":"课程类型不符合"})
+                    course_t.type=type
                     course_t.exam_date=datetime.datetime.strptime(examDate,"%Y-%m-%dT%H:%M")
                     course_t.save()
                     ret["success"]=1
@@ -323,6 +327,9 @@ def api_admin_modify_course(request):
             intro = request.POST["intro"]
             type = request.POST["type"]
             examDate=request.POST["exam_date"]
+            if re.match("^[M|C|S]*$",type)==None:
+                return JsonResponse({"success":0,"reason":"课程类型不符合要求"})
+
             tmp_course = course.objects.get(course_id=id)
             tmp_course.name = name
             tmp_course.hour=hour

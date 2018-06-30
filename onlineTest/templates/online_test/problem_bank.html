@@ -4,8 +4,11 @@
 <html>
 <script>
     const data = {
+        "problem_bank_url": "{% url 'online_test:problem_bank' %}",
         "problem_search_url": "{% url 'online_test:problem_search' %}",
         "problem_detail_url": "{% url 'online_test:problem_single' %}",
+        "problem_choice_detail_url": "{% url 'online_test:problem_choice' 1%}",
+        "problem_judge_detail_url": "{% url 'online_test:problem_judge' 1%}",
     }
 </script>
 <head>
@@ -39,6 +42,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{% static 'online_test/js/light.js' %}"></script>
     <!-- //lined-icons -->
     <script src="{% static 'online_test/js/jquery-1.10.2.min.js' %}"></script>
+    <script src="{% static 'online_test/js/problem_bank.js' %}"></script>
 
     <script>
         $.ajaxSetup({
@@ -92,17 +96,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="row col-md-10 form-inline">
                         <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
                             <span class="input-group-addon">科目</span>
-                            <select class="selectpicker form-control">
-                                <option value="chinese">语文</option>
-                                <option value="english">数学</option>
-                                <option value="all">所有学科</option>
-                            </select>
+                            <input type="text" id="subject" class="form-control" placeholder="请输入科目"/>
                         </div>
                         <div class="input-group col-md-2"></div>
                         <div class="input-group col-md-4"
                              style="margin-top :10px; positon:relative">
                             <span class="input-group-addon">章节</span>
-                            <input type="text" class="form-control" placeholder="请输入章节名"/>
+                            <input type="text" id="chapter" class="form-control" placeholder="请输入章节名"/>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -110,33 +110,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <div class="row col-md-10 form-inline">
                         <div class="input-group col-md-4" style="margin-top :10px; positon:relative">
                             <span class="input-group-addon">知识点</span>
-                            <input type="text" class="form-control" placeholder="知识点"/>
+                            <input type="text" id="knowledge-point" class="form-control" placeholder="知识点"/>
                         </div>
                         <div class="input-group col-md-2"></div>
                         <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
                             <span class="input-group-addon">出题人</span>
-                            <input type="text" class="form-control" placeholder="出题人"/>
+                            <input type="text" id="creator" class="form-control" placeholder="出题人"/>
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="row col-md-8" style="margin-top: 10px;margin-bottom: 10px">
-                        <span class="input-group-btn text-center">
+                    <div class="row col-md-10" style="margin-top: 10px;margin-bottom: 10px">
+                        <div class="col-md-4">
+                             <span class="input-group-btn text-center">
                          <button id="btn-search-problem" class="btn btn-primary btn-search">查找</button>
                         </span>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-4">
+                             <span class="input-group-btn text-center">
+                               <button id="btn-single-problem-nav" class="btn btn-primary btn-search"
+                                       style="margin-left:3px">添加题目</button>
+                         </span>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
 
                     <div class="row">
-                        <div class="input-group col-md-5" style="margin-top:10px; positon:relative">
-                            <input type="text" class="form-control" placeholder="请输入字段名"/>
-                            <span class="input-group-btn">
-                               <button id="btn-fast-search-problem" class="btn btn-primary btn-search">快速查找</button>
-                               <button id="btn-single-problem-nav" class="btn btn-primary btn-search"
-                                       style="margin-left:3px">添加题目</button>
-                            </span>
-                        </div>
-                        <div class="clearfix"></div>
                     </div>
-                    <br>
+
                     <ul id="tabs" class="nav nav-tabs">
                         <li class="active" id="TF_list">
                             <a href="#TF_problem" data-toggle="tab">
@@ -156,28 +157,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="col-sm-12" style="border-right-style: inset">
                                     <div class="TF_problems_list">
                                         <div>
-                                            <table>
+                                            <table style="border-collapse:separate; border-spacing:0px 10px;">
                                                 <thead>
                                                 <tr>
-                                                    <th width="150">题号</th>
-                                                    <th width="150">科目</th>
-                                                    <th width="150">章节</th>
-                                                    <th width="150">知识点</th>
-                                                    <th width="150">时间</th>
-                                                    <td></td>
+                                                    <th class="hidden"></th>
+                                                    <th width="300">题目内容</th>
+                                                    <th width="100">科目</th>
+                                                    <th width="100">章节</th>
+                                                    <th width="100">知识点</th>
+                                                    <th width="100">出题人</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>数学</td>
-                                                    <td>ch2</td>
-                                                    <td>函数</td>
-                                                    <td>2018-01-12</td>
-                                                    <td>
-                                                        <button class="btn btn-primary btn-problem-detail">详细</button>
-                                                    </td>
-                                                </tr>
+                                                <tbody id="judge-problem-table-body">
                                                 </tbody>
                                             </table>
                                         </div>
@@ -190,28 +181,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="row">
                                 <div class="col-sm-12" style="border-right-style: inset">
                                     <div class="choice_problems_list">
-                                        <table>
+                                        <table style="border-collapse:separate; border-spacing:0px 10px;">
                                             <thead>
                                             <tr>
-                                                <th width="150">题号</th>
-                                                <th width="150">科目</th>
-                                                <th width="150">章节</th>
-                                                <th width="150">知识点</th>
-                                                <th width="150">时间</th>
-                                                <td></td>
+                                                <th class="hidden"></th>
+                                                <th width="300">题目内容</th>
+                                                <th width="100">科目</th>
+                                                <th width="100">章节</th>
+                                                <th width="100">知识点</th>
+                                                <th width="100">出题人</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>数学</td>
-                                                <td>ch2</td>
-                                                <td>函数</td>
-                                                <td>2018-01-12</td>
-                                                <td>
-                                                    <button class="btn btn-primary btn-problem-detail">详细</button>
-                                                </td>
-                                            </tr>
+                                            <tbody id="choice-problem-table-body">
                                             </tbody>
                                         </table>
                                     </div>
@@ -285,22 +266,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a href="#">
                         <i class="lnr lnr-layers"></i>
                         <span>论坛</span>
-                        <span class="fa fa-angle-right" style="float: right"></span>
                     </a>
-                    <ul id="menu-academico-sub">
-                        <li id="menu-academico-avaliacoes">
-                            <a href="tabs.html">Tabs</a>
-                        </li>
-                        <li id="menu-academico-boletim">
-                            <a href="calender.html">Calender</a>
-                        </li>
-
-                    </ul>
+                </li>
+                <li>
+                    <a href="{% url 'online_test:subjects_teacher' %}">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>学生成绩</span>
+                    </a>
                 </li>
                 <li>
                     <a href="#">
-                        <i class="lnr lnr-chart-bars"></i>
-                        <span>答题系统</span>
+                        <i class="lnr lnr-pencil"></i>
+                        <span>题目管理</span>
                         <span class="fa fa-angle-right" style="float: right"></span>
                     </a>
                     <ul>
@@ -310,26 +287,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <li>
                             <a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a>
                         </li>
-                        <li>
-                            <a href="{% url 'online_test:student_statistics' %}">成绩统计</a>
-                        </li>
                     </ul>
                 </li>
             </ul>
         </div>
     </div>
+</div>
 
 
-    <!--js -->
-    <script src="{% static 'online_test/js/jquery.nicescroll.js' %}"></script>
-    <script src="{% static 'online_test/js/scripts.js' %}"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'online_test/js/bootstrap.min.js' %}"></script>
-    <!-- /Bootstrap Core JavaScript -->
-    <!-- real-time -->
+<!--js -->
+<script src="{% static 'online_test/js/jquery.nicescroll.js' %}"></script>
+<script src="{% static 'online_test/js/scripts.js' %}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'online_test/js/bootstrap.min.js' %}"></script>
+<!-- /Bootstrap Core JavaScript -->
+<!-- real-time -->
 
 
-    <script src="{% static 'online_test/js/menu_jquery.js' %}"></script>
+<script src="{% static 'online_test/js/menu_jquery.js' %}"></script>
 </body>
 
 </html>

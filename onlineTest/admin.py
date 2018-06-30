@@ -2,8 +2,27 @@ from django.contrib import admin
 
 from .models import *
 
-admin.site.register(Teacher)
-admin.site.register(Student)
+
+# class TeacherAdmin(admin.ModelAdmin):
+#     fieldsets = [
+#         ('Name', {'fields': ['name']}),
+#         ('Subjects', {'fields': ['subjects']}),
+#     ]
+#     filter_horizontal = ('subjects',)
+#
+#
+# admin.site.register(Teacher, TeacherAdmin)
+#
+#
+# class StudentAdmin(admin.ModelAdmin):
+#     fieldsets = [
+#         ('Name', {'fields': ['name']}),
+#         ('Subjects', {'fields': ['subjects']}),
+#     ]
+#     filter_horizontal = ('subjects',)
+#
+#
+# admin.site.register(Student, StudentAdmin)
 
 
 class ChoiceQuestionAdmin(admin.ModelAdmin):
@@ -14,6 +33,7 @@ class ChoiceQuestionAdmin(admin.ModelAdmin):
         ('Score', {'fields': ['score']}),
         ('Creator', {'fields': ['creator']}),
         ('Chapter', {'fields': ['chapter']}),
+        ('Subject', {'fields': ['subject']}),
         ('Knowledge Point', {'fields': ['knowledge_point']}),
         ('Time information', {'fields': ['add_time', 'latest_modify_time']})
     ]
@@ -29,6 +49,7 @@ class TrueOrFalseQuestionAdmin(admin.ModelAdmin):
         ('Score', {'fields': ['score']}),
         ('Creator', {'fields': ['creator']}),
         ('Chapter', {'fields': ['chapter']}),
+        ('Subject', {'fields': ['subject']}),
         ('Knowledge Point', {'fields': ['knowledge_point']}),
         ('Time information', {'fields': ['add_time', 'latest_modify_time']})
     ]
@@ -41,6 +62,7 @@ class TestAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Name', {'fields': ['name']}),
         ('Creator', {'fields': ['creator']}),
+        ('Subject', {'fields': ['subject']}),
         ('Attend Students', {'fields': ['attend_students']}),
         ('Questions', {'fields': ['choice_questions', 'true_or_false_questions']}),
         ('Time information', {'fields': ['start_time', 'end_time']})
@@ -55,3 +77,4 @@ admin.site.register(TrueOrFalseQuestionAnswerRecord)
 
 admin.site.register(Chapter)
 admin.site.register(KnowledgePoint)
+# admin.site.register(Subject)
