@@ -146,7 +146,7 @@ def export_excel(request):
     section_id = int(request.GET.get('section_id'))
     teacher_id = int(request.GET.get('teacher_id'))
     course_id = int(request.GET.get('course_id'))
-    section = Teacj.objects.get(teach_id = section_id)
+    section = Teach.objects.get(teach_id = section_id)
     teacher = Teacher.objects.get(teacher_id = teacher_id)
     course = Course.objects.get(course_id = course_id)
     output = io.BytesIO()

@@ -114,7 +114,7 @@
                     console.log(index, row);
                 },
                 handlePrint(index, row) {
-                    query_str = '?section_id='+row['section_id']+'&teacher_id={{teacher.teacher_id}}'+'&course_id='+row['course_id'];
+                    query_str = '?section_id='+row['section_id']+'&teacher_id={{teacher.teacher_id.account_id}}'+'&course_id='+row['course_id'];
                     window.location.href = "{% url 'export' %}"+query_str;
                 }
             }
