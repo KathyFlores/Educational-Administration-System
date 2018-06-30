@@ -24,9 +24,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{% static 'Forum/js/serial.js' %}"></script>
     <script src="{% static 'Forum/js/light.js' %}"></script>
     <!-- //lined-icons -->
-    <script src="{% static 'Forum/js/jquery-1.10.2.min.js' %}"></script>
-    <!--pie-chart-->
-    <script src="{% static 'Forum/js/pie-chart.js' %}" type="text/javascript"></script>
+    <script src="/staticjs/jquery-1.10.2.min.js' %}"></script>
+    <!--pie-chart--->
+    <script src="/staticjs/pie-chart.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -161,10 +161,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <img src="{% static 'Forum/images/logo.jpg' %}" class="img-responsive" alt="">
                             </a>
                         </div>
+						<div class="header_left" style="margin-top: 10px">
+                            <a href="{% url 'message_receive' %}">
+                                <img src="{% static 'Forum/images/email.png' %}" class="img-responsive" alt="">
+                            </a>
+                        </div>
                         <div class="header_middle" style="margin-top: 10px">
                             <p>BG98论坛</p>
                         </div>
                         <!-- start header_right -->
+						
                         <div class="logo" >
 							<div class="search">	
 								<!--for test search-->
@@ -195,7 +201,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </p>
 
                             <p>
-                                <a class="btn btn-primary btn-large" href="#">参看更多公告 »</a>
+                                <a class="btn btn-primary btn-large" href="#">查看更多公告 »</a>
                             </p>
                         </div>
                         <div class="span">
@@ -235,28 +241,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                         </div>
                         <div class="clearfix"></div>
-                        <div class="row-fluid_2">
+						
+                        <div class="row-fluid_4">
                             <div style="float:left;width:500px">
-                                <ul style="border: solid;">
-                                    {% for post in posts1 %}
-										<div class="post">
-											<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
-										</div>
-									{% endfor %}
-                                </ul>
+                                <div style="float:left;width:500px">
+                                {% for post in posts1 %}
+								<div class="women_main" style="">
+									<div class="post">
+										<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
+									</div>
+								</div>		
+								{% endfor %}
+                            </div>
                             </div>
                             <div style="float:right;width:500px">
-                                <ul style="border: solid;">
-                                    {% for post in posts2 %}
-										<div class="post">
-											<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
-										</div>
-										
-									{% endfor %}
-                                </ul>
+                                <div style="float:left;width:500px">
+                                {% for post in posts2 %}
+								<div class="women_main" style="">
+									<div class="post">
+										<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
+									</div>
+								</div>		
+								{% endfor %}
+                            </div>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
+						
                         <div class="row-fluid_1">
                             <div style="float:left;width:500px">
                                 <h3>
@@ -270,26 +280,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                         </div>
                         <div class="clearfix"></div>
+						
                         <div class="row-fluid_4">
                             <div style="float:left;width:500px">
-                                <ul style="border: solid;">
-                                    {% for post in posts3 %}
-										<div class="post">
-											<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
-										</div>
-									{% endfor %}
-                                </ul>
+                                <div style="float:left;width:500px">
+                                {% for post in posts3 %}
+								<div class="women_main" style="">
+									<div class="post">
+										<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
+									</div>
+								</div>		
+								{% endfor %}
+                            </div>
                             </div>
                             <div style="float:right;width:500px">
-                                <ul style="border: solid;">
-                                    {% for post in posts4 %}
-										<div class="post">
-											<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
-										</div>
-									{% endfor %}
-                                </ul>
+                                <div style="float:left;width:500px">
+                                {% for post in posts4 %}
+								<div class="women_main" style="">
+									<div class="post">
+										<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title|linebreaksbr}}</a></h4>
+									</div>
+								</div>		
+								{% endfor %}
+                            </div>
                             </div>
                         </div>
+						
                         <div class="clearfix"></div>
                     </div>
                     <div class="clearfix"></div>
@@ -307,13 +323,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         if (toggle)
         {
             $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
-            $("#menu span").css({"position":"absolute"});
+            $("#menu span").css' %}({"position":"absolute"});
         }
         else
         {
             $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
             setTimeout(function() {
-                $("#menu span").css({"position":"relative"});
+                $("#menu span").css' %}({"position":"relative"});
             }, 400);
         }
         toggle = !toggle;
