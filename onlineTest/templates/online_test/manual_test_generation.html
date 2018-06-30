@@ -262,40 +262,33 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <span>选课</span>
                 </a>
             </li>
-            <li id="menu-academico">
-                <a href="#">
-                    <i class="lnr lnr-layers"></i>
-                    <span>论坛</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
-                </a>
-                <ul id="menu-academico-sub">
-                    <li id="menu-academico-avaliacoes">
-                        <a href="tabs.html">Tabs</a>
-                    </li>
-                    <li id="menu-academico-boletim">
-                        <a href="calender.html">Calender</a>
-                    </li>
-
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="lnr lnr-chart-bars"></i>
-                    <span>答题系统</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
-                </a>
-                <ul>
-                    <li>
-                        <a href="{% url 'online_test:problem_bank' %}">题库管理</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'online_test:student_statistics' %}">成绩统计</a>
-                    </li>
-                </ul>
-            </li>
+                <li id="menu-academico">
+                    <a href="#">
+                        <i class="lnr lnr-layers"></i>
+                        <span>论坛</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'online_test:subjects_teacher' %}">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>学生成绩</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="lnr lnr-pencil"></i>
+                        <span>题目管理</span>
+                        <span class="fa fa-angle-right" style="float: right"></span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="{% url 'online_test:problem_bank' %}">题库管理</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a>
+                        </li>
+                    </ul>
+                </li>
         </ul>
     </div>
 </div>

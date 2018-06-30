@@ -1,0 +1,277 @@
+{% load static %}
+{% load extratags %}
+<!DOCTYPE HTML>
+<script>
+
+    const data = {
+        "problem_add_url": "{% url 'online_test:problem_add' %}",
+        "problem_mod_url": "{% url 'online_test:problem_mod' 1 %}",
+        "problem_delete_url": "{% url 'online_test:problem_del' 1 %}",
+    };
+</script>
+<head>
+    <title>{{ test.name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'online_test/css/bootstrap.min.css' %}" rel='stylesheet' type='text/css'/>
+    <!-- Custom CSS -->
+    <link href="{% static 'online_test/css/style.css' %}" rel='stylesheet' type='text/css'/>
+    <!-- Graph CSS -->
+    <link href="{% static 'online_test/css/font-awesome.css' %}" rel="stylesheet">
+    <!-- jQuery -->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet'
+          type='text/css'/>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <!-- lined-icons -->
+    <link rel="stylesheet" href="{% static 'online_test/css/icon-font.min.css' %}" type='text/css'/>
+    <script src="{% static 'online_test/js/simpleCart.min.js' %}"></script>
+    <script src="{% static 'online_test/js/amcharts.js' %}"></script>
+    <script src="{% static 'online_test/js/serial.js' %}"></script>
+    <script src="{% static 'online_test/js/light.js' %}"></script>
+    <!-- //lined-icons -->
+    <script src="{% static 'online_test/js/jquery-1.10.2.min.js' %}"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {"X-CSRFToken": '{{csrf_token}}'}
+        });
+    </script>
+    <script src="{% static 'online_test/js/problem_bank.js' %}"></script>
+
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+        });
+    </script>
+</head>
+
+<body>
+<div class="left-content">
+    <div class="inner-content">
+        <div class="header-section">
+            <div class="top_bg">
+                <div class="header_top">
+                    <div class="top_right">
+                        <ul>
+                            <li>
+                                <a href="contact.html">help</a>
+                            </li>
+                            |
+                            <li>
+                                <a href="contact.html">Contact us</a>
+                            </li>
+                            <!-- |
+                            <li>
+                                <a href="checkout.html">Delivery information</a>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="top_left">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+
+        <div class="content">
+            <div class="women_main">
+                <div class="content">
+                    <div id="tabs_content" class="tab-content">
+                        <div class="tab-pane fade in active" id="TF_problem">
+                            <div class="row">
+                                <div>
+                                    <div class="panel panel-default" style="margin-bottom: 10px">
+                                        <div>
+                                            <span>题目信息</span>
+                                            <br>
+                                            <div class="container proinfo-box">
+                                                <table>
+                                                    <thead>
+                                                    <tr>
+                                                        <th width="200px"></th>
+                                                        <th width="150px"></th>
+                                                        <th width="200px"></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>科目</span>
+                                                               <div></div>
+                                                                <span id="subject">{{ problem.subject }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                    <span>
+                                                      章节
+                                                    </span><span id="subject"></span>
+                                                                 <div></div><span id="subject">{{ problem.chapter }}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>知识点</span>
+                                                                <div></div>
+                                                                <span id="knowledge-point">{{ problem.knowledge_point }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                    <span>
+                                                      出题人
+                                                    </span>
+                                                                <span id="creator"></span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>录入日期</span>
+                                                                <div></div>
+                                                                <span id="add-time">{{ problem.add_time }}</span>
+                                                            </div>
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span>修改日期</span>
+                                                               <div></div>
+                                                                <span id="latest-update-time">{{ problem.latest_modify_time }}</span>
+                                                             </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <span>分值</span>
+                                                               <div></div>
+                                                                <span id="score">{{ problem.score }}</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <div class="form-group">
+                                            <label for="name">题干内容</label>
+                                           <div class="container">
+                                                <span id="content">{{ problem.content }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <form role="form">
+                                            <div class="form-group">
+                                                <label for="name">题目答案</label>
+                                                 <div class="row">
+                                                      <span id="solution">{{ problem.solution }}</span>
+                                            </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <a class="btn btn-primary btn-go-back" onclick="window.close()" role="button">返回</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="sidebar-menu">
+        <header class="logo1">
+            <a href="#" class="sidebar-icon">
+                <span class="fa fa-bars"></span>
+            </a>
+        </header>
+        <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+        <div class="menu">
+            <ul id="menu">
+                <li>
+                    <a href="index.html">
+                        <i class="fa fa-tachometer"></i>
+                        <span>主页</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="products.html">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>选课</span>
+                    </a>
+                </li>
+                <li id="menu-academico">
+                    <a href="#">
+                        <i class="lnr lnr-layers"></i>
+                        <span>论坛</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'online_test:subjects_teacher' %}">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>学生成绩</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="lnr lnr-pencil"></i>
+                        <span>题目管理</span>
+                        <span class="fa fa-angle-right" style="float: right"></span>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="{% url 'online_test:problem_bank' %}">题库管理</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<!--js -->
+<script src="{% static 'online_test/js/jquery.nicescroll.js' %}"></script>
+<script src="{% static 'online_test/js/scripts.js' %}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{% static 'online_test/js/bootstrap.min.js' %}"></script>
+<!-- /Bootstrap Core JavaScript -->
+<!-- real-time -->
+
+
+<script src="{% static 'online_test/js/menu_jquery.js' %}"></script>
+</body>
+
+</html>
