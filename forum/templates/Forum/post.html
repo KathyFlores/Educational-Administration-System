@@ -24,7 +24,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{% static 'Forum/js/light.js' %}"></script>	
 <!-- //lined-icons -->
 <script src="{% static 'Forum/js/jquery-1.10.2.min.js' %}"></script>
-   <!--pie-chart--->
+   <!--pie-chart-->
 <script src="{% static 'Forum/js/pie-chart.js' %}" type="text/javascript"></script>
  <script type="text/javascript">
 
@@ -68,100 +68,85 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
    <div class="page-container">
 	   <!--/sidebar-menu-->
 	   <div class="sidebar-menu">
-		   <header class="logo1">
-			   <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a>
-		   </header>
-		   <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
-		   <div class="menu">
-			   <ul id="menu" >
-				   <li>
-					   <a href="index.html">
-						   <i class="fa fa-tachometer"></i>
-						   <span>Home</span>
-					   </a>
-				   </li>
-				   <li id="menu-academico" >
-					   <a href="catalog.html">
-						   <i class="fa fa-file-text-o"></i>
-						   <span>Catalog</span>
-					   </a>
-				   </li>
-				   <li id="menu-academico" >
-					   <a href="shoes.html">
-						   <i class="lnr lnr-book"></i>
-						   <span>Shoes</span>
-					   </a>
-				   </li>
-				   <li>
-					   <a href="bags.html">
-						   <i class="lnr lnr-envelope"></i>
-						   <span>Bags</span>
-					   </a>
-				   </li>
-				   <li>
-					   <a href="products.html">
-						   <i class="lnr lnr-chart-bars"></i>
-						   <span>Watches</span>
-					   </a>
-				   </li>
-				   <li id="menu-academico" >
-					   <a href="#">
-						   <i class="lnr lnr-layers"></i>
-						   <span>Tabs & Calender</span>
-						   <span class="fa fa-angle-right" style="float: right"></span>
-					   </a>
-					   <ul id="menu-academico-sub" >
-						   <li id="menu-academico-avaliacoes" ><a href="tabs.html">Tabs</a></li>
-						   <li id="menu-academico-boletim" ><a href="calender.html">Calender</a></li>
-					   </ul>
-				   </li>
-				   <li><a href="#"><i class="lnr lnr-chart-bars"></i> <span>Forms</span> <span class="fa fa-angle-right" style="float: right"></span></a>
-					   <ul>
-						   <li><a href="input.html"> Input</a></li>
-						   <li><a href="validation.html">Validation</a></li>
-					   </ul>
-				   </li>
-			   </ul>
-		   </div>
-	   </div>
+        <header class="logo1">
+            <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a>
+        </header>
+        <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+        <div class="menu">
+            <ul id="menu" >
+                <li>
+                    <a href="#">
+                        <i class="fa fa-tachometer"></i>
+                        <span>主页</span>
+                    </a>
+                </li>
+                <li id="menu-academico" >
+                    <a href="#">
+                        <i class="fa fa-file-text-o"></i>
+                        <span>个人信息</span>
+                    </a>
+                </li>
+                <li id="menu-academico" >
+                    <a href="#">
+                        <i class="lnr lnr-book"></i>
+                        <span>学生评价</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>课程信息</span>
+                        <span class="fa fa-angle-right" style="float: right"></span>
+                    </a>
+                    <ul>
+                        <li><a href="#">申请课程</a></li>
+                        <li><a href="#">修改课程</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="lnr lnr-chart-bars"></i>
+                        <span>浙大论坛</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 	   <!--/mainface-->
 	   <div class="left-content">
 		   <div class="inner-content">
 			   <div class="header-section">
-				   <div class="top_bg">
-					   <div class="header_top">
-						   <div class="top_right">
-							   <ul>
-								   <li>
-									   <a href="#">主页</a>
-								   </li>
-								   <li>
-									   <a href="#">类目</a>
-								   </li>
-								   <li>
-									   <a href="#">主题</a>
-								   </li>
-							   </ul>
-						   </div>
-						   <div class="top_medium">
-							   <ul>
-								   <li>
-									   <a href="#">1</a>
-								   </li>
-								   <li>
-									   <a href="#">2</a>
-								   </li>
-								   <li>
-									   <a href="#">3</a>
-								   </li>
-								   <li>
-									   <a href="#">下一页</a>
-								   </li>
-							   </ul>
-						   </div>
-						   <div class="clearfix"></div>
-					   </div>
-				   </div>
+				   <div class="top_bg">			
+						<div class="header_top">
+							<div class="top_right">
+								<ul>
+									<li><a href="#">浙江大学教务中心</a></li>|
+									<li><a href="/basic/admin_index">首页</a></li>|
+								</ul>
+							</div>
+							<div class="top_left">
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">
+										<i class="fa fa-user fa-fw"></i> <i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
+									</a>
+									<ul class="dropdown-menu dropdown-user">
+										<li><a href="/basic/login"><i class="fa fa-sign-out fa-fw"></i>登出</a></li>
+										<li><a href="/basic/teacher_index"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+									</ul>
+									<!-- /.dropdown-user -->
+								</li>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					{% if account.type == 0 %}
+					{% include 'basicInfo/student_menu.html' %}
+					{% elif account.type == 1 %}
+					{% include 'basicInfo/teacher_menu.html' %}
+					{% elif account.type == 2 %}
+					{% include 'basicInfo/admin_menu.html' %}
+					{% endif %}
 				   <div class="clearfix"></div>
 			   </div>
 			   <div class="header_bg">
