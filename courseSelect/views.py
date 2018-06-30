@@ -32,6 +32,7 @@ def course_select(request):
         except:
             return redirect('curriculum')
         courses = curriculum.courses.all()
+
         # section = Section.objects.filter(takeup__course_id__course_curriculum = curriculum)
         if request.POST:
             courses = search(request.POST, courses)
