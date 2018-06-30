@@ -300,7 +300,7 @@
 			});
 		});
 		function deleteDone(selection) {
-
+			selection.map(s => delete s.time_id);
 			console.log({ delete: JSON.stringify(selection) });
 			new Promise(function (resolve) {
 				$.ajax(
