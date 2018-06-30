@@ -86,7 +86,7 @@ def api_arrange(request):
 	tmp_time_list = time.objects.all()
 	time_list = []
 	for t in tmp_time_list:
-		if (t.day > 0 and t.day <= 7):
+		if (t.day > 0 and t.day <= 5):
 			time_list.append(t)
 	for i in range(0,len(time_list)):
 		for j in range(i+1,len(time_list)):
