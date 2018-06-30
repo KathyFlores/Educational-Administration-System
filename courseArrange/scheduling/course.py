@@ -93,8 +93,7 @@ def api_course_get(request):
     page = request.GET.get('page')
     isteacher = request.GET.get('isteacher')
     takeup_filter = takeup.objects.all()
-
-    if isteacher is not None:
+    if isteacher is not None and isteacher != "false":
         teacher_id = request.session["account_id"]
     if course_id is not None:
         try:
