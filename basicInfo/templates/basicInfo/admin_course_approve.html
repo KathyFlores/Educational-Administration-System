@@ -32,6 +32,7 @@
                         <th>课程课时</th>
                         <th>课程介绍</th>
                         <th>课程学期</th>
+                        <th>课程类型</th>
                         <th>考试时间</th>
                         <th>批复</th>
                     </tr>
@@ -78,6 +79,7 @@
                          "<td>"+data[i].hour+"</td>\n" +
                          "<td>"+data[i].intro+"</td>\n" +
                          "<td>"+data[i].semester+"</td>\n" +
+                         "<td><input type=\"text\" placeholder=\"请输入课程类型(MSC)\" id=\"t"+i+"\"/></td>\n" +
                          "<td><input type=\"datetime-local\" class=\"datepicker\" placeholder=\"请选择日期\" id=\"d"+i+"\"/></td>\n" +
                          "<td><button onclick=\"disagree(\'"+data[i].id+"\',"+i+")\" id=\"b"+i+"\" type=\"button\" style=\"background-color: #1A9F00\" class=\"btn btn-primary\">拒绝</button>" +
                          "<button onclick=\"agree(\'"+data[i].id+"\',"+i+")\" id=\"b"+i+"\" type=\"button\" style=\"background-color: #1A9F00\" class=\"btn btn-primary\">同意</button></td>\n" +
@@ -107,6 +109,7 @@
                url: basicUrl+"api/admin/course",
                data: {
                    courseid:id,
+                   type:document.getElementById("t" + timei).value,
                    examdate:document.getElementById("d" + timei).value,
                    permit:1,
                    csrfmiddlewaretoken: '{{ csrf_token }}'

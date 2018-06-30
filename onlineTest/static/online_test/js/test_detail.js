@@ -108,23 +108,23 @@ $(document).ready(function () {
 
     let static_table = "<div>判断题</div>";
     for (i = 0; i < data.TF_problems.length; i++) {
-        if (data.TF_problems[i].choose !== "null") {
+        if (data.TF_problems[i].choose != "None") {
             $("#" + data.TF_problems[i].id + "_" + data.TF_problems[i].choose).attr("checked", "checked");
-            static_table = static_table + '<button class="btn btn-primary">' + Number(i + 1) + '</button>&nbsp';
+            static_table = static_table + '<button class="btn btn-danger" style="cursor: default">' + Number(i + 1) + '</button>&nbsp';
         }
         else {
-            static_table = static_table + '<button class="btn btn-secondary">' + Number(i + 1) + '</button>&nbsp';
+            static_table = static_table + '<button class="btn btn-primary" style="cursor: default">' + Number(i + 1) + '</button>&nbsp';
         }
     }
 
     static_table = static_table + "<hr><div>选择题</div>";
     for (i = 0; i < data.choice_problems.length; i++) {
-        if (data.choice_problems[i].choose !== "null") {
+        if (data.choice_problems[i].choose != 'None') {
             $("#" + data.choice_problems[i].id + "_" + data.choice_problems[i].choose).attr("checked", "checked");
-            static_table = static_table + '<button class="btn btn-primary">' + Number(i + 1) + '</button>&nbsp';
+            static_table = static_table + '<button class="btn btn-danger" style="cursor: default">' + Number(i + 1) + '</button>&nbsp';
         }
         else {
-            static_table = static_table + '<button class="btn btn-secondary">' + Number(i + 1) + '</button>&nbsp';
+            static_table = static_table + '<button class="btn btn-primary" style="cursor: default">' + Number(i + 1) + '</button>&nbsp';
         }
     }
 
@@ -170,6 +170,15 @@ function show_time() {
 
 $(document).ready(function () {
     $('#submit_TF').click(function () {
+
+        var time_start = new Date().getTime();
+        var time_end = new Date(data_save.due).getTime();
+
+        if(time_end < time_start){
+            alert("无法提交：测试已结束");
+            return;
+        }
+
         const post_data = {};
         post_data["test_id"] = data_save.test_id;
         post_data["type"] = "true_or_false";

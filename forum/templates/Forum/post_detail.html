@@ -18,7 +18,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
 <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 <!-- lined-icons -->
-<link rel="stylesheet" href="css/icon-font.min.css' %}" type='text/css' />
+<link rel="stylesheet" href="{% static 'Forum/css/icon-font.min.css' %}" type='text/css' />
 <script src="{% static 'Forum/js/simpleCart.min.js' %}"> </script>
 <script src="{% static 'Forum/js/amcharts.js' %}"></script>	
 <script src="{% static 'Forum/js/serial.js' %}"></script>	
@@ -251,23 +251,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <div>
 
                                                 <div class="mod-body clearfix">
-                                                    <!-- 评论内容 -->
-                                                    <div class="markitup-box">
+													<!-- 评论内容 -->
 													{% for reply in replys %}
 													{% if reply.post.id == post.id %}
-													<div class="reply">
-
-														{% if reply.published_date %}
-														<div class="date">
-															{{ reply.published_date }}
+													<div class="women_main">
+														<div class="body_top" style="width: 1200px">
+															<div class="message" style="padding-left:0px;">
+																<h5>{{reply.author}}</h5>
+															</div>
+															<div class="message" style="padding-left:100px;">
+																<h2>{{ reply.text }}</h2>
+															</div>
+															<div class="message" style="padding-left:1030px;margin-left:auto;margin-right:auto;">
+																<h5>{{reply.published_date}}</h5>
+															</div>
+															<div class="clearfix"></div>
 														</div>
-														{% endif %}
-														<p>{{ reply.author|linebreaksbr }}</p>
-														<p>{{ reply.text|linebreaksbr }}</p>
+														<div class="clearfix"></div>                   
 													</div>
+
 													{% endif %}
 													{% endfor %}
-													</div>
+													
+                                                    
                                                     <!-- end 评论内容 -->
                                                 </div>
 
@@ -281,9 +287,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                             <!-- /tabs -->
                         </div>
-                        <script src="js/cbpFWTabs.js' %}"></script>
+                        <script src="{% static 'Forum/js/cbpFWTabs.js' %}"></script>
                         <script>
-                            new CBPFWTabs( document.getElementById( 'tabs' ) );
+                            new CBPFWTabs( $('#tabs') );
                         </script>
                     </div>
                     <!-- end content -->
@@ -300,13 +306,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   if (toggle)
 		   {
 			   $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
-			   $("#menu span").css' %}({"position":"absolute"});
+			   $("#menu span").css({"position":"absolute"});
 		   }
 		   else
 		   {
 			   $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
 			   setTimeout(function() {
-			       $("#menu span").css' %}({"position":"relative"});
+			       $("#menu span").css({"position":"relative"});
 			   }, 400);
 		   }
 		   toggle = !toggle;

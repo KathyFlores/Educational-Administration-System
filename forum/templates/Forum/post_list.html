@@ -234,7 +234,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="body_top" style="width: 500px">
                             <div class="top_sp" style="float: left;width: 1258px;border: solid">
                                     {% for post in posts %}
-                                        <div><h4><a href="{% url 'post_detail' pk=post.pk %}">{{post.title}} </a></h4></div><hr />
+                                    
+										<div class="women_main">
+                                            <div class="body_top" style="width: 1200px">
+                                                <div class="message" style="padding-left:100px;">
+                                                        <div><h4><a href="{% url 'post_detail' pk=post.pk %}">{{post.title}} </a></h4></div><hr />
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="clearfix"></div>                   
+                                        </div>
                                     {% endfor %}
 
                             </div>

@@ -1,5 +1,7 @@
 from django.db import models
 
+from basicInfo.models import course as Subject, teacher as Teacher, student as Student
+
 CHOICE = (
     ('A', 'A'),
     ('B', 'B'),
@@ -8,30 +10,33 @@ CHOICE = (
 )
 
 
-class Teacher(models.Model):
-    name = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
-
-
-class Student(models.Model):
-    name = models.CharField(max_length=20)
-    class_id = models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.name
-
-
-class Subject(models.Model):
-    name = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.name
+# class Subject(models.Model):
+#     name = models.CharField(max_length=20)
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Teacher(models.Model):
+#     name = models.CharField(max_length=20)
+#     subjects = models.ManyToManyField(Subject, null=True, blank=True)  # subjects that teacher teaches
+#
+#     def __str__(self):
+#         return self.name
+#
+#
+# class Student(models.Model):
+#     name = models.CharField(max_length=20)
+#     class_id = models.IntegerField(default=0)
+#     subjects = models.ManyToManyField(Subject, null=True, blank=True)  # subjects that student chooses
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Chapter(models.Model):
     chapter = models.CharField(max_length=10)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.chapter
@@ -39,9 +44,22 @@ class Chapter(models.Model):
 
 class KnowledgePoint(models.Model):
     knowledge_point = models.CharField(max_length=10)
+    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.knowledge_point
+
+
+# class ProblemSearch(models.Model):
+#	problem_type = models.IntegerField()
+#   creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
+#
+#   subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
+#   chapter = models.ForeignKey(Chapter, on_delete=models.SET_NULL, blank=True, null=True)
+#   knowledge_point = models.ForeignKey(KnowledgePoint, on_delete=models.SET_NULL, blank=True, null=True)
+#	
+#   def __str__(self):
+#        return self.problem_type			
 
 
 class ChoiceQuestion(models.Model):
@@ -55,7 +73,6 @@ class ChoiceQuestion(models.Model):
     solution = models.CharField(max_length=1, choices=CHOICE)
 
     score = models.PositiveSmallIntegerField(default=1)
-
     creator = models.ForeignKey(Teacher, on_delete=models.SET_NULL, blank=True, null=True)
 
     subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, blank=True, null=True)
@@ -121,4 +138,4 @@ class TrueOrFalseQuestionAnswerRecord(models.Model):
     question = models.ForeignKey(TrueOrFalseQuestion, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, blank=True, null=True)
     answer = models.NullBooleanField(default=None, blank=True, null=True)
-    answer_time = models.DateTimeField('time answered', default=None)
+    answer_time = models.DateTimeField('time answered', blank=True, null=True, default=None)
