@@ -1,5 +1,6 @@
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 from basicInfo.models import time, teacher,  course, room, teach, takeup
 import random
 import datetime
@@ -195,8 +196,11 @@ def api_arrange(request):
 			room_time.add((room_id,time_id))
 		for (teacher_id,time_id) in candidate_teacher_time:
 			teacher_time.add((teacher_id,time_id))
-	
-	takeup.objects.all().delete()
+
+	time_filter = time.objects.filter(~Q(day=0))
+	takeup_filter = takeup.objects.filter(time_id__in=time_filter)
+	takeup_filter.delete()
+
 	for arrange in arrange_all:
 		for time_id in arrange['time_ids']:
 			ins_time_id = time.objects.get(time_id = time_id)
