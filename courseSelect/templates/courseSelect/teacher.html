@@ -76,6 +76,17 @@
             }
             return r.join('\n');
         }
+        display_weekday = (num) =>{
+            switch(num){
+                case '1':return '一  ';
+                case '2':return '二  ';
+                case '3':return '三  ';
+                case '4':return '四  ';
+                case '5':return '五  ';
+                case '6':return '六  ';
+                case '7':return '日  ';
+            }
+        }
         new Vue({
             el: "#course_list",
             data() {
@@ -90,7 +101,8 @@
                         course_location: {% getRoomBySection section.teach_id as rooms %}
                             "{% for room in rooms %}{{room.location}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}",
                         course_time: {% getTimeBySection section.teach_id as time_ %}
-                            distinct("{% for time in time_ %}{{time.start|date:'l H:i'}} - {{time.end|date:'l H:i'}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"),
+                            distinct("{% for time in time_ %}{% if time.day %}周" +display_weekday("{{time.day}}") +"{{time.start}} - {{time.end}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{%endif%}{% endfor %}")
+                        ,
                         studentData: [
                         {% getStudentBySection section.teach_id as students %}
                         {% for student in students %}
