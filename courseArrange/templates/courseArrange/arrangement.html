@@ -542,7 +542,7 @@
 			}
 			$(`[pagenum="${curr}"]`).addClass("current");
 			$('.pages').find('span').click(function() {
-				displayData({ ...c_config,page: parseInt(this.getAttribute('pagenum')) });
+				displayData({ ...c_config,page: parseInt(this.getAttribute('pagenum')+1) });
 			})
 		}
 		function checkChange() {
@@ -621,7 +621,7 @@
 			}).then((data) => {
 				setPage(data.pagecount ? data.pagecount : 1, 0);
 				c_config = config;
-				displayData({ ...config, page: 0 });
+				displayData({ ...config, page: 1 });
 			});
 		}
 		getPageCount(urlMap(str => str.split("=")[0] == 'teacher_id'));
