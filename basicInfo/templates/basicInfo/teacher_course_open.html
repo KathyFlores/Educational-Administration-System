@@ -17,8 +17,14 @@
             <form role="form" method="POST">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="disabledSelect">课程代号</label>
-                    <input name="id" id="id" type="text" class="form-control" aria-describedby="basic-addon2" value={{id}}>
+						<form role="form">
+                        <form action="/teacher/student_comment" method="get">
+                            <div class="form-group">
+                                <select class="form-control" name="metric" id="course_list" onChange="c_change()">
+                                </select>
+                            </div>
+                        </form>
+                </form>
                 </div>
                 <div class="form-group">
                     <label for="disabledSelect">课程容量</label>
@@ -34,12 +40,12 @@
     <!-- wrapper -->
 </div>
 <!--content-ends-->
-      
 <script>
 	const basicUrl="http://127.0.0.1:8000/";
     function doApply() {
 		var tid=account_id.innerText;
-		var id=document.getElementById("id").value.toString();
+		var course_select=document.getElementById("course_list");
+		var id=course_select.value;
 		var capacity=document.getElementById("capacity").value.toString();
 		console.log(id, capacity);
 		new Promise(function (resolve){
@@ -77,5 +83,71 @@
 		);
 	}
 </script>
+ <script>
+	function c_change(){
+		var course_select=document.getElementById("course_list");
+		var c_id=course_select.value;
+		var url = basicUrl + "api/admin/acceptedCourse?course_id=" + c_id;
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: url,
+                   data: {
+                   },
+                   async : false,
+                   success: function (data) {
+                        resolve(data);
+                   }
 
+               }
+           )
+            }).then(
+                function (data) {
+                    console.log(data);
+					cour_id.value = data.course_id;
+					cour_name.value = data.name;
+					credit.value = data.credit;
+					hour.value = data.hour;
+					intro.value = data.intro;
+					cour_type.value = data.type;
+					exam_time.value = data.exam_date;
+                }
+            );
+	}
+	
+</script> 
+<script>
+    $(document).ready(function () {
+        course_id_list();
+    });
+    function course_id_list() {
+        var url = basicUrl + "api/admin/listCourseAcceptedId";
+        new Promise(function (resolve){
+           $.ajax(
+               {
+                   method: "GET",
+                   url: url,
+                   data: {
+                   },
+                   async : false,
+                   success: function (data) {
+                        resolve(data);
+                   }
+
+               }
+           )
+            }).then(
+                function (data) {
+                    console.log(data);
+					var text = "<option value=\"-1\" selected=\"true\" disabled=\"true\">课程代号</option>\n";
+                    for(var i=0;i<data.length;i++){
+                        text = text + "<option value=\""+data[i].course_id+"\">"+data[i].course_id+"</option>\n"
+                    }
+					var cour_list=document.getElementById("course_list");
+					cour_list.innerHTML = text;
+                }
+            );
+    }
+</script>
 {% endblock %}
