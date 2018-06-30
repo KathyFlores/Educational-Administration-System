@@ -335,7 +335,6 @@
 			editDialog.classList.add("hidden");
 			$(".float-dialog-edit").find("input").each((i, e) => {
 				if (e.id.includes("-")) {
-					let mname = e.id.split("-")[0];
 					if (e.checked) {
 						data.time_id.push(parseInt(e.id.split("-")[0]) * 13 + parseInt(e.id.split("-")[1]) - 13);
 					}
@@ -343,15 +342,13 @@
 					data[e.id] = e.value;
 				}
 			});
-			let oldTR = editingTR;
+			let oldTR = editingTR.parentElement.parentElement;
 			let aysncHandler = new Promise(function (resolve) {
-				console.log(data);
+				
 				const timeArr = data.time_id;
-				const data2 = timeArr.map(t => {
-					const d = {};
-					for (let key in data) d[key] = data[key];
-					d.time_id = t;
-				})
+				data.time_id.sort();
+				data.time_id = JSON.stringify(data.time_id);
+				console.log(data);
 				$.ajax(
 					{
 						method: "POST",
@@ -367,6 +364,7 @@
 				)
 			}).then((data) => {
 				if (data.success) {
+					//window.location.reload();
 					message.success(oldTR ? "更改成功！" : "添加成功");
 					editingTR = null;
 					oldTR && oldTR.parentElement.replaceChild(
@@ -485,10 +483,12 @@
 				let nobj = {};
 				for (let key in obj) {
 					nobj[key] = {};
-					if (Array.isArray(obj[key])) {
-						obj[key].map((i) => {
-							editDialog.querySelector(`#${key}-${i}`).checked = true;
-						})
+					if (typeof obj[key] === 'object') {
+						for(let k in obj[key]) {
+							obj[key][k].map(t => {
+								$(`#${k}-${t}`).click();
+							})
+						}
 						continue;
 					}
 					(editDialog.querySelector(`#${key}`) || (nobj[key])).value = obj[key];
@@ -541,6 +541,9 @@
 				$(".pages").append(`<span pagenum=${i}>${i + 1}</span>`)
 			}
 			$(`[pagenum="${curr}"]`).addClass("current");
+			$('.pages').find('span').click(function() {
+				displayData({ ...c_config,page: parseInt(this.getAttribute('pagenum')) });
+			})
 		}
 		function checkChange() {
 			var tr = this.parentElement.parentElement;
@@ -593,6 +596,8 @@
 					par.appendChild(factory.createView(t));
 				})
 				document.querySelector("tbody").appendChild(par);
+				$('.current').removeClass('current');
+				$(`[pagenum="${param.page}"]`).addClass("current");
 			});
 		}
 		function urlMap(filter) {
@@ -601,6 +606,7 @@
 			window.location.href.split("?")[1].split("&").filter(filter).map(e => res[e.split("=")[0]] = e.split("=")[1]);
 			return res;
 		}
+		var c_config = {};
 		function getPageCount(config) {
 			new Promise((resolve, reject) => {
 				$.ajax(
@@ -614,6 +620,7 @@
 				)
 			}).then((data) => {
 				setPage(data.pagecount ? data.pagecount : 1, 0);
+				c_config = config;
 				displayData({ ...config, page: 0 });
 			});
 		}

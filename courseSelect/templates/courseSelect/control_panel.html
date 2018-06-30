@@ -47,8 +47,8 @@
                         </el-form-item>                        
                         <el-form-item>
                             <el-button type="danger" icon="el-icon-edit" @click="onSubmit">保存</el-button>
-                            <el-button type="danger">筛选</el-button>  
-                            
+                            <el-button type="danger" @click="onFilter">筛选</el-button>
+
                         </el-form-item>
                     </el-form>
                 </div>
@@ -62,7 +62,7 @@
             <div class="panel-title">
                 培养方案管理
                 <div class="clearfix"> </div>
-                
+
                 <br/>
                 <div id="discipline-panel">
                     <el-form size="small" ref="form" label-position="left" :model="form" label-width="150px">
@@ -94,13 +94,13 @@
                             <el-input placeholder="输入最低公共课学分" v-model="form.min_public" min=0 type="number"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            
+
                             <el-button type="danger" icon="el-icon-edit" @click="onSubmit">保存</el-button>
                             <template>
-                                <el-button @click="openDialog()">查看必修课程</el-button> 
-                                <el-dialog 
-                                    title="必修课程" 
-                                    :visible.sync="dialogVisible" 
+                                <el-button @click="openDialog()">查看必修课程</el-button>
+                                <el-dialog
+                                    title="必修课程"
+                                    :visible.sync="dialogVisible"
                                     :modal-append-to-body="false"
                                     :append-to-body="true">
                                     <el-table :data="required_courses">
@@ -142,7 +142,7 @@
             }
         }
         return cookieValue;
-    }            
+    }
     var csrftoken = getCookie('csrftoken');
     new Vue({
         delimiters:['[[', ']]'],
@@ -171,6 +171,28 @@
                         withdraw_time_start: timeStamp(this.form['withdraw_time'][0]),
                         withdraw_time_end: timeStamp(this.form['withdraw_time'][1]),
                         max_connections: this.form['max_connections'],
+                        oper: 'save'
+                    },
+                    success: function(res){
+                        that.$message({
+                            type: (()=>{return res['code']===0?'success':'error'})(),
+                            message: res['msg'],
+                            duration: 2000
+                        });
+                        //console.log('success:',res);
+                    },
+                    error: function(e){
+                        console.log(e);
+                    }
+                });
+            },
+            onFilter() {
+                that = this;
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        csrfmiddlewaretoken: csrftoken,
+                        oper: 'filter'
                     },
                     success: function(res){
                         that.$message({

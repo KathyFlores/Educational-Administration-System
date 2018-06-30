@@ -27,10 +27,13 @@ class account(models.Model):
     password=models.CharField(max_length=200,null=False)
     salt=models.CharField(max_length=8,null=False,default="12345678")
     type=models.IntegerField(null=False,default=0)
-
+    
     def save(self, *args, **kwargs):
         print("account saved")
         super(account, self).save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.account_id
 
 
 class attrib(models.Model):

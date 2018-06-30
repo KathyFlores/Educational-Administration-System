@@ -265,9 +265,8 @@
 			let rowSpan = [0, 0, 0, 0, 0, 0, 0];
 			let _data = [[], [], [], [], [], [], []];
 			for (let _class in data) {
-				const t = data[_class].time_id - 1;
-				_data[t / 5][t % 5] = { ...data[_class], span: 1 };
-				/*for (let day in data[_class].time_id) {
+
+				for (let day in data[_class].period) {
 				let last = -10;
 				let workon = -1;
 				
@@ -280,7 +279,7 @@
 					}
 					last = c;
 				})
-			}*/
+			}
 			}
 			console.log(_data);
 			for (let i = 0; i < 12; i++) {

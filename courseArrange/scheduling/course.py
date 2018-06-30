@@ -90,6 +90,7 @@ def api_course_get(request):
     room_id = request.GET.get('room_id')
     time_id = request.GET.get('time_id')
     count = request.GET.get('count')
+    page = request.GET.get('page')
     takeup_filter = takeup.objects.all()
     if course_id is not None:
         try:
@@ -113,6 +114,12 @@ def api_course_get(request):
         try:
             time_id = int(time_id)
             takeup_filter = takeup_filter.filter(time_id=time_id)
+        except ValueError:
+            return HttpResponseBadRequest()
+    if page is not None:
+        try:
+            page = int(page)
+            takeup_filter = takeup_filter[20 * (page - 1):20 * page]
         except ValueError:
             return HttpResponseBadRequest()
     if count is None:
