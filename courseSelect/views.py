@@ -65,12 +65,25 @@ def select(request):
         if (request.POST['oper'] == 'select'):
             try:
                 Selection.objects.get(student = student, teach = section)
-                msg = '该课程已经在您的已选列表当中！' 
+                msg = '该课程已经在您的已选列表当中！'
                 code = 500
             except:
-                Selection.objects.create(student = student, select_time = timezone.now(), state = False, priority = 1,teach = section)
-                msg = '选课成功！'
                 code = 0
+                curr_teach = Selection.objects.filter(student = student)
+                time_ids = Takeup.objects.filter(teach_id = section.teach_id)
+                for each_teach in curr_teach:
+                    # print (each_teach.teach.teach_id)
+                    time_id = Takeup.objects.filter(teach_id=each_teach.teach.teach_id)
+                    for time1 in time_id:
+                        for time2 in time_ids:
+                            if (time1.time_id.time_id == time2.time_id.time_id):
+                            # if (1):
+                                msg = '选课冲突！'
+                                code = 500
+                if (code == 0):
+                    Selection.objects.create(student = student, select_time = timezone.now(), state = False, priority = 1,teach = section)
+                    msg = '选课成功！'
+                    code = 0
         if (request.POST['oper'] == 'quit'):
             try:
                 Selection.objects.get(student = student, teach = section).delete()
