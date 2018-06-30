@@ -116,6 +116,7 @@ def api_course_get(request):
             takeup_filter = takeup_filter.filter(time_id=time_id)
         except ValueError:
             return HttpResponseBadRequest()
+    takeup_filter = takeup_filter.order_by('teach_id', 'room_id', 'time_id')
     if page is not None:
         try:
             page = int(page)
