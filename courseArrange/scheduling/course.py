@@ -80,6 +80,11 @@ def api_course_post(request):
     except ValueError:
         return JsonResponse({'success': False, 'reason': 'ValueError'})
 
+def get_period(time_id):
+    if (time_id < 1 or time_id > 91):
+        return [0,0]
+    return [(time_id-1)//13+1,(time_id-1)%13+1]
+
 
 def api_course_get(request):
     course_id = request.GET.get('course_id')
@@ -122,7 +127,37 @@ def api_course_get(request):
         except ValueError:
             return JsonResponse({'success': False, 'reason': '`count` is not an integer'})
 
-    takeup_filter = takeup_filter.order_by('teacher_id')
+    #take_up_ins = takeup(teach_id = ins_teach_id,time_id = ins_time_id,room_id = ins_room_id,teacher_id = ins_teacher_id)
+    takeup_filter = takeup_filter.order_by('teach_id','room_id','time_id')
+    res = []
+    takeup_len = len(takeup_filter)
+    i = 0
+    while(i < takeup_len):
+        r = takeup_filter[i]
+        ret_dict = {
+            'course_id': teach.objects.get(teach_id=r.teach_id.teach_id).course_id.course_id,
+            'course_name': teach.objects.get(teach_id=r.teach_id.teach_id).course_id.name,
+            'teacher_id': r.teacher_id.teacher_id_id,
+            'teacher_name': teacher.objects.get(teacher_id=r.teacher_id.teacher_id_id).name,
+            'room_id': r.room_id.room_id,
+            'room_name': room.objects.get(room_id=r.room_id.room_id).location,
+            'duplicate': teach.objects.get(teach_id=r.teach_id.teach_id).duplicate,
+            'capacity': teach.objects.get(teach_id=r.teach_id.teach_id).capacity,
+        }
+        period = {}
+        for day in range(1,8):
+            period[day] = []
+        j = i
+        while(j < takeup_len and takeup_filter[i].teach_id == takeup_filter[j].teach_id and takeup_filter[i].room_id == takeup_filter[j].room_id):
+            [day,classnum] = get_period(takeup_filter[j].time_id.time_id)
+            period[day].append(classnum)
+            j += 1
+
+        i = j
+        
+        ret_dict['period'] = period
+        res.append(ret_dict)
+    '''
     res = [{
         'course_id': teach.objects.get(teach_id=r.teach_id.teach_id).course_id.course_id,
         'course_name': teach.objects.get(teach_id=r.teach_id.teach_id).course_id.name,
@@ -138,7 +173,7 @@ def api_course_get(request):
         'capacity': teach.objects.get(teach_id=r.teach_id.teach_id).capacity,
         #'exam_date': teach.objects.get(teach_id=r.teach_id.teach_id).exam_date
     } for r in takeup_filter]
-
+    '''
     return JsonResponse(res, safe=False)
 
 
