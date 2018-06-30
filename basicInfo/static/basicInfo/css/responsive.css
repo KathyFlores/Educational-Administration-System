@@ -139,12 +139,12 @@ header a.hamburger{
     margin-top: 41px;
     width: 24px;
     height: 19px;
-    background: url('../img/hamburger_icon.png') no-repeat;
+    background: url('../images/hamburger_icon.png') no-repeat;
 }
 
 header a.hamburger.opned{
     width: 19px;
-    background: url('../img/close_menu_icon.png') no-repeat;
+    background: url('../images/close_menu_icon.png') no-repeat;
 }
 
 
@@ -304,7 +304,7 @@ header nav .login_btn:hover{
     width: 26px;
     height: 26px;
     float: right;
-    background: url('../img/advanced_search_inactive.png') no-repeat;
+    background: url('../images/advanced_search_inactive.png') no-repeat;
     margin-top: 37px;
 
     transition: all .2s linear;
@@ -314,11 +314,11 @@ header nav .login_btn:hover{
 }
 
 .search .advanced_search_icon:hover{
-    background: url('../img/advanced_search_hover.png') no-repeat;
+    background: url('../images/advanced_search_hover.png') no-repeat;
 }
 
 .search .advanced_search_icon.active{
-    background: url('../img/advanced_search_active.png') no-repeat;
+    background: url('../images/advanced_search_active.png') no-repeat;
 }
 
 
@@ -343,7 +343,7 @@ header nav .login_btn:hover{
     display: block;
     width: 14px;
     height: 9px;
-    background: url('../img/search_arrow.png') no-repeat;
+    background: url('../images/search_arrow.png') no-repeat;
     position: absolute;
     top: -8px;
     right: 6px;
@@ -365,7 +365,7 @@ header nav .login_btn:hover{
 
 .search .advanced_search #check_in_date,
 .search .advanced_search #check_out_date{
-    background: url('../img/calendar_icon.png') no-repeat;
+    background: url('../images/calendar_icon.png') no-repeat;
     background-position: 484px 50%;
     padding: 0 100px 0 20px;
     width: 429px;
@@ -664,7 +664,7 @@ footer ul li.about > ul > li:last-child{
 }
 
 footer ul li.about > ul > li a{
-    background: url('../img/social_media.png') no-repeat;
+    background: url('../images/social_media.png') no-repeat;
 }
 
 footer ul li.about > ul > li a.facebook{
@@ -748,7 +748,7 @@ footer .copyrights a.ph_link{
 
     .search .advanced_search #check_in_date,
     .search .advanced_search #check_out_date{
-        background: url('../img/calendar_icon.png') no-repeat;
+        background: url('../images/calendar_icon.png') no-repeat;
         background-position: 95.08840864440079% 50%;
     }
 
@@ -911,7 +911,7 @@ footer .copyrights a.ph_link{
 
     .search .advanced_search #check_in_date,
     .search .advanced_search #check_out_date{
-        background: url('../img/calendar_icon.png') no-repeat;
+        background: url('../images/calendar_icon.png') no-repeat;
         background-position: 95.08840864440079% 50%;
     }
 

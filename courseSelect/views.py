@@ -12,7 +12,10 @@ def courses(request):
     courses = Course.objects.all()
     if request.POST:
         courses = search(request.POST, courses)
-    return render(request, 'courseSelect/courses.html', {'courses':courses})
+    
+    account_id = request.session['account_id']
+    account = Account.objects.get(account_id=account_id)
+    return render(request, 'courseSelect/courses.html', {'courses':courses, 'account':account})
 
 def course_select(request):
     account_id = request.session['account_id']
@@ -39,6 +42,7 @@ def course_select(request):
             'credit_need': credit_need,
             'curriculum':curriculum,
             'courses': courses,
+            'account': account
             # 'section': section
         })
 
@@ -83,7 +87,7 @@ def table(request):
     if account.type == 0:
         student = Student.objects.get(student_id = account)
         sections = Teach.objects.filter(selection__student = student)
-        return render(request, 'courseSelect/table.html',{'student':student,'sections':sections})
+        return render(request, 'courseSelect/table.html',{'student':student,'sections':sections, 'account':account})
 
 def teacher(request):
     account_id = request.session['account_id']
@@ -91,7 +95,7 @@ def teacher(request):
     if account.type == 1:
         teacher = Teacher.objects.get(teacher_id = account_id)
         sections = Teach.objects.filter(takeup__teacher_id = teacher)
-        return render(request, 'courseSelect/teacher.html',{'teacher':teacher,'sections':sections})
+        return render(request, 'courseSelect/teacher.html',{'teacher':teacher,'sections':sections, 'account':account})
 
 def curriculum(request):
     account_id = request.session['account_id']
@@ -158,6 +162,7 @@ def curriculum(request):
             'courses': courses,
             'selected_public_credit': selected_public_credit,
             'selected_elective_credit': selected_elective_credit,
+            'account':account
         })
 
 def export_excel(request):
@@ -211,10 +216,10 @@ def control(request):
     
     account_id = request.session['account_id']
     account = Account.objects.get(account_id=account_id)
-    if account.type == 3:
+    if account.type == 2:
         select_control = SelectControl.objects.all().order_by('-pk')[:1][0]    
         if request.POST:
-            print(request.POST)
+            # print(request.POST)
             if (request.POST['oper'] == 'save'):
                 max_connections = int(request.POST['max_connections'])
                 first_time_start = int(request.POST['first_time_start'])
@@ -242,12 +247,12 @@ def control(request):
                     capacity = teach.capacity
                     selections = Selection.objects.filter(teach_id = teach_id)
                     # print(teach_id)
-                    print(len(selections))
+                    # print(len(selections))
                     for selection in selections:
                         selection.state = True
                         selection.save()
                 return JsonResponse({'code': 0, 'msg': '筛选成功'})
-        return render(request, 'courseSelect/control_panel.html', {'select_control':select_control})
+        return render(request, 'courseSelect/control_panel.html', {'select_control':select_control,'account':account})
 
 def get_discipline_options(request):
     colleges = College.objects.all()
@@ -329,43 +334,46 @@ def remove_required_course(request):
         return JsonResponse(data)
 
 def import_student(request):
-    courses = Course.objects.all()
-    if request.POST:
-        if 'oper' in request.POST:
-            if request.POST['oper'] == 'import_student':
-                student_id = request.POST['student_id']
-                section_id = request.POST['section_id']
-                course_id = request.POST['course_id']
-                section = Teach.objects.get(teach_id = section_id)
-                course = Course.objects.get(course_id = course_id)
-                try:
-                    student = Student.objects.get(student_id = student_id)
+    account_id = request.session['account_id']
+    account = Account.objects.get(account_id=account_id)
+    if account.type == 2:
+        courses = Course.objects.all()
+        if request.POST:
+            if 'oper' in request.POST:
+                if request.POST['oper'] == 'import_student':
+                    student_id = request.POST['student_id']
+                    section_id = request.POST['section_id']
+                    course_id = request.POST['course_id']
+                    section = Teach.objects.get(teach_id = section_id)
+                    course = Course.objects.get(course_id = course_id)
                     try:
-                        selections = Selection.objects.filter(student = student,teach__course_id = course,state = True).exclude(teach = section)
-                        if len(selections) > 0:
-                            code = 500
-                            msg = student_id+": "+student.name+" 已存在同一课程的其他班级中！"
-                        else:
-                            raise
-                    except:
+                        student = Student.objects.get(student_id = student_id)
                         try:
-                            selection = Selection.objects.get(student = student,teach = section)
-                            if selection.state:
+                            selections = Selection.objects.filter(student = student,teach__course_id = course,state = True).exclude(teach = section)
+                            if len(selections) > 0:
                                 code = 500
-                                msg = student_id+": "+student.name+" 已存在课程名单中！"
+                                msg = student_id+": "+student.name+" 已存在同一课程的其他班级中！"
                             else:
-                                selection.state = True
-                                selection.save()
+                                raise
+                        except:
+                            try:
+                                selection = Selection.objects.get(student = student,teach = section)
+                                if selection.state:
+                                    code = 500
+                                    msg = student_id+": "+student.name+" 已存在课程名单中！"
+                                else:
+                                    selection.state = True
+                                    selection.save()
+                                    msg = "成功将 "+student_id+": "+student.name+" 导入 "+course.name+"！"
+                                    code = 0
+                            except:
+                                selection = Selection.objects.create(student = student,teach = section,select_time = timezone.now(),priority = 5,state = True)
                                 msg = "成功将 "+student_id+": "+student.name+" 导入 "+course.name+"！"
                                 code = 0
-                        except:
-                            selection = Selection.objects.create(student = student,teach = section,select_time = timezone.now(),priority = 5,state = True)
-                            msg = "成功将 "+student_id+": "+student.name+" 导入 "+course.name+"！"
-                            code = 0
-                except:
-                    msg = "未搜索到学号为 "+student_id+" 的学生！请检查学号是否输入正确！"
-                    code = 500
-                return JsonResponse({"msg":msg, "code":code})
-        else:
-            courses = search(request.POST, courses)
-    return render(request, "courseSelect/import_student.html", {"courses":courses})
+                    except:
+                        msg = "未搜索到学号为 "+student_id+" 的学生！请检查学号是否输入正确！"
+                        code = 500
+                    return JsonResponse({"msg":msg, "code":code})
+            else:
+                courses = search(request.POST, courses)
+        return render(request, "courseSelect/import_student.html", {"courses":courses,'account':account})

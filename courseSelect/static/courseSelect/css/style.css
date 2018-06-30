@@ -33,6 +33,9 @@ a {
   font-weight:400;
 }
 a:hover { transition: all 200ms ease-in-out; }
+a.sidebar-icon:focus{
+	color: white;
+}
 .el-dialog__body dl {
 	margin-bottom: 0px;
 }

@@ -7,14 +7,25 @@
     <div class="menu">
 		<ul id="menu" >
 			<li><a href="/basic/teacher_information"><i class="lnr lnr-pencil"></i> <span>个人信息</span></a></li>
-			<li><a href="/basic/teacher_comment"><i class="fa fa-file-text-o"></i> <span>学生评价</span></a></li>
+			<!-- <li><a href="/basic/teacher_comment"><i class="fa fa-file-text-o"></i> <span>学生评价</span></a></li> -->
 			<li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 课程信息</span> <span class="fa fa-angle-right" style="float: right"></span></a>
 				<ul id="menu-academico-sub" >
-					<li id="menu-academico-avaliacoes" ><a href="teacher_course_regist">申请开课</a></li>
-					<li id="menu-academico-avaliacoes" ><a href="teacher_course_open">申请开班</a></li>
+					<li><a href="{% url 'courses' %}">课程搜索</a></li>
+					<li id="menu-academico-avaliacoes" ><a href="/basic/teacher_course_regist">申请开课</a></li>
+					<li id="menu-academico-avaliacoes" ><a href="/basic/teacher_course_open">申请开班</a></li>
+					<li><a href="{% url 'teacher' %}">教师导出</a></li>
 				</ul>
 			</li>
-			<li><a href="/basic/school_forum"><i class="lnr lnr-envelope"></i> <span>浙大论坛</span></a></li>
+			<li><a href="{% url 'calender' %}"><i class="fa fa-file-text-o"></i><span>课表安排</span></a></a></li>
+			<li><a href="{% url 'forum' %}"><i class="lnr lnr-envelope"></i> <span>浙大论坛</span></a></li>
+			<li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span> 在线测试</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                <ul id="menu-academico-sub" >
+                    <li><a href="{% url 'online_test:subjects_teacher' %}">学生成绩</a></li>
+                    <li><a href="{% url 'online_test:problem_bank' %}">题库管理</a></li>
+                    <li><a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a></li>
+
+				</ul>
+            </li>
 		</ul>
 	</div>
 	<div class="clearfix"></div>		

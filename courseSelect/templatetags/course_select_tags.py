@@ -9,8 +9,6 @@ register = template.Library()
 
 @register.assignment_tag
 def getSectionByCourse(course_id):
-    print(course_id)
-    print(Course.objects.get(course_id=course_id))
     return Teach.objects.filter(course_id=Course.objects.get(course_id=course_id)).distinct()
 #     return Category.objects.all()
 @register.assignment_tag

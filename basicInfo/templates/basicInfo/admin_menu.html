@@ -5,30 +5,49 @@
 		<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
         <div class="menu">
 			<ul id="menu" >
-				<li><a href="admin_information"><i class="lnr lnr-pencil"></i> <span>个人信息</span></a></li>
-				<li><a href="admin_comment"><i class="fa fa-file-text-o"></i> <span>学生评价</span></a></li>
+				<li><a href="/basic/admin_information"><i class="lnr lnr-pencil"></i> <span>个人信息</span></a></li>
+				<!-- <li><a href="/basic/admin_comment"><i class="fa fa-file-text-o"></i> <span>学生评价</span></a></li> -->
 				<li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 课程信息</span> <span class="fa fa-angle-right" style="float: right"></span></a>
 					<ul id="menu-academico-sub" >
-						<li id="menu-academico-avaliacoes" ><a href="admin_course_regist">申请开课</a></li>
-						<li id="menu-academico-avaliacoes" ><a href="admin_course_open">申请开班</a></li>
+						<li id="menu-academico-avaliacoes" ><a href="/basic/admin_course_regist">申请开课</a></li>
+						<li id="menu-academico-avaliacoes" ><a href="/basic/admin_course_open">申请开班</a></li>
 					</ul>
 				</li>
-				<li><a href="admin_course_approve"><i class="fa fa-file-text-o"></i> <span>课程审批</span></a></li>
-				<li><a href="admin_teach_approve"><i class="fa fa-file-text-o"></i> <span>教学班级审批</span></a></li>
+				<li id="menu-academico">
+						<a href="#">
+							<i class="lnr lnr-book"></i>
+							<span> 选课管理</span>
+							<span class="fa fa-angle-right" style="float: right"></span>
+						</a>
+						<ul id="menu-academico-sub">
+							<li id="menu-academico-boletim">
+								<a href="{% url 'control' %}">时间/培养方案管理</a>
+							</li>
+							<li id="menu-academico-boletim">
+								<a href="{% url 'import' %}">手动导入</a>
+							</li>
+						</ul>
+					</li>
+				<li><a href="/basic/admin_course_approve"><i class="fa fa-file-text-o"></i> <span>课程审批</span></a></li>
+				<li><a href="/basic/admin_teach_approve"><i class="fa fa-file-text-o"></i> <span>教学班级审批</span></a></li>
 				<li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 课程调整</span> <span class="fa fa-angle-right" style="float: right"></span></a>
 					<ul id="menu-academico-sub" >
-						<li id="menu-academico-avaliacoes" ><a href="admin_course_adjust">修改课程</a></li>
-						<li id="menu-academico-boletim" ><a href="admin_teach_adjust">修改开课</a></li>
+						<li id="menu-academico-avaliacoes" ><a href="/basic/admin_course_adjust">修改课程</a></li>
+						<li id="menu-academico-boletim" ><a href="/basic/admin_teach_adjust">修改开课</a></li>
+						<li id="menu-academico-avaliacoes" ><a href="{% url 'arrangement' %}">课程安排</a></li>
+						<li id="menu-academico-boletim" ><a href="{% url 'classroom' %}">教室信息</a></li>
+						
 					</ul>
 				</li>
-				<li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 个人信息审批</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+				<li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span> 个人信息审批</span> <span class="fa fa-angle-right" style="float: right"></span></a>
 					<ul id="menu-academico-sub" >
-						<li id="menu-academico-avaliacoes" ><a href="admin_apply_approve_s">学生申请</a></li>
-						<li id="menu-academico-boletim" ><a href="admin_apply_approve_t">教师申请</a></li>
+						<li id="menu-academico-avaliacoes" ><a href="/basic/admin_apply_approve_s">学生申请</a></li>
+						<li id="menu-academico-boletim" ><a href="/basic/admin_apply_approve_t">教师申请</a></li>
 					</ul>
 				</li>
-				<li><a href="admin_select_adjust"><i class="fa fa-file-text-o"></i> <span>选课调整</span></a></li>
-				<li><a href="school_forum"><i class="lnr lnr-envelope"></i> <span>浙大论坛</span></a></li>
+				<!-- <li><a href="/basic/admin_select_adjust"><i class="lnr lnr-chart-bars"></i> <span>选课调整</span></a></li> -->
+				<li><a href="{% url 'forum' %}"><i class="lnr lnr-envelope"></i> <span>浙大论坛</span></a></li>
+
 			</ul>
 		</div>
 </div>
