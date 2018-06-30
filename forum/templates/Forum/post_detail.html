@@ -18,7 +18,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href='https://fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
 <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 <!-- lined-icons -->
-<link rel="stylesheet" href="css/icon-font.min.css' %}" type='text/css' />
+<link rel="stylesheet" href="{% static 'Forum/css/icon-font.min.css' %}" type='text/css' />
 <script src="{% static 'Forum/js/simpleCart.min.js' %}"> </script>
 <script src="{% static 'Forum/js/amcharts.js' %}"></script>	
 <script src="{% static 'Forum/js/serial.js' %}"></script>	
@@ -287,9 +287,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                             <!-- /tabs -->
                         </div>
-                        <script src="js/cbpFWTabs.js' %}"></script>
+                        <script src="{% static 'Forum/js/cbpFWTabs.js' %}"></script>
                         <script>
-                            new CBPFWTabs( document.getElementById( 'tabs' ) );
+                            new CBPFWTabs( $('#tabs') );
                         </script>
                     </div>
                     <!-- end content -->
@@ -306,13 +306,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   if (toggle)
 		   {
 			   $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
-			   $("#menu span").css' %}({"position":"absolute"});
+			   $("#menu span").css({"position":"absolute"});
 		   }
 		   else
 		   {
 			   $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
 			   setTimeout(function() {
-			       $("#menu span").css' %}({"position":"relative"});
+			       $("#menu span").css({"position":"relative"});
 			   }, 400);
 		   }
 		   toggle = !toggle;

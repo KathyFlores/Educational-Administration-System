@@ -24,9 +24,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{% static 'Forum/js/serial.js' %}"></script>
     <script src="{% static 'Forum/js/light.js' %}"></script>
     <!-- //lined-icons -->
-    <script src="/staticjs/jquery-1.10.2.min.js' %}"></script>
-    <!--pie-chart--->
-    <script src="/staticjs/pie-chart.js' %}" type="text/javascript"></script>
+    <script src="{% static 'Forum/js/jquery-1.10.2.min.js' %}"></script>
+    <!--pie-chart-->
+    <script src="{% static 'Forum/js/pie-chart.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -307,13 +307,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         if (toggle)
         {
             $(".page-container").addClass("sidebar-collapsed").removeClass("sidebar-collapsed-back");
-            $("#menu span").css' %}({"position":"absolute"});
+            $("#menu span").css({"position":"absolute"});
         }
         else
         {
             $(".page-container").removeClass("sidebar-collapsed").addClass("sidebar-collapsed-back");
             setTimeout(function() {
-                $("#menu span").css' %}({"position":"relative"});
+                $("#menu span").css({"position":"relative"});
             }, 400);
         }
         toggle = !toggle;
