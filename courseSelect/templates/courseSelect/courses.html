@@ -27,9 +27,9 @@
                 <div id="app_table">
                     <template>
                         <el-table stripe :data="tableData" :row-key="getRowKeys" :expand-row-keys="expands"  @expand-change="toggleRowExpansion" style="width: 100%">
-                            <el-table-column prop="course_id" label="课程代码" width="120">
+                            <el-table-column prop="course_id" label="课程代码">
                             </el-table-column>
-                            <el-table-column label="课程名称" width="120">
+                            <el-table-column label="课程名称">
                                 <template slot-scope="scope">
                                     <el-button type="text" @click="scope.row.dialogVisible = true"> [[ scope.row.course_name]] </el-button>
                                     <el-dialog

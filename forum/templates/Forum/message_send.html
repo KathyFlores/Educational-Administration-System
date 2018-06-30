@@ -117,7 +117,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="top_right">
                                 <ul>
                                     <li><a href="#">浙江大学教务中心</a></li>|
-                                    <li><a href="/basic/admin_index">首页</a></li>|
+                                    <li>{% if account.type == 0 %}
+                                            <a href="/basic/student">首页</a>
+                                            {% elif account.type == 1 %}
+                                            <a href="/basic/teacher_index">首页</a>
+                                            {% elif account.type == 2 %} 
+                                            <a href="/basic/admin_index">首页</a>
+                                            {% endif %}</li>|
                                 </ul>
                             </div>
                             <div class="top_left">
