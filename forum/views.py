@@ -5,30 +5,45 @@ from django.utils import timezone
 from .models import Post, Reply, Message, Bulletin
 from .forms import PostForm, ReplyForm, BulletinForm, MessageForm
 from django.shortcuts import redirect
+from basicInfo.models import attrib as Attrib, account as Account
 import os
 
-root = '/Users/kathyf/Desktop'
+root = os.getcwd()
+
 
 
 # Create your views here.
 def home(request):
-    posts = Post.objects.all()
+    # a = Post.objects.all()
+    # b = a.delete()
+    # a = Reply.objects.all()
+    # a.delete()
+    # a = Bulletin.objects.all()
+    # a.delete()
+    posts = Post.objects.order_by('-published_date')
+    if len(posts) > 6:
+        posts1= posts[0:3]
+        posts2= posts[3:6]
+        posts3= posts[6:9]
+        posts4= posts[9:12]
     bulletin = Bulletin.objects.order_by('-published_date')
     if bulletin:
         bulletin = bulletin[0]
     else:
         bulletin = None
     hot_topics = Post.objects.get_all_hot_posts()
-    return render(request, 'Forum/home.html', {'posts': posts, 'hot_topics': hot_topics, 'bulletin': bulletin})
+    return render(request, 'Forum/home.html', {'posts1': posts1, 'posts2': posts2,'posts3': posts3,'posts4': posts4,'hot_topics': hot_topics, 'bulletin': bulletin})
 
 
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            print(request.user)
             post = form.save(commit=False)
-            post.author = request.user
+            account_id = request.session["account_id"]
+            account = Account.objects.get(account_id=account_id)
+            post.author = account
+            # post.author = request.user
             post.published_date = timezone.now()
             post.save()
             return redirect('post_list')
@@ -71,7 +86,10 @@ def reply_new(request, pk):
     reply.text = text
     post = get_object_or_404(Post, pk=pk)
     reply.post = post
-    reply.author = request.user
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
+    reply.author = account
+    # reply.author = request.user
     reply.published_date = timezone.now()
     reply.save()
     post.replynum += 1
@@ -84,7 +102,10 @@ def bulletin_new(request):
         form = BulletinForm(request.POST)
         if form.is_valid():
             bulletin = form.save(commit=False)
-            bulletin.author = request.user
+            account_id = request.session["account_id"]
+            account = Account.objects.get(account_id=account_id)
+            bulletin.author = account
+            # bulletin.author = request.user
             bulletin.created_date = timezone.now()
             bulletin.published_date = bulletin.created_date
             bulletin.save()
@@ -99,7 +120,11 @@ def message_new(request):
         form = MessageForm(request.POST)
         if form.is_valid():
             message = form.save(commit=False)
-            message.sender = request.user
+        
+            account_id = request.session["account_id"]
+            account = Account.objects.get(account_id=account_id)
+            # message.receiver = account
+            message.sender = account
             message.published_date = timezone.now()
             message.save()
             return redirect('message_receive')
@@ -109,12 +134,16 @@ def message_new(request):
 
 
 def message_send(request):
-    msgs = Message.objects.filter(sender=request.user).order_by('-published_date')
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
+    msgs = Message.objects.filter(sender=account).order_by('-published_date')
     return render(request, 'Forum/message_send.html', {'msgs': msgs})
 
 
 def message_receive(request):
-    msgs = Message.objects.filter(receiver=request.user).order_by('-published_date')
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
+    msgs = Message.objects.filter(receiver=account).order_by('-published_date')
     return render(request, 'Forum/message_receive.html', {'msgs': msgs})
 
 
@@ -123,7 +152,9 @@ def upload(request, pk):
         ret = {'status': False, 'data': None, 'error': None}
         try:
             img = request.FILES.get('img')
-            f = open(os.path.join('files', img.name), 'wb')
+            if not os.path.exists(os.path.join(root, 'files')):
+                os.mkdir(os.path.join(root, 'files'))
+            f = open(os.path.join(root, 'files', img.name), 'wb')
 
             post = get_object_or_404(Post, pk=pk)
             post.file_address = os.path.join(root, 'files', img.name)
@@ -141,6 +172,7 @@ def upload(request, pk):
             print('/post/{}'.format(pk))
             return redirect('post_detail', pk)
     return render(request, 'Forum/upload.html', {'pk': pk})
+
 
 
 from django.http import FileResponse

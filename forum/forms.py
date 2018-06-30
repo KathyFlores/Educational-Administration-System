@@ -1,5 +1,7 @@
 from django import forms
 from .models import Post, Reply, Bulletin, Message
+from basicInfo.models import attrib as Attrib, account as Account
+
 
 class PostForm(forms.ModelForm):
 
@@ -7,11 +9,13 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('title', 'text',)
 
+
 class ReplyForm(forms.ModelForm):
 
     class Meta:
         model = Reply
         fields = ('text',)
+
 
 class BulletinForm(forms.ModelForm):
     
@@ -19,8 +23,8 @@ class BulletinForm(forms.ModelForm):
         model = Bulletin
         fields = ('title', 'text',)
 
-class MessageForm(forms.ModelForm):
 
+class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ('receiver', 'text',)

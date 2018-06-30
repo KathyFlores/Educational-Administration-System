@@ -251,23 +251,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <div>
 
                                                 <div class="mod-body clearfix">
-                                                    <!-- 评论内容 -->
-                                                    <div class="markitup-box">
+													<!-- 评论内容 -->
 													{% for reply in replys %}
 													{% if reply.post.id == post.id %}
-													<div class="reply">
-
-														{% if reply.published_date %}
-														<div class="date">
-															{{ reply.published_date }}
+													<div class="women_main">
+														<div class="body_top" style="width: 1200px">
+															<div class="message" style="padding-left:0px;">
+																<h5>{{reply.author}}</h5>
+															</div>
+															<div class="message" style="padding-left:100px;">
+																<h2>{{ reply.text }}</h2>
+															</div>
+															<div class="message" style="padding-left:1030px;margin-left:auto;margin-right:auto;">
+																<h5>{{reply.published_date}}</h5>
+															</div>
+															<div class="clearfix"></div>
 														</div>
-														{% endif %}
-														<p>{{ reply.author|linebreaksbr }}</p>
-														<p>{{ reply.text|linebreaksbr }}</p>
+														<div class="clearfix"></div>                   
 													</div>
+
 													{% endif %}
 													{% endfor %}
-													</div>
+													
+                                                    
                                                     <!-- end 评论内容 -->
                                                 </div>
 
