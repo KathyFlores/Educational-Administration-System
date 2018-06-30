@@ -6,11 +6,15 @@ import datetime
 from .models import Test, ChoiceQuestionAnswerRecord, ChoiceQuestion, TrueOrFalseQuestionAnswerRecord, \
     TrueOrFalseQuestion, Chapter, KnowledgePoint
 
-from basicInfo.models import course as Subject, teach as Teach, student as Student, teacher as Teacher
+from basicInfo.models import course as Subject, teach as Teach, student as Student, teacher as Teacher, \
+    account as Account
 from courseSelect.models import Selection
 
-login_student = Student.objects.all()[0]
-login_teacher = Teacher.objects.all()[0]
+
+# login_student = Student.objects.all()[0]
+# login_student = None
+# # login_teacher = Teacher.objects.all()[0]
+# login_teacher = None
 
 
 class SubjectsTeacherView(generic.ListView):
@@ -20,10 +24,17 @@ class SubjectsTeacherView(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         # object_list = login_teacher.subjects.all()
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
+        login_teacher = Teacher.objects.get(teacher_id=account_id)
+
         object_list = []
         for teach in Teach.objects.filter(teacher_id=login_teacher):
             object_list.append(teach.course_id)
         context['object_list'] = object_list
+
         return context
 
 
@@ -34,6 +45,11 @@ class SubjectsStudentView(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         # object_list = login_student.subjects.all()
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        login_student = Student.objects.get(student_id=account_id)
+
         object_list = []
         for teach in Selection.objects.filter(student=login_student, state=True):
             object_list.append(teach.teach.course_id)
@@ -49,6 +65,12 @@ class TestsView(generic.ListView):
         subject = Subject.objects.get(course_id=self.kwargs['subject'])
 
         context = super().get_context_data(**kwargs)
+
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        login_student = Student.objects.get(student_id=account_id)
+
         object_list = Test.objects.filter(attend_students=login_student, subject=subject)
         context['object_list'] = object_list
         context['subject_id'] = subject.course_id
@@ -61,6 +83,11 @@ class TestDetail(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        login_student = Student.objects.get(student_id=account_id)
 
         context['choice_question_answer_record'] = {}
         for record in ChoiceQuestionAnswerRecord.objects.filter(test=self.object, student=login_student):
@@ -89,6 +116,12 @@ class TeacherStatisticsTests(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         subject = Subject.objects.get(course_id=self.kwargs['subject'])
         context = super().get_context_data(**kwargs)
+
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        login_teacher = Teacher.objects.get(teacher_id=account_id)
+
         object_list = Test.objects.filter(creator=login_teacher, subject=subject)
         context['object_list'] = object_list
         context['subject_id'] = subject.course_id
@@ -102,6 +135,11 @@ class TeacherStatisticsChapters(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        login_teacher = Teacher.objects.get(teacher_id=account_id)
 
         subject = Subject.objects.get(course_id=self.kwargs['subject'])
 
@@ -138,6 +176,12 @@ class TeacherStatisticsKnowledgePoints(generic.ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        login_teacher = Teacher.objects.get(teacher_id=account_id)
+
         subject = Subject.objects.get(course_id=self.kwargs['subject'])
 
         object_list = {}
@@ -175,6 +219,10 @@ class TestStatistics(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         test_score = 0
+
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
 
         assert isinstance(self.object, Test)
 
@@ -215,6 +263,10 @@ class TestStatisticsStudentRecord(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
         student = Student.objects.get(student_id=self.kwargs['student_pk'])
 
         T_score = 0
@@ -250,6 +302,10 @@ class TestStatisticsTeacherRecord(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
 
         student = Student.objects.get(student_id=self.kwargs['student_pk'])
 
@@ -288,6 +344,11 @@ class StudentStatistics(generic.ListView):
         context = super().get_context_data(**kwargs)
         subject = Subject.objects.get(course_id=self.kwargs['subject'])
 
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        login_student = Student.objects.get(student_id=account_id)
+
         object_list = Test.objects.filter(attend_students=login_student, subject=subject,
                                           end_time__lte=datetime.datetime.now())
         context['object_list'] = object_list
@@ -298,6 +359,9 @@ class StudentStatistics(generic.ListView):
 
 
 def submit_answer(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_student = Student.objects.get(student_id=account_id)
+
     if request.method == 'POST':
         test_id = int(request.POST['test_id'])
         question_type = request.POST['type']
@@ -353,10 +417,25 @@ class ProblemBank(generic.ListView):
     model = Test
     template_name = 'online_test/problem_bank.html'
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        return context
+
 
 class SingleProblem(generic.ListView):
     model = Test
     template_name = 'online_test/problem_single.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+        return context
+
 
 
 class SingleChoice(generic.ListView):
@@ -365,6 +444,10 @@ class SingleChoice(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
         T_score = 0
         T_total_score = 0
         C_score = 0
@@ -373,6 +456,7 @@ class SingleChoice(generic.ListView):
         true_or_false_question_records = []
         pk = int(self.kwargs['pk'])
         select = ChoiceQuestion.objects.filter(pk=int(pk))[0]
+
         context['problem'] = select
 
         return context
@@ -384,6 +468,10 @@ class SingleStaticChoice(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
         T_score = 0
         T_total_score = 0
         C_score = 0
@@ -403,6 +491,10 @@ class SingleJudge(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
         T_score = 0
         T_total_score = 0
         C_score = 0
@@ -423,6 +515,10 @@ class SingleStaticJudge(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
         T_score = 0
         T_total_score = 0
         C_score = 0
@@ -451,13 +547,32 @@ class ManualTestGeneration(generic.ListView):
     model = Test
     template_name = 'online_test/manual_test_generation.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
+        return context
+
 
 class AutoTestGeneration(generic.ListView):
     model = Test
     template_name = 'online_test/auto_test_generation.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
+        return context
+
 
 def test_add(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
     if request.method == "POST":
         select = []
         judge = []
@@ -542,6 +657,9 @@ def test_add(request: HttpRequest):
 
 
 def test_mod(request: HttpRequest, pk):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
     get = Test.objects.filter(id=pk)[0]
     if request.method == "POST":
         select = []
@@ -570,6 +688,9 @@ def test_del(request: HttpRequest, pk):
 
 
 def test_gerner(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
     if request.method == "POST":
         select = []
         judge = []
@@ -671,11 +792,79 @@ def test_search(request: HttpRequest):
         return HttpResponse(json.dumps({'infos': infos}), content_type="application/json")
 
 
+def subject(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
+    teach_id = login_teacher.teacher_id.account_id
+    course_id = Teach.objects.filter(teacher_id=teach_id)
+    course = []
+    count = -1
+    for every in course_id:
+        count += 1
+        course.append({count: every.course_id.name})
+    return HttpResponse(json.dumps({'subject': course}), content_type="application/json")
+
+
+def chapter(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
+    teach_id = login_teacher.teacher_id.account_id
+    course_id = Teach.objects.filter(teacher_id=teach_id)
+    total = []
+    count = -1
+    for every in course_id:
+        count += 1
+        print(every.course_id.name)
+
+        chapter = Chapter.objects.filter(subject=every.course_id)
+        print(100002)
+        print(chapter)
+
+        tem = []
+        s = -1
+        print(type(chapter))
+        for e in chapter:
+            print(100000)
+            s += 1
+            print(e)
+            tem.append({s: e.chapter})
+        print(2222)
+        total.append({every.course_id.name: tem})
+    print(3333)
+    return HttpResponse(json.dumps({'chapter': total}), content_type="application/json")
+
+
+def knowledge_point(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
+    teach_id = login_teacher.teacher_id.account_id
+    course_id = Teach.objects.filter(teacher_id=teach_id)
+    total = []
+    count = -1
+    for every in course_id:
+        count += 1
+        knowledge_point = KnowledgePoint.objects.filter(subject=every.course_id)
+        tem = []
+        s = -1
+        for e in knowledge_point:
+            s += 1
+            tem.append({s: e.knowledge_point})
+        total.append({every.course_id.name: tem})
+    return HttpResponse(json.dumps({'knowledge_point': total}), content_type="application/json")
+
+
 class ProblemDetail(generic.DetailView):
     template_name = 'online_test/problem_single.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        account_id = self.request.session['account_id']
+        account = Account.objects.get(account_id=account_id)
+        context['account'] = account
+
         T_score = 0
         T_total_score = 0
         C_score = 0
@@ -695,6 +884,9 @@ class ProblemDetail(generic.DetailView):
 
 
 def problem_search(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
     if request.method == "POST":
         print('post')
         print(request.POST.get("type"))
@@ -727,6 +919,9 @@ def problem_search(request: HttpRequest):
 
 
 def problem_add(request: HttpRequest):
+    account_id = request.session['account_id']
+    login_teacher = Teacher.objects.get(teacher_id=account_id)
+
     if request.method == "POST":
         subject = Subject.objects.filter(name=request.POST.get("subject"))[0]
         chapter = Chapter.objects.filter(chapter=request.POST.get("chapter"))[0]
@@ -775,7 +970,6 @@ def problem_add(request: HttpRequest):
         return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
         # HttpResponse(json.dumps({'choice': infos_choice, 'judge': infos_judge}))
         # #render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge': infos_judge})
-    return render(request, 'online_test/problem_single.html')
 
 
 def choice_json(choice):
@@ -836,6 +1030,7 @@ def problem_mod(request: HttpRequest, pk):
             get = TrueOrFalseQuestion.objects.filter(id=pk)[0]
             get.content = request.POST.get("content")
             get.solution = request.POST.get("solution")
+            print(request.POST.get("subject"))
             subject = Subject.objects.filter(name=request.POST.get("subject"))[0]
             get.subject = subject
             print("111")
@@ -854,7 +1049,6 @@ def problem_mod(request: HttpRequest, pk):
         return HttpResponse(json.dumps({'success': True, 'result': 'ok'}), content_type="application/json")
         # HttpResponse(json.dumps({'choice': infos_choice, 'judge': infos_judge}))
         # #render(request, 'online_test/problem_bank.html', {'choice': infos_choice, 'judge':)
-    return render(request, 'online_test/problem_single.html', {"content": get, "type": flag})
 
 
 def problem_del(request: HttpRequest, pk):

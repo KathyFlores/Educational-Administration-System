@@ -1,5 +1,191 @@
 var initialized = false;
 let data_save;
+
+function set_auto_subject() {
+    $("#auto-test-subject").find("option").remove();
+
+    let url = "/online_test/problem_bank/subject";
+    //清空select列表数据
+    $.ajax({
+        url: url,
+        method: 'post',
+        async: false,
+        success: function (data) {
+            console.log(data);
+            let subject = data['subject'];
+            for (let index in subject   ) {
+                $("#auto-test-subject").append("<option "+ "value="+ subject[index][index]+">" + subject[index][index] + "</option>");
+            }
+        },
+        error: function (msg) {
+            console.log('error');
+            console.log(msg);
+        }
+    });
+}
+
+function set_auto_chapter() {
+    $("#auto-test-chapter").find("option").remove();
+
+    let url = "/online_test/problem_bank/chapter";
+    $.ajax({
+        url: url,
+        method: 'post',
+        async: false,
+        success: function (data) {
+            console.log(data);
+            let chapter = data["chapter"];
+            for (let index in chapter) {
+                let chapters = chapter[index][$("#auto-test-subject").val()];
+                if (chapters != undefined) {
+                    for (let chp_idnex in chapters) {
+                        $("#auto-test-chapter").append("<option " + "value=" + chapters[chp_idnex][chp_idnex]+ ">" + chapters[chp_idnex][chp_idnex] + "</option>");
+                    }
+                }
+            }
+        },
+        error: function (msg) {
+            console.log('error');
+            console.log(msg);
+        }
+    });
+
+}
+
+function set_auto_knowledge_point() {
+    $("#auto-test-knowledge-point").find("option").remove();
+
+    let url = "/online_test/problem_bank/knowledge_point";
+    $.ajax({
+        url: url,
+        method: 'post',
+        async: false,
+        success: function (data) {
+            console.log(data);
+            let knowledge_points = data["knowledge_point"];
+            for (let index in knowledge_points) {
+                let sub_know = knowledge_points[index][$("#auto-test-subject").val()];
+                if (sub_know != undefined) {
+                    console.log(sub_know);
+
+                    for (let know_index in sub_know ) {
+                        $("#auto-test-knowledge-point").append("<option "+ "value="+ sub_know[know_index][know_index]+">" + sub_know[know_index][know_index] + "</option>");
+                        }
+                }
+            }
+        },
+        error: function (msg) {
+            console.log('error');
+            console.log(msg);
+        }
+    });
+}
+
+function set_manual_subject() {
+    $("#manual-test-subject").find("option").remove();
+
+    let url = "/online_test/problem_bank/subject";
+    //清空select列表数据
+    $.ajax({
+        url: url,
+        method: 'post',
+        async: false,
+        success: function (data) {
+            console.log(data);
+            let subject = data['subject'];
+            for (let index in subject   ) {
+                $("#manual-test-subject").append("<option "+ "value="+ subject[index][index]+">" + subject[index][index] + "</option>");
+            }
+        },
+        error: function (msg) {
+            console.log('error');
+            console.log(msg);
+        }
+    });
+}
+
+function set_subject() {
+    $("#subject").find("option").remove();
+
+    let url = "/online_test/problem_bank/subject";
+    //清空select列表数据
+    $.ajax({
+        url: url,
+        method: 'post',
+        async: false,
+        success: function (data) {
+            console.log(data);
+            let subject = data['subject'];
+            for (let index in subject   ) {
+                $("#subject").append("<option "+ "value="+ subject[index][index]+">" + subject[index][index] + "</option>");
+            }
+        },
+        error: function (msg) {
+            console.log('error');
+            console.log(msg);
+        }
+    });
+}
+
+function set_chapter() {
+    $("#chapter").find("option").remove();
+
+    let url = "/online_test/problem_bank/chapter";
+    $.ajax({
+        url: url,
+        method: 'post',
+        async: false,
+        success: function (data) {
+            console.log(data);
+            let chapter = data["chapter"];
+            for (let index in chapter) {
+                let chapters = chapter[index][$(".subject").val()];
+                if (chapters != undefined) {
+                    for (let chp_idnex in chapters) {
+                        $("#chapter").append("<option " + "value=" + chapters[chp_idnex][chp_idnex]+ ">" + chapters[chp_idnex][chp_idnex] + "</option>");
+                    }
+                }
+            }
+        },
+        error: function (msg) {
+            console.log('error');
+            console.log(msg);
+        }
+    });
+
+}
+
+function set_knowledge_point() {
+    $("#knowledge-point").find("option").remove();
+
+    let url = "/online_test/problem_bank/knowledge_point";
+    $.ajax({
+        url: url,
+        method: 'post',
+        async: false,
+        success: function (data) {
+            console.log(data);
+            let knowledge_points = data["knowledge_point"];
+            for (let index in knowledge_points) {
+                let sub_know = knowledge_points[index][$("#subject").val()];
+                if (sub_know != undefined) {
+                    console.log(sub_know);
+
+                    for (let know_index in sub_know ) {
+                        console.log('hello');
+                        $("#knowledge-point").append("<option "+ "value="+ sub_know[know_index][know_index]+">" + sub_know[know_index][know_index] + "</option>");
+                        }
+                }
+            }
+        },
+        error: function (msg) {
+            console.log('error');
+            console.log(msg);
+        }
+    });
+}
+
+
 function auto_check() {
      let name = $("#auto-test-name");
      let subject = $("#auto-test-subject").val();
@@ -22,6 +208,26 @@ function manual_check() {
 
 $(document).ready(function () {
     data_save = data;
+    set_subject();
+    set_chapter();
+    set_knowledge_point();
+
+    set_auto_subject();
+    set_auto_chapter();
+    set_auto_knowledge_point();
+
+    set_manual_subject();
+
+    $("#subject").change(function () {
+        set_chapter() ;
+        set_knowledge_point();
+    })
+
+    $("#auto-test-subject").change(function () {
+        set_auto_chapter() ;
+        set_auto_knowledge_point();
+    })
+
     $('#btn-search-problem').click(function () {
         const post_data = {};
         post_data["type"] = 2;
@@ -202,6 +408,7 @@ $(document).ready(function () {
             cur_test.questions.push(question);
 
         });
+        alert("创建成功！");
         // post_data['test'] = cur_test;
         //
         // $.ajax({

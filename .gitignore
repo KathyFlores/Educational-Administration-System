@@ -7,3 +7,5 @@ __pycache__/
 .idea
 venv/
 venv_0/
+*.zip
+*.bak

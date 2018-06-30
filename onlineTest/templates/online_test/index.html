@@ -41,26 +41,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="left-content">
     <div class="inner-content">
         <div class="header-section">
+            <!-- top_bg -->
             <div class="top_bg">
                 <div class="header_top">
                     <div class="top_right">
                         <ul>
                             <li>
-                                <a href="contact.html">help</a>
-                            </li>
-                            |
+                                <a href="#">浙江大学教务中心</a>
+                            </li>-
                             <li>
-                                <a href="contact.html">Contact us</a>
+                                <a href="/basic/student">首页</a>
+                            </li>-
+                            <li>
+                                <a href="/online_test/subjects/student">在线测试</a>
                             </li>
                         </ul>
                     </div>
                     <div class="top_left">
-                        <h2>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">
+                                <i class="fa fa-user fa-fw"></i>
+                                <i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="/basic/login">
+                                        <i class="fa fa-sign-out fa-fw"></i>登出</a>
+                                </li>
+                                <li>
+                                    <a href="/basic/teacher_index">
+                                        <i class="fa fa-cog fa-fw"></i>设置</a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix"> </div>
                 </div>
-
+                <div class="clearfix"></div>
             </div>
+            {% if account.type == 0 %} {% include 'basicInfo/student_menu.html' %} {% elif account.type == 1 %} {% include 'basicInfo/teacher_menu.html'%}
+            {% elif account.type == 2 %} {% include 'basicInfo/admin_menu.html' %} {% endif %}
+            <!-- //header-ends -->
             <div class="clearfix"></div>
         </div>
 

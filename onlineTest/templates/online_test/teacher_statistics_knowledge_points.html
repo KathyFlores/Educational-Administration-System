@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>教师成绩管理系统</title>
+    <title>浙江大学教务中心</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -41,29 +41,50 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="left-content">
     <div class="inner-content">
         <div class="header-section">
+            <!-- top_bg -->
             <div class="top_bg">
                 <div class="header_top">
                     <div class="top_right">
                         <ul>
                             <li>
-                                <a href="contact.html">help</a>
-                            </li>
-                            |
+                                <a href="#">浙江大学教务中心</a>
+                            </li>-
                             <li>
-                                <a href="contact.html">Contact us</a>
+                                <a href="/basic/teacher">首页</a>
+                            </li>-
+                            <li>
+                                <a href="/online_test/subjects/teacher">在线测试</a>
                             </li>
                         </ul>
                     </div>
                     <div class="top_left">
-                        <h2>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">
+                                <i class="fa fa-user fa-fw"></i>
+                                <i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="/basic/login">
+                                        <i class="fa fa-sign-out fa-fw"></i>登出</a>
+                                </li>
+                                <li>
+                                    <a href="/basic/teacher_index">
+                                        <i class="fa fa-cog fa-fw"></i>设置</a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix"> </div>
                 </div>
-
+                <div class="clearfix"></div>
             </div>
+            {% if account.type == 0 %} {% include 'basicInfo/student_menu.html' %} {% elif account.type == 1 %} {% include 'basicInfo/teacher_menu.html'%}
+            {% elif account.type == 2 %} {% include 'basicInfo/admin_menu.html' %} {% endif %}
+            <!-- //header-ends -->
             <div class="clearfix"></div>
         </div>
-
 
         <div class="content">
             <div class="women_main">
@@ -104,70 +125,42 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
 </div>
 
-
 <div class="sidebar-menu">
-    <header class="logo1">
-        <a href="#" class="sidebar-icon">
-            <span class="fa fa-bars"></span>
-        </a>
-    </header>
-    <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
+	<header class="logo1">
+		<a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a>
+	</header>
+	<div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
     <div class="menu">
-        <ul id="menu">
-            <li>
-                <a href="tests.html">
-                    <i class="fa fa-tachometer"></i>
-                    <span>主页</span>
-                </a>
+		<ul id="menu" >
+			<li><a href="/basic/teacher_information"><i class="lnr lnr-pencil"></i> <span>个人信息</span></a></li>
+			<!-- <li><a href="/basic/teacher_comment"><i class="fa fa-file-text-o"></i> <span>学生评价</span></a></li> -->
+			<li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 课程信息</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+				<ul id="menu-academico-sub" >
+					<li><a href="{% url 'courses' %}">课程搜索</a></li>
+					<li id="menu-academico-avaliacoes" ><a href="/basic/teacher_course_regist">申请开课</a></li>
+					<li id="menu-academico-avaliacoes" ><a href="/basic/teacher_course_open">申请开班</a></li>
+					<li><a href="{% url 'teacher' %}">教师导出</a></li>
+				</ul>
+			</li>
+			<li><a href="{% url 'calender' %}"><i class="fa fa-file-text-o"></i><span>课表安排</span></a></a></li>
+			<li><a href="{% url 'forum' %}"><i class="lnr lnr-envelope"></i> <span>浙大论坛</span></a></li>
+			<li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span> 在线测试</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                <ul id="menu-academico-sub" >
+                    <li><a href="{% url 'online_test:subjects_teacher' %}">重选课程</a></li>
+                    <a href="{% url 'online_test:teacher_statistics_tests' subject_id %}"> 重选题库 </a>
+                    <li><a href="{% url 'online_test:teacher_statistics_chapters' subject_id %}">章节统计</a></li>
+                    <li><a href="{% url 'online_test:teacher_statistics_knowledge_points' subject_id %}"> 知识点统计 </a></li>
+                    <li><a href="{% url 'online_test:problem_bank' %}">题库管理</a></li>
+                    <li><a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a></li>
+
+				</ul>
             </li>
-            <li>
-                <a href="products.html">
-                    <i class="lnr lnr-chart-bars"></i>
-                    <span>选课</span>
-                </a>
-            </li>
-            <li id="menu-academico">
-                <a href="#">
-                    <i class="lnr lnr-layers"></i>
-                    <span>论坛</span>
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'online_test:subjects_teacher' %}">
-                    <i class="lnr lnr-chart-bars"></i>
-                    <span>学生成绩</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
-                </a>
-                <ul>
-                    <li>
-                        <a href="{% url 'online_test:teacher_statistics_tests' subject_id %}"> 查看题库 </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'online_test:teacher_statistics_chapters' subject_id %}">章节统计</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'online_test:teacher_statistics_knowledge_points' subject_id %}"> 知识点统计 </a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="lnr lnr-pencil"></i>
-                    <span>题目管理</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
-                </a>
-                <ul>
-                    <li>
-                        <a href="{% url 'online_test:problem_bank' %}">题库管理</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+		</ul>
+	</div>
+	<div class="clearfix"></div>
 </div>
+
+
 
 <!--js -->
 <script src="{% static 'online_test/js/jquery.nicescroll.js' %}"></script>

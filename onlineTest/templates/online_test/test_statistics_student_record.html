@@ -46,27 +46,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="left-content">
     <div class="inner-content">
         <div class="header-section">
+            <!-- top_bg -->
             <div class="top_bg">
                 <div class="header_top">
                     <div class="top_right">
                         <ul>
                             <li>
-                                <a href="contact.html">help</a>
-                            </li>
-                            |
+                                <a href="#">浙江大学教务中心</a>
+                            </li>-
                             <li>
-                                <a href="contact.html">Contact us</a>
+                                <a href="/basic/student">首页</a>
+                            </li>-
+                            <li>
+                                <a href="/online_test/subjects/student">在线测试</a>
                             </li>
                         </ul>
                     </div>
                     <div class="top_left">
-                        <!-- <h2> -->
-                            <!-- <span></span> Call us : 032 2352 782</h2> -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">
+                                <i class="fa fa-user fa-fw"></i>
+                                <i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="/basic/login">
+                                        <i class="fa fa-sign-out fa-fw"></i>登出</a>
+                                </li>
+                                <li>
+                                    <a href="/basic/teacher_index">
+                                        <i class="fa fa-cog fa-fw"></i>设置</a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix"> </div>
                 </div>
-
+                <div class="clearfix"></div>
             </div>
+            {% if account.type == 0 %} {% include 'basicInfo/student_menu.html' %} {% elif account.type == 1 %} {% include 'basicInfo/teacher_menu.html'%}
+            {% elif account.type == 2 %} {% include 'basicInfo/admin_menu.html' %} {% endif %}
+            <!-- //header-ends -->
             <div class="clearfix"></div>
         </div>
 
@@ -241,39 +262,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </header>
     <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
     <div class="menu">
-        <ul id="menu">
-            <li>
-                <a href="tests.html">
-                    <i class="fa fa-tachometer"></i>
-                    <span>主页</span>
-                </a>
+        <ul id="menu" >
+             <li><a href="/basic/student"><i class="fa fa-tachometer"></i> <span>主页</span></a></li>
+             <li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 选课系统</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                <ul id="menu-academico-sub" >
+                        <li id="menu-academico-avaliacoes" ><a href="{% url 'courses' %}">课程搜索</a></li>
+                        <li id="menu-academico-avaliacoes" ><a href="{% url 'table' %}">我的课表</a></li>
+                        <li id="menu-academico-boletim" ><a href="{% url 'course_select' %}">自主选课</a></li>
+                        <li id="menu-academico-boletim" ><a href="{% url 'curriculum' %}">培养方案</a></li>
+                </ul>
             </li>
-            <li>
-                <a href="products.html">
-                    <i class="lnr lnr-chart-bars"></i>
-                    <span>选课</span>
-                </a>
-            </li>
-            <li id="menu-academico">
-                <a href="#">
-                    <i class="lnr lnr-layers"></i>
-                    <span>论坛</span>
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'online_test:subjects_student' %}">
-                    <i class="lnr lnr-chart-bars"></i>
-                    <span>答题系统</span>
-                    <span class="fa fa-angle-right" style="float: right"></span>
-                </a>
-                <ul>
+            <li><a href="/basic/exam"><i class="lnr lnr-book"></i> <span>考试安排</span></a></li>
+            <li id="menu-academico" ><a href="/basic/grade"><i class="fa fa-file-text-o"></i> <span>查看成绩</span></a></li>
+            <li><a href="{% url 'forum' %}"><i class="lnr lnr-envelope"></i> <span>浙大论坛</span> <span class="fa fa-angle-right" style="float: right"></span></a></li>
+            <li><a href="/basic/personalinfo"><i class="lnr lnr-pencil"></i> <span>个人信息</span></a></li>
+            <li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span> 在线测试</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                <ul id="menu-academico-sub" >
+                    <li id="menu-academico-avaliacoes" ><a href="{% url 'online_test:subjects_student' %}">选择课程</a></li>
                     <li>
-                        <a href="{% url 'online_test:tests' object.subject_id %}"> 选择题库</a>
+                        <a href="{% url 'online_test:tests' object.subject.course_id %}"> 选择题库</a>
                     </li>
                     <li>
                         <a href="{% url 'online_test:student_statistics' object.subject.course_id %}">成绩统计</a>
                     </li>
-                </ul>
+                 </ul>
             </li>
         </ul>
     </div>

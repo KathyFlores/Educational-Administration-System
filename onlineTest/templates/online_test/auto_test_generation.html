@@ -25,7 +25,7 @@
     }
 </script>
 <head>
-    <title>{{ test.name }}</title>
+    <title>浙江大学教务中心</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Gretong Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -75,32 +75,50 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="left-content">
     <div class="inner-content">
         <div class="header-section">
+            <!-- top_bg -->
             <div class="top_bg">
                 <div class="header_top">
                     <div class="top_right">
                         <ul>
                             <li>
-                                <a href="contact.html">help</a>
-                            </li>
-                            |
+                                <a href="#">浙江大学教务中心</a>
+                            </li>-
                             <li>
-                                <a href="contact.html">Contact us</a>
-                            </li>
-                            <!-- |
+                                <a href="/basic/teacher">首页</a>
+                            </li>-
                             <li>
-                                <a href="checkout.html">Delivery information</a>
-                            </li> -->
+                                <a href="/online_test/subjects/teacher">在线测试</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="top_left">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">
+                                <i class="fa fa-user fa-fw"></i>
+                                <i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li>
+                                    <a href="/basic/login">
+                                        <i class="fa fa-sign-out fa-fw"></i>登出</a>
+                                </li>
+                                <li>
+                                    <a href="/basic/teacher_index">
+                                        <i class="fa fa-cog fa-fw"></i>设置</a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix"> </div>
                 </div>
-
+                <div class="clearfix"></div>
             </div>
+            {% if account.type == 0 %} {% include 'basicInfo/student_menu.html' %} {% elif account.type == 1 %} {% include 'basicInfo/teacher_menu.html'%}
+            {% elif account.type == 2 %} {% include 'basicInfo/admin_menu.html' %} {% endif %}
+            <!-- //header-ends -->
             <div class="clearfix"></div>
         </div>
-
 
         <div class="content">
             <div class="women_main">
@@ -134,27 +152,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="tab-pane fade in active" id="problem-search">
                                 <div class="row col-md-10 form-inline">
                                     <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
-                                        <span class="input-group-addon">科目</span>
-                                        <input id="subject" type="text" class="form-control" placeholder="请输入科目"/>
+                                        <span class="input-group">科目</span>
+                                         <select id="subject" class="subject">
+                            </select>
                                     </div>
                                     <div class="input-group col-md-2"></div>
                                     <div class="input-group col-md-4"
                                          style="margin-top :10px; positon:relative">
-                                        <span class="input-group-addon">章节</span>
-                                        <input id="chapter" type="text" class="form-control" placeholder="请输入章节名"/>
+                                        <span class="input-group">章节</span>
+                                         <select  id="chapter" class="chapter">
+                            </select>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="row col-md-10 form-inline">
                                     <div class="input-group col-md-4" style="margin-top :10px; positon:relative">
-                                        <span class="input-group-addon">知识点</span>
-                                        <input id="knowledge-point" type="text" class="form-control" placeholder="知识点"/>
-                                    </div>
+                                        <span class="input-group">知识点</span>
+                                         <select class="knowledge-point" id="knowledge-point">
+                            </select>
+                                        </div>
                                     <div class="input-group col-md-2"></div>
-                                    <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
-                                        <span class="input-group-addon">出题人</span>
-                                        <input id="creator" type="text" class="form-control" placeholder="出题人"/>
-                                    </div>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="row col-md-12" style="margin-top: 20px"> <span
@@ -197,29 +214,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="tab-pane fade in" id="auto-generate">
                                 <div class="row col-md-10 form-inline">
                                     <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
-                                        <span class="input-group-addon">试卷名称</span>
+                                        <span class="input-group">试卷名称</span>
                                         <input id="auto-test-name" type="text" class="form-control"
                                                placeholder="请输入试卷名称"/>
                                     </div>
                                     <div class="input-group col-md-2"></div>
                                     <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
-                                        <span class="input-group-addon">科目</span>
-                                        <input id="auto-test-subject" type="text" class="form-control"
-                                               placeholder="请输入科目"/>
+                                        <span class="input-group">科目</span>
+                                        <select id="auto-test-subject" class="subject"></select>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="row col-md-10 form-inline">
                                     <div class="input-group col-md-4"
                                          style="margin-top :10px; margin-bottom: 10px;positon:relative">
-                                        <span class="input-group-addon">开始时间</span>
+                                        <span class="input-group">开始时间</span>
                                         <input id="auto-test-start-time" type="date" class="form-control"
                                                placeholder="请输入开始时间"/>
                                     </div>
                                     <div class="input-group col-md-2"></div>
                                     <div class="input-group col-md-4"
                                          style="margin-top :10px; margin-bottom: 10px;positon:relative">
-                                        <span class="input-group-addon">结束时间</span>
+                                        <span class="input-group">结束时间</span>
                                         <input id="auto-test-end-time" type="date" class="form-control"
                                                placeholder="请输入结束时间"/>
                                     </div>
@@ -228,16 +244,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="row col-md-10 form-inline">
                                     <div class="input-group col-md-4"
                                          style="margin-top :10px; margin-bottom: 10px;positon:relative">
-                                        <span class="input-group-addon">章节</span>
-                                        <input id="auto-test-chapter" type="text" class="form-control"
-                                               placeholder="请输入章节名"/>
+                                        <span class="input-group">章节</span>
+                                        <select id="auto-test-chapter" class="chapter"></select>
                                     </div>
                                     <div class="input-group col-md-2"></div>
                                     <div class="input-group col-md-4"
                                          style="margin-top :10px; margin-bottom: 10px;positon:relative">
-                                        <span class="input-group-addon">知识点</span>
-                                        <input id="auto-test-knowledge-point" type="text" class="form-control"
-                                               placeholder="请输入知识点"/>
+                                        <span class="input-group">知识点</span>
+                                         <select id="auto-test-knowledge-point" class="knowledge-point"></select>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -264,15 +278,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="tab-pane fade in" id="manual-generate">
                                 <div class="row col-md-10 form-inline">
                                     <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
-                                        <span class="input-group-addon">试卷名称</span>
+                                        <span class="input-group">试卷名称</span>
                                         <input id="manual-test-name" type="text" class="form-control"
                                                placeholder="请输入试卷名称"/>
                                     </div>
                                     <div class="input-group col-md-2"></div>
                                     <div class="input-group col-md-4" style="margin-top:10px; positon:relative">
-                                        <span class="input-group-addon">科目</span>
-                                        <input id="manual-test-subject" type="text" class="form-control"
-                                               placeholder="请输入科目"/>
+                                        <span class="input-group">科目</span>
+                                        <select id="manual-test-subject" class="subject"></select>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -370,57 +383,36 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </div>
     </div>
 
-
     <div class="sidebar-menu">
         <header class="logo1">
-            <a href="#" class="sidebar-icon">
-                <span class="fa fa-bars"></span>
-            </a>
+            <a href="#" class="sidebar-icon"> <span class="fa fa-bars"></span> </a>
         </header>
         <div style="border-top:1px ridge rgba(255, 255, 255, 0.15)"></div>
         <div class="menu">
-            <ul id="menu">
-                <li>
-                    <a href="index.html">
-                        <i class="fa fa-tachometer"></i>
-                        <span>主页</span>
-                    </a>
+            <ul id="menu" >
+                <li><a href="/basic/teacher_information"><i class="lnr lnr-pencil"></i> <span>个人信息</span></a></li>
+                <!-- <li><a href="/basic/teacher_comment"><i class="fa fa-file-text-o"></i> <span>学生评价</span></a></li> -->
+                <li id="menu-academico" ><a href="#"><i class="fa fa-table"></i> <span> 课程信息</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                    <ul id="menu-academico-sub" >
+                        <li><a href="{% url 'courses' %}">课程搜索</a></li>
+                        <li id="menu-academico-avaliacoes" ><a href="/basic/teacher_course_regist">申请开课</a></li>
+                        <li id="menu-academico-avaliacoes" ><a href="/basic/teacher_course_open">申请开班</a></li>
+                        <li><a href="{% url 'teacher' %}">教师导出</a></li>
+                    </ul>
                 </li>
-                <li>
-                    <a href="products.html">
-                        <i class="lnr lnr-chart-bars"></i>
-                        <span>选课</span>
-                    </a>
-                </li>
-                <li id="menu-academico">
-                    <a href="#">
-                        <i class="lnr lnr-layers"></i>
-                        <span>论坛</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'online_test:subjects_teacher' %}">
-                        <i class="lnr lnr-chart-bars"></i>
-                        <span>学生成绩</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="lnr lnr-pencil"></i>
-                        <span>题目管理</span>
-                        <span class="fa fa-angle-right" style="float: right"></span>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{% url 'online_test:problem_bank' %}">题库管理</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a>
-                        </li>
+                <li><a href="{% url 'calender' %}"><i class="fa fa-file-text-o"></i><span>课表安排</span></a></a></li>
+                <li><a href="{% url 'forum' %}"><i class="lnr lnr-envelope"></i> <span>浙大论坛</span></a></li>
+                <li id="menu-academico" ><a href="#"><i class="lnr lnr-layers"></i> <span> 在线测试</span> <span class="fa fa-angle-right" style="float: right"></span></a>
+                    <ul id="menu-academico-sub" >
+                        <li><a href="{% url 'online_test:subjects_teacher' %}">学生成绩</a></li>
+                        <li><a href="{% url 'online_test:problem_bank' %}">题库管理</a></li>
+                        <li><a href="{% url 'online_test:auto_test_generation' %}">试卷管理</a></li>
+
                     </ul>
                 </li>
             </ul>
         </div>
+        <div class="clearfix"></div>
     </div>
 
 
