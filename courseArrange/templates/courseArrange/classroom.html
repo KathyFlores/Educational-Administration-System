@@ -523,10 +523,10 @@
 		];
 		const attachIndex = {
 			"M": 0,
-			"S": 2,
-			"C": 1
+			"C": 2,
+			"S": 1
 		};
-		const prefix = "http://acm.zju.edu.cn:3499";
+		const prefix = "http://127.0.0.1:8000/course_arrange";
 		function deleteDone(selection) {
 			selection = selection.map((s) => parseInt(s));
 			console.log(selection);
@@ -744,6 +744,7 @@
 					})
 				);*/
 			}).then(function (data) {
+				console.log(data);
 				$("tbody").children().remove();
 				var par = document.createDocumentFragment();
 				data.map(function (t) {

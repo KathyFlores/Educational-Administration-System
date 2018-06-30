@@ -93,14 +93,14 @@ def teacher(request):
     feedDict={
         "account_id": tid
     }
-    return render(request, "basicInfo/teacher_index.html", feedDict)
+    return render(request, "basicInfo/teacher_information.html", feedDict)
 
 def teacher_index(request):
     tid = request.session["account_id"]
     feedDict={
         "account_id": tid
     }
-    return render(request, "basicInfo/teacher_index.html", feedDict)
+    return render(request, "basicInfo/teacher_information.html", feedDict)
 
 
 def teacher_information(request):
@@ -154,14 +154,14 @@ def admin(request):
     feedDict={
         "account_id": tid
     }
-    return render(request, "basicInfo/admin_index.html", feedDict)
+    return render(request, "basicInfo/admin_information.html", feedDict)
 
 def admin_index(request):
     tid = request.session["account_id"]
     feedDict={
         "account_id": tid
     }
-    return render(request, "basicInfo/admin_index.html", feedDict)
+    return render(request, "basicInfo/admin_information.html", feedDict)
 
 
 def admin_information(request):

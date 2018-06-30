@@ -13,6 +13,6 @@ urlpatterns = [
     url(r'^api/scheduling/arrange*',arrange.api_arrange),
 
     url(r'^arrangement/$', views.arrangement, name="arrangement"),
-    url(r'^calender/$', views.calender, name="calender"),
+    url(r'^calender/', views.calender, name="calender"),
     url(r'^classroom/$', views.classroom, name='classroom')
 ]

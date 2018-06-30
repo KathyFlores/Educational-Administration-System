@@ -22,6 +22,7 @@ arrDataModelFactory.prototype.createView = function (t) { // 重写方法
     tr.appendChild(td3);
     let td4 = document.createElement("td");
     for (let i in t.period) {
+        if(t.period[i].length <= 0) continue;
         td4.innerText += period_const[parseInt(i) - 1];
         td4.innerText += "第";
         t.period[i].map((e) => {
