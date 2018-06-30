@@ -31,7 +31,7 @@ def api_course_post(request):
         for i in range(len(time_id)):
             time_id[i] = int(time_id[i])
     except ValueError:
-        return JsonResponse({'success': False, 'reason': '`time_id` is not an integer'})
+        return JsonResponse({'success': False, 'reason': '`time_id[index]` is not an integer'})
     try:
         duplicate = int(duplicate)
     except ValueError:
