@@ -20,6 +20,8 @@ def home(request):
     # a.delete()
     # a = Bulletin.objects.all()
     # a.delete()
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
     posts = Post.objects.order_by('-published_date')
     if len(posts) > 6:
         posts1= posts[0:3]
@@ -32,7 +34,7 @@ def home(request):
     else:
         bulletin = None
     hot_topics = Post.objects.get_all_hot_posts()
-    return render(request, 'Forum/home.html', {'posts1': posts1, 'posts2': posts2,'posts3': posts3,'posts4': posts4,'hot_topics': hot_topics, 'bulletin': bulletin})
+    return render(request, 'Forum/home.html', {'posts1': posts1, 'posts2': posts2,'posts3': posts3,'posts4': posts4,'hot_topics': hot_topics, 'bulletin': bulletin, 'account': account})
 
 
 def post_new(request):
@@ -49,45 +51,53 @@ def post_new(request):
             return redirect('post_list')
     else:
         form = PostForm()
-    return render(request, 'Forum/post_edit.html', {'form': form})
+        account_id = request.session["account_id"]
+        account = Account.objects.get(account_id=account_id)
+    return render(request, 'Forum/post_edit.html', {'form': form, 'account': account})
 
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     replys = Reply.objects.all()
-    return render(request, 'Forum/post_detail.html', {'post': post, 'replys': replys})
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
+    return render(request, 'Forum/post_detail.html', {'post': post, 'replys': replys, 'account': account})
 
 
 def post_list(request):
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
     posts = Post.objects.order_by('-published_date')
-    return render(request, 'Forum/post_list.html', {'posts': posts})
+    return render(request, 'Forum/post_list.html', {'posts': posts, 'account': account})
 
 
 def post_search(request):
     request.encoding = 'utf-8'
     q = request.GET.get('q')
     error_msg = ''
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
     if not q:
         # print('not q')
         error_msg = 'Please input search key'
-        return render(request, 'Forum/post_search.html', {'error_msg': error_msg})
+        return render(request, 'Forum/post_search.html', {'error_msg': error_msg, 'account': account})
     posts = Post.objects.filter(title__contains=q)
-    return render(request, 'Forum/post_search.html', {'error_msg': error_msg, 'posts': posts})
+    return render(request, 'Forum/post_search.html', {'error_msg': error_msg, 'posts': posts, 'account': account})
 
 
 def reply_new(request, pk):
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
     text = request.GET.get('text')
     if not text:
         form = ReplyForm()
-        return render(request, 'Forum/reply_edit.html', {'form': form})
+        return render(request, 'Forum/reply_edit.html', {'form': form, 'account':account})
 
     text = request.GET.get('text')
     reply = Reply()
     reply.text = text
     post = get_object_or_404(Post, pk=pk)
     reply.post = post
-    account_id = request.session["account_id"]
-    account = Account.objects.get(account_id=account_id)
     reply.author = account
     # reply.author = request.user
     reply.published_date = timezone.now()
@@ -109,10 +119,12 @@ def bulletin_new(request):
             bulletin.created_date = timezone.now()
             bulletin.published_date = bulletin.created_date
             bulletin.save()
-            return redirect('forum')
+            return redirect('forum', {'account': account})
     else:
         form = BulletinForm()
-    return render(request, 'Forum/bulletin_new.html', {'form': form})
+        account_id = request.session["account_id"]
+        account = Account.objects.get(account_id=account_id)
+    return render(request, 'Forum/bulletin_new.html', {'form': form, 'account': account})
 
 
 def message_new(request):
@@ -123,31 +135,34 @@ def message_new(request):
         
             account_id = request.session["account_id"]
             account = Account.objects.get(account_id=account_id)
-            # message.receiver = account
             message.sender = account
             message.published_date = timezone.now()
             message.save()
             return redirect('message_receive')
     else:
         form = MessageForm()
-    return render(request, 'Forum/message_edit.html', {'form': form})
+        account_id = request.session["account_id"]
+        account = Account.objects.get(account_id=account_id)
+    return render(request, 'Forum/message_edit.html', {'form': form, 'account': account})
 
 
 def message_send(request):
     account_id = request.session["account_id"]
     account = Account.objects.get(account_id=account_id)
     msgs = Message.objects.filter(sender=account).order_by('-published_date')
-    return render(request, 'Forum/message_send.html', {'msgs': msgs})
+    return render(request, 'Forum/message_send.html', {'msgs': msgs, 'account': account})
 
 
 def message_receive(request):
     account_id = request.session["account_id"]
     account = Account.objects.get(account_id=account_id)
     msgs = Message.objects.filter(receiver=account).order_by('-published_date')
-    return render(request, 'Forum/message_receive.html', {'msgs': msgs})
+    return render(request, 'Forum/message_receive.html', {'msgs': msgs, 'account': account})
 
 
 def upload(request, pk):
+    account_id = request.session["account_id"]
+    account = Account.objects.get(account_id=account_id)
     if request.method == 'POST':
         ret = {'status': False, 'data': None, 'error': None}
         try:
@@ -171,7 +186,7 @@ def upload(request, pk):
             f.close()
             print('/post/{}'.format(pk))
             return redirect('post_detail', pk)
-    return render(request, 'Forum/upload.html', {'pk': pk})
+    return render(request, 'Forum/upload.html', {'pk': pk, 'account': account})
 
 
 

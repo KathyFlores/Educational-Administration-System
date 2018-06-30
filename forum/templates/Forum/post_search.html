@@ -25,7 +25,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{% static 'Forum/js/light.js' %}"></script>
     <!-- //lined-icons -->
     <script src="{% static 'Forum/js/jquery-1.10.2.min.js' %}"></script>
-    <!--pie-chart--->
+    <!--pie-chart-->
     <script src="{% static 'Forum/js/pie-chart.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
 
@@ -117,40 +117,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="left-content">
         <div class="inner-content">
             <div class="header-section">
-                <div class="top_bg">
-                    <div class="header_top">
-                        <div class="top_right">
-                            <ul>
-                                <li>
-                                    <a href="#">主页</a>
+                <div class="top_bg">            
+                        <div class="header_top">
+                            <div class="top_right">
+                                <ul>
+                                    <li><a href="#">浙江大学教务中心</a></li>|
+                                    <li><a href="/basic/admin_index">首页</a></li>|
+                                </ul>
+                            </div>
+                            <div class="top_left">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:white">
+                                        <i class="fa fa-user fa-fw"></i> <i id="account_id" class="fa fa-caret-down">&nbsp;&nbsp;{{ account.account_id }}</i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li><a href="/basic/login"><i class="fa fa-sign-out fa-fw"></i>登出</a></li>
+                                        <li><a href="/basic/teacher_index"><i class="fa fa-cog fa-fw"></i>设置</a></li>
+                                    </ul>
+                                    <!-- /.dropdown-user -->
                                 </li>
-                                <li>
-                                    <a href="#">类目</a>
-                                </li>
-                                <li>
-                                    <a href="#">主题</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="top_medium">
-                            <ul>
-                                <li>
-                                    <a href="#">1</a>
-                                </li>
-                                <li>
-                                    <a href="#">2</a>
-                                </li>
-                                <li>
-                                    <a href="#">3</a>
-                                </li>
-                                <li>
-                                    <a href="#">下一页</a>
-                                </li>
-                            </ul>
+                            </div>
+                            <div class="clearfix"> </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                </div>
+                    {% if account.type == 0 %}
+                    {% include 'basicInfo/student_menu.html' %}
+                    {% elif account.type == 1 %}
+                    {% include 'basicInfo/teacher_menu.html' %}
+                    {% elif account.type == 2 %}
+                    {% include 'basicInfo/admin_menu.html' %}
+                    {% endif %}
                 <div class="clearfix"></div>
             </div>
             <div class="header_bg">
