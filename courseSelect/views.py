@@ -86,7 +86,7 @@ def table(request):
     account = Account.objects.get(account_id=account_id)
     if account.type == 0:
         student = Student.objects.get(student_id = account)
-        sections = Teach.objects.filter(selection__student = student)
+        sections = Teach.objects.filter(selection__student = student).distinct()
         return render(request, 'courseSelect/table.html',{'student':student,'sections':sections, 'account':account})
 
 def teacher(request):
@@ -94,7 +94,7 @@ def teacher(request):
     account = Account.objects.get(account_id=account_id)
     if account.type == 1:
         teacher = Teacher.objects.get(teacher_id = account_id)
-        sections = Teach.objects.filter(takeup__teacher_id = teacher)
+        sections = Teach.objects.filter(takeup__teacher_id = teacher).distinct()
         return render(request, 'courseSelect/teacher.html',{'teacher':teacher,'sections':sections, 'account':account})
 
 def curriculum(request):
