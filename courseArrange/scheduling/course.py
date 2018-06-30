@@ -104,13 +104,13 @@ def api_course_get(request):
             takeup_filter = takeup_filter.filter(teacher_id=teacher_id)
         except ValueError:
             return HttpResponseBadRequest()
-    elif room_id is not None:
+    if room_id is not None:
         try:
             room_id = int(room_id)
             takeup_filter = takeup_filter.filter(room_id=room_id)
         except ValueError:
             return HttpResponseBadRequest()
-    elif time_id is not None:
+    if time_id is not None:
         try:
             time_id = int(time_id)
             takeup_filter = takeup_filter.filter(time_id=time_id)
@@ -119,7 +119,7 @@ def api_course_get(request):
     if page is not None:
         try:
             page = int(page)
-            takeup_filter = takeup_filter[20 * (page - 1):20 * page]
+            takeup_filter = takeup_filter[min(len(takeup_filter), 20 * (page - 1)):min(len(takeup_filter), 20 * page)]
         except ValueError:
             return HttpResponseBadRequest()
     if count is None:
@@ -130,9 +130,6 @@ def api_course_get(request):
             takeup_filter = takeup_filter[:count]
         except ValueError:
             return JsonResponse({'success': False, 'reason': '`count` is not an integer'})
-
-    #take_up_ins = takeup(teach_id = ins_teach_id,time_id = ins_time_id,room_id = ins_room_id,teacher_id = ins_teacher_id)
-    takeup_filter = takeup_filter.order_by('teach_id','room_id','time_id')
     res = []
     takeup_len = len(takeup_filter)
     i = 0
@@ -206,13 +203,13 @@ def api_course_get_pagecount(request):
             takeup_filter = takeup_filter.filter(teacher_id=teacher_id)
         except ValueError:
             return HttpResponseBadRequest()
-    elif room_id is not None:
+    if room_id is not None:
         try:
             room_id = int(room_id)
             takeup_filter = takeup_filter.filter(room_id=room_id)
         except ValueError:
             return HttpResponseBadRequest()
-    elif time_id is not None:
+    if time_id is not None:
         try:
             time_id = int(time_id)
             takeup_filter = takeup_filter.filter(time_id=time_id)
