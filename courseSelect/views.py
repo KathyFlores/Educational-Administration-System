@@ -25,6 +25,7 @@ def course_select(request):
         curriculum = None
         try:
             curriculum = Curriculum.objects.get(student = student)
+            
         except:
             return redirect('curriculum')
         courses = curriculum.courses.all()
@@ -104,7 +105,7 @@ def curriculum(request):
         try:
             credit_need = CreditNeed.objects.get(discipline = discipline)
         except:
-            credit_need = CreditNeed.objects.create(discipline = discipline,elective = 37.5,public = 12)
+            None
         try:
             curriculum = Curriculum.objects.get(student = student)
         except:
