@@ -13,7 +13,7 @@ def getSectionByCourse(course_id):
 #     return Category.objects.all()
 @register.assignment_tag
 def getTeacherBySection(section_id):
-    return Teacher.objects.filter(takeup__teach_id=Teach.objects.get(teach_id=section_id)).distinct()
+    return Teacher.objects.get(teacher_id_1=Teach.objects.get(teach_id=section_id))
 
 @register.assignment_tag
 def getRoomBySection(section_id):

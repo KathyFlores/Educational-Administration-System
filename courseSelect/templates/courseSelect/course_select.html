@@ -215,7 +215,7 @@
                         data() {
                             return {
                                 tableData: [
-                                {% for course in courses %}
+                                {% for course in courses %}{% if course.type != '0' %}
                                     { 
                                         course_id: "{{ course.course_id }}",
                                         course_name: "{{ course.name }}",
@@ -231,8 +231,8 @@
                                                 section_id: "{{sec.teach_id}}",
                                                 id: "{{forloop.counter}}",
                                                 teacher: 
-                                                    {% getTeacherBySection sec.teach_id as teachers %}
-                                                    "{% for teacher in teachers %}{{teacher.name}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"
+                                                    {% getTeacherBySection sec.teach_id as teacher %}
+                                                    "{{teacher.name}}"
                                                 ,
                                                 room: 
                                                     {% getRoomBySection sec.teach_id as rooms %}
@@ -248,7 +248,7 @@
                                             },
                                             {% endfor %}
                                         ]
-                                    },
+                                    },{%endif%}
                                 {% endfor %}
                                 ],
                                 getRowKeys(row) {

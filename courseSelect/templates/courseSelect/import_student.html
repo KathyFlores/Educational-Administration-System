@@ -26,9 +26,9 @@
                 <div id="app_table">
                     <template>
                         <el-table stripe :data="tableData" :row-key="getRowKeys" :expand-row-keys="expands"  @expand-change="toggleRowExpansion" style="width: 100%">
-                            <el-table-column prop="course_id" label="课程代码" width="120">
+                            <el-table-column prop="course_id" label="课程代码">
                             </el-table-column>
-                            <el-table-column label="课程名称" width="120">
+                            <el-table-column label="课程名称">
                                 <template slot-scope="scope">
                                     <el-button type="text" @click="scope.row.dialogVisible = true"> [[ scope.row.course_name]] </el-button>
                                     <el-dialog
@@ -182,7 +182,7 @@
                 },
                 tableData: [
                 
-                {% for course in courses %}
+                {% for course in courses %}{% if course.type != '0' %}
                     { 
                         course_id: "{{ course.course_id }}",
                         course_name: "{{ course.name }}",
@@ -198,8 +198,8 @@
                                 section_id: "{{sec.teach_id}}",
                                 id: "{{forloop.counter}}",
                                 teacher: 
-                                    {% getTeacherBySection sec.teach_id as teachers %}
-                                    "{% for teacher in teachers %}{{teacher.name}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"
+                                    {% getTeacherBySection sec.teach_id as teacher %}
+                                    "{{teacher.name}}"
                                 ,
                                 room: 
                                     {% getRoomBySection sec.teach_id as rooms %}
@@ -215,7 +215,7 @@
                             },
                             {% endfor %}
                         ]
-                    },
+                    },{%endif%}
                 {% endfor %}
                 ],
                 getRowKeys(row) {

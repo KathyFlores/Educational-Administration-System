@@ -107,6 +107,17 @@
         }
         return r.join('\n');
     }
+    display_weekday = (num) =>{
+        switch(num){
+            case 1:return '一';
+            case 2:return '二';
+            case 3:return '三';
+            case 4:return '四';
+            case 5:return '五';
+            case 6:return '六';
+            case 7:return '日';
+        }
+    }
     //getting CSRF token
     function getCookie(name) {
         var cookieValue = null;
@@ -148,7 +159,7 @@
             return {
                 tableData: [
                 
-                {% for course in courses %}
+                {% for course in courses %}{% if course.type != '0' %}
                     { 
                         course_id: "{{ course.course_id }}",
                         course_name: "{{ course.name }}",
@@ -164,8 +175,8 @@
                                 section_id: "{{sec.teach_id}}",
                                 id: "{{forloop.counter}}",
                                 teacher: 
-                                    {% getTeacherBySection sec.teach_id as teachers %}
-                                    "{% for teacher in teachers %}{{teacher.name}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}"
+                                    {% getTeacherBySection sec.teach_id as teacher %}
+                                    "{{teacher.name}}"
                                 ,
                                 room: 
                                     {% getRoomBySection sec.teach_id as rooms %}
@@ -173,14 +184,14 @@
                                 ,
                                 time: 
                                     {% getTimeBySection sec.teach_id as time_ %}
-                                    distinct("{% for time in time_ %}{{time.start|date:'l H:i'}} - {{time.end|date:'l H:i'}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}")
+                                    distinct("{% for time in time_ %}周 {{time.day}} {{time.start}} - {{time.end}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}")
                                 ,
                                 capacity:
                                     "{% getCapacityBySection sec.teach_id %}",
                             },
                             {% endfor %}
                         ]
-                    },
+                    },{% endif %}
                 {% endfor %}
                 ],
                 getRowKeys(row) {

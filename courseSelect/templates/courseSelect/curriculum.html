@@ -162,7 +162,7 @@
                         data() {
                             return {
                                 tableData: [
-                                {% for course in courses %}
+                                {% for course in courses %}{% if course.type != '0' %}
                                     { 
                                         course_id: "{{ course.course_id }}",
                                         course_name: "{{ course.name }}",
@@ -172,7 +172,7 @@
                                         intro: "{{ course.intro  }}",
                                         dialogVisible: false,
                                         isInCurriculum: "{{ student|isInCurriculum:course }}",
-                                    },
+                                    },{%endif%}
                                 {% endfor %}
                                 ]
                             }

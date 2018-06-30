@@ -81,12 +81,12 @@
             data() {
                 return {
                     tableData: [
-                    {% for section in sections %}
+                    {% for section in sections %}{% getCourseBySection section.teach_id as course %}{% if course.type != '0' %}
                     {
-                        course_id: {% getCourseBySection section.teach_id as course %} "{{course.course_id}}",
+                        course_id: "{{course.course_id}}",
                         course_name: "{{course.name}}",
-                        course_teacher: {% getTeacherBySection section.teach_id as teachers %}
-                            "{% for teacher in teachers %}{{teacher.name}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}",
+                        course_teacher: {% getTeacherBySection section.teach_id as teacher %}
+                            "{{teacher.name}}",
                         course_location: {% getRoomBySection section.teach_id as rooms %}
                             "{% for room in rooms %}{{room.location}}{%if forloop.revcounter0 == 0%}{%else%},{%endif%}{% endfor %}",
                         course_time: {% getTimeBySection section.teach_id as time_ %}
@@ -103,7 +103,7 @@
                         ],
                         dialogTableVisible: false,
                         section_id: "{{ section.teach_id}}"
-                    },
+                    },{%endif%}
                     {% endfor %}
                     ],
                     
