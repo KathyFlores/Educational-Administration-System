@@ -463,6 +463,7 @@
 			getPageCount(res);
 		}
 		function displayData(param) {
+			param.isteacher = false;
 			var asyncHandler = new Promise(function (resolve, reject) {
 				//var data = getData();
 				$.ajax(
