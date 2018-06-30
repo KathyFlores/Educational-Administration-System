@@ -277,6 +277,7 @@
 			data.algorithm = $("[name='algo']:checked").val();
 			console.log(data);
 			new Promise(function (resolve) {
+				message.success("自动排课开始！一段时间后排课结束。");
 				$.ajax(
 					{
 						method: "GET",
@@ -289,7 +290,7 @@
 					}
 				)
 			}).then((data) => {
-				console.log("common", data);
+				message.success("排课成功。刷新即可看到排课结果。");
 				/*if (data.success) {
 					message.success("删除成功！");
 					selection.map((key) => {
@@ -342,7 +343,7 @@
 					data[e.id] = e.value;
 				}
 			});
-			let oldTR = editingTR.parentElement.parentElement;
+			let oldTR = editingTR;
 			let aysncHandler = new Promise(function (resolve) {
 				
 				const timeArr = data.time_id;
@@ -364,7 +365,7 @@
 				)
 			}).then((data) => {
 				if (data.success) {
-					//window.location.reload();
+					window.location.reload();
 					message.success(oldTR ? "更改成功！" : "添加成功");
 					editingTR = null;
 					oldTR && oldTR.parentElement.replaceChild(
@@ -504,7 +505,7 @@
 
 		(function __() {
 			var edit = document.createElement("i");
-			edit.classList.add("icon-edit");
+			//edit.classList.add("icon-edit");
 			edit.classList.add("iconfont");
 			var del = document.createElement("i");
 			del.classList.add("icon-delete");
@@ -542,7 +543,7 @@
 			}
 			$(`[pagenum="${curr}"]`).addClass("current");
 			$('.pages').find('span').click(function() {
-				displayData({ ...c_config,page: parseInt(this.getAttribute('pagenum')+1) });
+				displayData({ ...c_config,page: parseInt(this.getAttribute('pagenum'))+1 });
 			})
 		}
 		function checkChange() {
@@ -597,7 +598,9 @@
 				})
 				document.querySelector("tbody").appendChild(par);
 				$('.current').removeClass('current');
-				$(`[pagenum="${param.page}"]`).addClass("current");
+				console.log(param);
+				console.log(`[pagenum="${param.page}"]`);
+				$(`[pagenum="${param.page-1}"]`).addClass("current");
 			});
 		}
 		function urlMap(filter) {
