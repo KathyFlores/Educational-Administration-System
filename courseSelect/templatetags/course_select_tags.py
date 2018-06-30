@@ -9,34 +9,35 @@ register = template.Library()
 
 @register.assignment_tag
 def getSectionByCourse(course_id):
-
-    return Teach.objects.filter(course_id=Course.objects.get(course_id=int(course_id))).distinct()
+    print(course_id)
+    print(Course.objects.get(course_id=course_id))
+    return Teach.objects.filter(course_id=Course.objects.get(course_id=course_id)).distinct()
 #     return Category.objects.all()
 @register.assignment_tag
 def getTeacherBySection(section_id):
-    return Teacher.objects.filter(takeup__teach_id=Teach.objects.get(teach_id=int(section_id))).distinct()
+    return Teacher.objects.filter(takeup__teach_id=Teach.objects.get(teach_id=section_id)).distinct()
 
 @register.assignment_tag
 def getRoomBySection(section_id):
-    return Room.objects.filter(takeup__teach_id=Teach.objects.get(teach_id=int(section_id))).distinct()
+    return Room.objects.filter(takeup__teach_id=Teach.objects.get(teach_id=section_id)).distinct()
 
 @register.assignment_tag
 def getTimeBySection(section_id):
-    return Time.objects.filter(takeup__teach_id=Teach.objects.get(teach_id=int(section_id))).distinct()
+    return Time.objects.filter(takeup__teach_id=Teach.objects.get(teach_id=section_id)).distinct()
 
 
 @register.simple_tag
 def getCapacityBySection(section_id):
-    return Teach.objects.get(teach_id=int(section_id)).capacity
+    return Teach.objects.get(teach_id=section_id).capacity
 
 @register.assignment_tag
 def getCourseBySection(section_id):
-    course = Teach.objects.get(teach_id=int(section_id)).course_id
+    course = Teach.objects.get(teach_id=section_id).course_id
     return course
 
 @register.assignment_tag
 def getStudentBySection(section_id):
-    return Student.objects.filter(selection__teach = Teach.objects.get(teach_id=int(section_id)),selection__state=True)
+    return Student.objects.filter(selection__teach = Teach.objects.get(teach_id=section_id),selection__state=True)
 
 @register.simple_tag
 def getMajorByStudent(student_id):
