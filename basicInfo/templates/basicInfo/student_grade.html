@@ -37,7 +37,29 @@
                 <div class="clearfix"></div>
                 <!-- /top_bg -->
             </div>
+<script>
+    function clearItem(){
+        while(document.getElementById("tbody").childNodes.length)
+            document.getElementById("tbody").removeChild(document.getElementById("tbody").childNodes[0]);
+    }
+	function c_change(){
+	    clearItem();
+		var course_select=document.getElementById("course_list");
+		var c_id=course_select.value;
+		for(var i=0;i<c_list.length;i++){
+		    if(c_list[i].course_id === c_id){
+		        var text = "<tr>\n" +
+                            "                            <td>"+c_list[i].course_id+"</td>\n" +
+                            "                            <td>"+c_list[i].name+"</td>\n" +
+                            "                            <td>"+c_list[i].credit+"</td>\n" +
+                            "                            <td>"+c_list[i].grade+"</td>\n" +
+                            "                        </tr>";
+                $("#tbody").append(text);
+		    }
+		}
+	}
 
+</script>
             <div class="content">
                 <div id="wrapper">
 
@@ -53,25 +75,10 @@
                         <div class="row">
                                 <div class="col-lg-6">
                                         <div class="form-group">
-                                            <select class="form-control" name="metric">
-                                                <option value="course_number">课程代码</option>
-                                                <option value="department">课程名称</option>
+                                            <select class="form-control" name="metric" id="course_list" onChange="c_change()">
                                             </select>
                                         </div>
                                 </div>
-                                <div class="sidebar-search">
-                                    <div class="input-group custom-search-form">
-                                        <input type="text" class="form-control" placeholder="大一上"  name="value">
-                                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                                            <!--                             <button type="button" action="selection" class="btn btn-primary" id="return-btn">回到培养方案</button> -->
-                        </span>
-                                    </div>
-                                    <!-- /input-group -->
-                                </div>
-                            </form>
                         </div>
                     </div><table class="table table-hover table-condensed" id="kexuan-tab">
                     <thead>
@@ -104,6 +111,7 @@
             requestGrade();
         });
 
+        var c_list = [];
         const basicUrl="http://127.0.0.1:8000/";
         function requestGrade() {
             var sid=document.getElementById("id").innerHTML;
@@ -134,8 +142,14 @@
                             "                        </tr>";
                             console.log(text);
                             $("#tbody").append(text);
+                            c_list.push(data[i]);
                         }
-
+                        var text = "<option value=\"-1\" selected=\"true\" disabled=\"true\">课程代号</option>\n";
+                        for(var i=0;i<data.length;i++){
+                            text = text + "<option value=\""+data[i].course_id+"\">"+data[i].course_id+"</option>\n"
+                        }
+					    var cour_list=document.getElementById("course_list");
+					    cour_list.innerHTML = text;
                     }
                 );
         }
