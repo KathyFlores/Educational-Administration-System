@@ -24,7 +24,7 @@ def student(request):
     if request.session["type"]!=0:
         return HttpResponseForbidden()
 
-    return render(request, "basicInfo/student_homepage.html", feedDict)
+    return render(request, "basicInfo/student_personinfo.html", feedDict)
 
 
 def exam(request):
