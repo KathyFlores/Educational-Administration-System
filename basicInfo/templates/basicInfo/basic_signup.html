@@ -29,12 +29,12 @@
                     {% csrf_token %}
                     <div class="form-inline" id="formitem">
                         <span><label for="login-username"> <img src="{% static 'basicInfo/images/img/login-name.png' %}" alt="logo" class="login-icon"></label></span>
-                        <input type="text" class="form-control" id="login-username" placeholder="注册用户名" name="account_id">
+                        <input type="text" class="form-control" id="login-username" placeholder="注册用户名：用户名必须长于6位" name="account_id">
                     </div>
 
                     <div class="form-inline" id="formitem">
                         <span><label for="login-password"> <img src="{% static 'basicInfo/images/img/login-password.png' %}" alt="logo" class="login-icon"></label></span>
-                        <input type="password" class="form-control" id="login-password" placeholder="请输入密码" name="password">
+                        <input type="password" class="form-control" id="login-password" placeholder="请输入密码：6-12位数字字母" name="password">
                     </div>
 
                     <div class="form-inline" id="formitem">
