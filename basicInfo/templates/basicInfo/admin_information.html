@@ -33,6 +33,10 @@
 					<input name="tdepartment" id="teacher_office" type="text" class="form-control" aria-describedby="basic-addon2"  disabled placeholder={{teacher_college}}>
 				</div>
 				<div class="form-group">
+					<label for="disabledSelect">所在学院</label>
+					<input class="form-control" id="teacher_work" type="text" disabled placeholder={{teacher_work}} >
+				</div>
+				<div class="form-group">
 					<label for="disabledSelect">管理学院</label>
 					<input class="form-control" id="teacher_manage" type="text" disabled placeholder={{college_name}} >
 				</div>
@@ -112,6 +116,7 @@
 				document.getElementById("teacher_name").value = data.name;
 				document.getElementById("teacher_title").value = data.teacher_title;
 				document.getElementById("teacher_office").value = data.teacher_office;
+				document.getElementById("teacher_work").value = data.teacher_work;
 				document.getElementById("teacher_manage").value = data.teacher_management;
 				document.getElementById("teacher_email").value = data.email;
 
