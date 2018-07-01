@@ -3,6 +3,7 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadReque
 
 from basicInfo.models import account, examination, takeup, teach, course, room, learn, master, college,student,teacher,readyteach
 import datetime,time,re
+import django.utils.timezone as timezone
 import traceback
 from django.db.models import Q
 
@@ -59,11 +60,15 @@ def api_admin_course(request):
                     if re.match(r"^[M|C|S]*$",type)==None:
                         return JsonResponse({"success":0,"reason":"课程类型不符合"})
                     course_t.type=type
-                    course_t.exam_date=datetime.datetime.strptime(examDate,"%Y-%m-%dT%H:%M")
+                    a = time.mktime(time.strptime(examDate, '%Y-%m-%dT%H:%M')) + 3600 * 8
+
+                    course_t.exam_date= datetime.datetime.fromtimestamp(a, tz=timezone.utc)
                     course_t.save()
                     ret["success"]=1
                     return JsonResponse(ret)
-                except:
+                except Exception as e:
+                    traceback.print_exc()
+                    print(e)
                     ret["reason"] = "没有这门课程"
                     return JsonResponse(ret)
                     pass
@@ -336,9 +341,14 @@ def api_admin_modify_course(request):
             tmp_course.credit = credit
             tmp_course.intro = intro
             tmp_course.type = type
-            print(tmp_course.exam_date)
 
-            tmp_course.exam_date=datetime.datetime.strptime(examDate,"%Y-%m-%dT%H:%M")
+            #t=datetime.datetime.strptime(examDate,"%Y-%m-%d %H:%M")
+
+            a=time.mktime(time.strptime(examDate,'%Y-%m-%dT%H:%M'))+3600*8
+
+            tmp_course.exam_date=datetime.datetime.fromtimestamp(a,tz=timezone.utc)
+
+            #print(tmp_course.exam_date.timestamp())
             #tmp_course.exam_date.strptime()
             #tmp_course.exam_date= datetime.datetime(2018,1,1,11,20)
             tmp_course.save()
