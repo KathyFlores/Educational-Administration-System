@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponseBadRequest, HttpResponse
 
-from basicInfo.models import account, examination, takeup, teach, course, room, learn, teacher, student,attrib,readyteach
+from basicInfo.models import account, examination, takeup, teach, course, room, learn, teacher, student,attrib,readyteach,work
 from datetime import time
 
 @csrf_exempt
@@ -19,6 +19,8 @@ def api_teacher_info(request):
             teacher_attrib_info=attrib.objects.get(account_id=account_id)
             print(teacher_attrib_info)
 
+            work_info=work.objects.get(teacher_id=account_id)
+
             ret={}
             ret["name"]=teacher_info.name
             print(ret)
@@ -26,6 +28,7 @@ def api_teacher_info(request):
             ret["teacher_office"]=teacher_info.office
             ret["teacher_management"]=teacher_info.management
             ret["email"]=teacher_attrib_info.email
+            ret["teacher_work"]=work_info.college_id.name
 
             return JsonResponse(ret)
 

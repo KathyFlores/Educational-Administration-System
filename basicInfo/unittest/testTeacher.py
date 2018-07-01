@@ -12,5 +12,13 @@ def testOpenCourse():
     response=requests.post(url=api,data=postdata)
     print(response.text)
 
+def testTeacherInfo():
+    api = "http://127.0.0.1:8000/api/teacher/info"
+    postdata = {
+        "account_id": "000456"
+    }
+    response = requests.get(url=api, params=postdata)
+    print(response.text)
+
 if __name__=="__main__":
-    testOpenCourse()
+    testTeacherInfo()

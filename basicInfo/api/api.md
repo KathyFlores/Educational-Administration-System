@@ -203,6 +203,7 @@
 		teacher_office(string):办公室
 		teacher_management(string):管理学院
 		email(string):邮箱
+		teacher_work(string) college name
 	}
 ```
 
