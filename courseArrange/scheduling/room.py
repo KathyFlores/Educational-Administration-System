@@ -113,9 +113,11 @@ def api_room_delete(request):
     if request.method != 'POST':
         return HttpResponseNotFound()
     room_ids = eval(request.POST.get('room_id'))
+    print(range(len(room_ids)))
     for i in range(len(room_ids)):
         try:
             room_ids[i] = int(room_ids[i])
+            print(room_ids[i])
         except ValueError:
             return JsonResponse({'success': False, 'reason': 'One of the `room_id` is not an integer'})
 

@@ -431,7 +431,7 @@
 						method: "POST",
 						url: prefix + "/api/scheduling/room/delete/",
 						data: {
-							room_id: selection
+							room_id: JSON.stringify(selection)
 						},
 						success: (data) => { resolve(data) }
 					}
