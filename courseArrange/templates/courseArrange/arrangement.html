@@ -67,17 +67,30 @@
 									<!-- /.dropdown-user -->
 								</li>
 							</div>
+							
 							<div class="clearfix"> </div>
 						</div>
+						
 						<div class="clearfix"></div>
 					</div>
+					
 					{% if account.type == 0 %} {% include 'basicInfo/student_menu.html' %} 
 					{% elif account.type == 1 %} {% include 'basicInfo/teacher_menu.html' %}
 					{% elif account.type == 2 %} {% include 'basicInfo/admin_menu.html' %} {% endif %}
 					<!-- //header-ends -->
-
+					
 					<!--content-->
 					<div class="content">
+							<div class="header_right">
+
+									<div class="search">
+	
+										<input id="searchInput" type="text" value="" placeholder="search...">
+										<input id="searchSubmit" type="submit" value="">
+	
+									</div>
+									<div class="clearfix"> </div>
+								</div>
 						<span class="switchView">表格视图</span>
 						<div class="women_main">
 
@@ -118,7 +131,7 @@
 			</div>
 			<!--//content-inner-->
 			<!--/sidebar-menu-->
-
+			
 			<div class="clearfix"></div>
 
 		</div>
