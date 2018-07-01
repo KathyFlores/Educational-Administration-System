@@ -4,6 +4,7 @@ from .models import Selection, Teach, CreditNeed, Curriculum, SelectControl, Req
 from .utils import search, getDisciplineByStudent, timestampToDatetime
 from django.http import JsonResponse, HttpResponse
 import django.utils.timezone as timezone
+import random
 import xlsxwriter
 import io
 # Create your views here.
@@ -262,6 +263,9 @@ def control(request):
                     selections = Selection.objects.filter(teach_id = teach_id)
                     # print(teach_id)
                     # print(len(selections))
+                    if len(selections) > capacity:
+                        sample = random.sample(range(len(selections)), capacity)
+                        selections = [selections[i] for i in sample]
                     for selection in selections:
                         selection.state = True
                         selection.save()

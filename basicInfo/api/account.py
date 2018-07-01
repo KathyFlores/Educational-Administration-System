@@ -52,10 +52,21 @@ def api_account_register_post(request):
         print(username, password, type)
 
 
-        if (len(password) < 6 or len(password) > 18):
+
+        if (len(password) < 6 or len(password) > 10):
             return JsonResponse({
                 "success": 0,
-                "reason": "密码长度不符合要求"
+                "reason": "密码长度必须大于5位小于13位"
+            })
+        if re.match(r"^[0-9]*$",password)!=None:
+            return JsonResponse({
+                "success":0,
+                "reason":"密码不能全部由数字组成"
+            })
+        if re.match(r"^[0-9|a-z|A-Z]*$",password)==None:
+            return JsonResponse({
+                "success":0,
+                "reason":"密码必须由6-12位数字、字母"
             })
 
         if len(username) < 6:
@@ -102,7 +113,7 @@ def api_account_register_post(request):
                 "success": 1,
                 "reason": None,
             })
-    return HttpResponseBadRequest
+    return HttpResponseBadRequest()
 
 
 @csrf_exempt
