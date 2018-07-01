@@ -201,6 +201,9 @@
             }).then(
                 function (data) {
                     console.log(data);
+					if(data.success)
+						alert("修改成功");
+					else alert(data.reason);
                 }
             );
 

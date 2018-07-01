@@ -26,6 +26,10 @@
                 </form>
                 </div>
                 <div class="form-group">
+                    <label for="disabledSelect">课程名称</label>
+                    <input name="cour_name" id="cour_name" type="text" class="form-control" aria-describedby="basic-addon2" disabled value={{cour_name}}>
+                </div>
+                <div class="form-group">
                     <label for="disabledSelect">课程容量</label>
                     <input name="capacity" id="capacity" type="number" class="form-control" aria-describedby="basic-addon2" value={{capacity}}>
                 </div>
@@ -72,7 +76,7 @@
 				console.log(data);
 				if(data.success)
 				{
-					alert("Apply success")
+					alert("申请成功")
 				}
 				else{
 					alert(data.reason)
@@ -105,13 +109,7 @@
             }).then(
                 function (data) {
                     console.log(data);
-					cour_id.value = data.course_id;
 					cour_name.value = data.name;
-					credit.value = data.credit;
-					hour.value = data.hour;
-					intro.value = data.intro;
-					cour_type.value = data.type;
-					exam_time.value = data.exam_date;
                 }
             );
 	}

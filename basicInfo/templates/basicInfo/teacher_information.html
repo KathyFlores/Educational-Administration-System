@@ -31,7 +31,7 @@
 				</div>
 				<div class="form-group">
 					<label for="disabledSelect">办公室</label>
-					<input name="tdepartment" id="teacher_office" type="text" class="form-control" aria-describedby="basic-addon2" placeholder={{teacher_office}}>
+					<input name="tdepartment" id="teacher_office" type="text" class="form-control" aria-describedby="basic-addon2" disabled placeholder={{teacher_office}}>
 				</div>
 				<div class="form-group">
 					<label for="disabledSelect">管理学院</label>
@@ -89,10 +89,10 @@
                 console.log(data);
 				if(data.success)
 				{
-					alert("success");
+					alert("修改成功");
                 }
 				else{
-					alert("fail");
+					alert(data.reason);
 				}
             }
 
