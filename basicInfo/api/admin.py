@@ -228,7 +228,7 @@ def api_admin_courseAccepted(request):
             ret["type"]=course_t.type
             ret["intro"]=course_t.intro
             if course_t.exam_date:
-                ret["exam_date"]=course_t.exam_date.strftime("%Y-%m-%d %H:%M")
+                ret["exam_date"]=course_t.exam_date.strftime("%Y-%m-%dT%H:%M")
 
             teachList=teach.objects.filter(course_id=courseId)
             for teach_t in teachList:

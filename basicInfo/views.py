@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponseForbidden
 
 # Create your views here.
 
@@ -20,6 +21,9 @@ def student(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
+
     return render(request, "basicInfo/student_homepage.html", feedDict)
 
 
@@ -28,6 +32,8 @@ def exam(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_examarrange.html", feedDict)
 
 
@@ -36,6 +42,8 @@ def calendar(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_calender.html", feedDict)
 
 
@@ -44,6 +52,8 @@ def courseplan(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_courseplan.html", feedDict)
 
 
@@ -52,6 +62,8 @@ def personalinfo(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_personinfo.html", feedDict)
 
 
@@ -60,6 +72,8 @@ def courseregist(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_courseregist.html", feedDict)
 
 
@@ -69,6 +83,8 @@ def mycourse(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_mycourse.html", feedDict)
 
 
@@ -77,6 +93,8 @@ def grade(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_grade.html", feedDict)
 
 
@@ -85,6 +103,8 @@ def coursesearch(request):
     feedDict={
         "account_id": sid
     }
+    if request.session["type"]!=0:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/student_coursesearch.html", feedDict)
 
 
@@ -93,6 +113,8 @@ def teacher(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=1:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/teacher_information.html", feedDict)
 
 def teacher_index(request):
@@ -100,6 +122,8 @@ def teacher_index(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=1:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/teacher_information.html", feedDict)
 
 
@@ -108,6 +132,8 @@ def teacher_information(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=1:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/teacher_information.html", feedDict)
 
 
@@ -116,6 +142,8 @@ def teacher_comment(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=1:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/teacher_comment.html", feedDict)
 
 
@@ -124,6 +152,8 @@ def teacher_course_regist(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=1:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/teacher_course_regist.html", feedDict)
 
 def teacher_course_open(request):
@@ -131,6 +161,8 @@ def teacher_course_open(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=1:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/teacher_course_open.html", feedDict)
 
 
@@ -139,6 +171,8 @@ def teacher_course_edit(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=1:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/teacher_course_edit.html", feedDict)
 
 
@@ -154,6 +188,8 @@ def admin(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_information.html", feedDict)
 
 def admin_index(request):
@@ -161,6 +197,8 @@ def admin_index(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_information.html", feedDict)
 
 
@@ -169,6 +207,8 @@ def admin_information(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_information.html", feedDict)
 
 def admin_comment(request):
@@ -176,6 +216,8 @@ def admin_comment(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_comment.html", feedDict)
 
 
@@ -184,6 +226,8 @@ def admin_course_regist(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_course_regist.html", feedDict)
 
 def admin_course_open(request):
@@ -191,6 +235,8 @@ def admin_course_open(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_course_open.html", feedDict)
 
 
@@ -199,6 +245,8 @@ def admin_course_edit(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_course_edit.html", feedDict)
 
 def admin_course_approve(request):
@@ -206,6 +254,8 @@ def admin_course_approve(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_course_approve.html", feedDict)
 
 def admin_teach_approve(request):
@@ -213,6 +263,8 @@ def admin_teach_approve(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_teach_approve.html", feedDict)
 
 def admin_course_adjust(request):
@@ -220,6 +272,8 @@ def admin_course_adjust(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_course_adjust.html", feedDict)
 
 def admin_teach_adjust(request):
@@ -227,6 +281,8 @@ def admin_teach_adjust(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_teach_adjust.html", feedDict)
 
 
@@ -235,6 +291,8 @@ def admin_apply_approve_s(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_apply_approve_s.html", feedDict)
 
 def admin_apply_approve_t(request):
@@ -242,6 +300,8 @@ def admin_apply_approve_t(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_apply_approve_t.html", feedDict)
 
 
@@ -250,6 +310,8 @@ def admin_select_adjust(request):
     feedDict={
         "account_id": tid
     }
+    if request.session["type"]!=2:
+        return HttpResponseForbidden()
     return render(request, "basicInfo/admin_select_adjust.html", feedDict)
 
 
