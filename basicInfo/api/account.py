@@ -26,6 +26,7 @@ def api_account_post(request):
             print(passwd, passwordAfter)
             if passwordAfter == passwd:
                 request.session["account_id"] = username
+                request.session["type"]=int(obj.type)
 
                 return JsonResponse({"success": 1, "type": obj.type, "reason": None})
 
